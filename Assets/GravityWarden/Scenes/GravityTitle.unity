@@ -793,7 +793,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GravityRepulsion.GravityDesignStart
   worldPosition: {x: 0, y: 0, z: 0}
   worldYaw: 0
-  picoTrackedHeadYawOffset: 0
   eyeHeight: 1.72
   gameplayLandmark: {fileID: 1622255435}
   missionBoardOffset: {x: 0, y: 0, z: 0}

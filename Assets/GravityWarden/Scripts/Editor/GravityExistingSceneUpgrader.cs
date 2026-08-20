@@ -72,8 +72,6 @@ namespace GravityRepulsion.Editor
             var designStart = UnityEngine.Object.FindFirstObjectByType<GravityDesignStart>();
             if (designStart == null) errors.Add("Single GravityDesignStart is required for desktop/XR/recenter alignment");
             else if (origin == null || !designStart.MatchesRig()) errors.Add("XR Origin does not match the authoritative design player start");
-            else if (Mathf.Abs(Mathf.DeltaAngle(designStart.worldYaw + designStart.picoTrackedHeadYawOffset, 0f)) > .1f)
-                errors.Add("PICO tracked-head yaw correction must put the authored battle start facing the enemy axis");
             var xrCamera = Camera.main;
             if (xrCamera == null || designStart == null || Mathf.Abs(xrCamera.transform.localPosition.y - designStart.eyeHeight) > .02f
                                  || Mathf.Abs(Mathf.DeltaAngle(xrCamera.transform.localEulerAngles.y, 0f)) > .1f)
@@ -95,8 +93,6 @@ namespace GravityRepulsion.Editor
                     if (missionBoardDistance > .03f)
                         errors.Add("Mission board is not anchored from design player start");
                 }
-                if (designStart != null)
-                    Debug.Log($"GRAVITY_PICO_FACING_POLICY landmark={designStart.gameplayLandmark?.name ?? "StreetBattleAxis"} designYaw={designStart.worldYaw:0.0} picoTrackedHeadOffset={designStart.picoTrackedHeadYawOffset:0.0} picoAppliedRigYaw={Mathf.Repeat(designStart.worldYaw + designStart.picoTrackedHeadYawOffset, 360f):0.0} desktopAppliedRigYaw={designStart.worldYaw:0.0} singleDesignStart=true");
             }
             var preview = GameObject.Find("SCENE_PREVIEW_ENEMIES_仅Scene查看");
             if (preview == null) errors.Add("Scene preview root missing");
@@ -186,7 +182,6 @@ namespace GravityRepulsion.Editor
             var designStart = titleRoot.AddComponent<GravityDesignStart>();
             designStart.worldPosition = Vector3.zero;
             designStart.worldYaw = 0f;
-            designStart.picoTrackedHeadYawOffset = 0f;
             designStart.eyeHeight = 1.72f;
             designStart.gameplayLandmark = titleRoot.transform;
             designStart.missionBoardOffset = Vector3.zero;
@@ -738,7 +733,6 @@ namespace GravityRepulsion.Editor
             }
             designStart.worldPosition = new Vector3(0f, 0f, 10.5f);
             designStart.worldYaw = 180f;
-            designStart.picoTrackedHeadYawOffset = 180f;
             designStart.eyeHeight = 2.136f;
             designStart.gameplayLandmark = GameObject.Find("SPAWN_POINTS_敌人出生点")?.transform;
             designStart.missionBoardOffset = new Vector3(-3.35f, 1.65f, 3.7f);
