@@ -29,33 +29,77 @@ namespace GravityRepulsion
         private Text resultLeftText;
         private Text resultRightText;
         public bool EdgeLayoutConfigured { get; private set; }
-        public bool WorldSpaceConfigured
+        // The gameplay HUD is intentionally camera-space. The battlefield, targets and
+        // controller rays remain in world space; this is only the small, always-readable
+        // combat readout. Keeping it in ScreenSpaceCamera prevents a tracked-head pose
+        // from exposing the reverse side of a world canvas (which mirrored the text).
+        public static readonly Vector2 DesktopReferenceResolution = new(1600f, 1000f);
+        // PICO submits one eye at a time.  A 2400-wide screen-space canvas was therefore
+        // interpreted as a double-eye surface by the emulator: the left cluster fell beyond
+        // the left eye and the right cluster past the right eye.  The PICO HUD is a single,
+        // camera-relative world canvas with an explicitly safe per-eye layout instead.
+        public static readonly Vector2 PicoReferenceResolution = new(2400f, 800f);
+        private const float DesktopPlaneDistance = 1.05f;
+        private const float PicoHudDistance = 2.20f;
+        // Larger than desktop pixels by design: readable at normal PICO viewing distance,
+        // while the wide canvas keeps the two clusters at the safe left/right edges.
+        private const float PicoHudMetersPerPixel = .00175f;
+
+        public bool CameraHudConfigured
         {
             get
             {
                 rootCanvas ??= GetComponent<Canvas>();
+                var scaler = GetComponent<CanvasScaler>();
+                if (IsPicoRuntime)
+                {
+                    var camera = Camera.main;
+                    return rootCanvas != null
+                           && rootCanvas.renderMode == RenderMode.WorldSpace
+                           && rootCanvas.worldCamera == camera
+                           && camera != null
+                           && transform.parent == camera.transform
+                           && (transform as RectTransform) != null
+                           && Vector3.Distance(transform.localPosition, new Vector3(0f, 0f, PicoHudDistance)) < .01f
+                           && Mathf.Abs(transform.localScale.x - PicoHudMetersPerPixel) < .0001f
+                           && scaler != null
+                           && scaler.uiScaleMode == CanvasScaler.ScaleMode.ConstantPixelSize;
+                }
                 return rootCanvas != null
-                       && rootCanvas.renderMode == RenderMode.WorldSpace
-                       && transform.parent == null
-                       && transform.localScale.x > .0004f
-                       && transform.localScale.x < .01f;
+                       && rootCanvas.renderMode == RenderMode.ScreenSpaceCamera
+                       && rootCanvas.worldCamera != null
+                       && Mathf.Abs(rootCanvas.planeDistance - ActivePlaneDistance) < .01f
+                       && scaler != null
+                       && scaler.uiScaleMode == CanvasScaler.ScaleMode.ScaleWithScreenSize
+                       && scaler.referenceResolution == ActiveReferenceResolution;
             }
         }
         public bool ResultLayoutConfigured => resultLeftCard != null && resultRightCard != null && resultLeftText != null && resultRightText != null;
         public bool ResultPanelVisible => defeatPanel != null && defeatPanel.activeSelf;
-        public bool TopmostLayerConfigured => WorldSpaceConfigured;
+        public bool TopmostLayerConfigured => CameraHudConfigured;
         public string ResultTextContent => (resultLeftText != null ? resultLeftText.text : string.Empty) + "\n" + (resultRightText != null ? resultRightText.text : string.Empty);
+        public Vector2 ActiveReferenceResolution => IsPicoRuntime ? PicoReferenceResolution : DesktopReferenceResolution;
+        public float ActivePlaneDistance => IsPicoRuntime ? PicoHudDistance : DesktopPlaneDistance;
+        public string ActiveSizeProfile => IsPicoRuntime ? "PICO_WorldSpace_1200x800" : "Desktop_1600x1000";
+        private static bool IsPicoRuntime => Application.platform == RuntimePlatform.Android;
 
         private void Awake()
         {
             uiFont = Font.CreateDynamicFontFromOSFont(new[] { "PingFang SC", "Noto Sans CJK SC", "Arial Unicode MS", "Arial" }, 28);
             EnsureResultCards();
             foreach (var label in GetComponentsInChildren<Text>(true)) label.font = uiFont;
-            ConfigureWorldMissionBoard();
+            ConfigureCameraHud();
             HideRunSummary();
         }
 
-        private void LateUpdate() => EnsureWorldMissionBoard();
+        // Called by the scene upgrader so the serialized Unity scene shows the same
+        // edge-only arrangement before entering Play mode.
+        public void ApplyEdgeLayoutForEditor()
+        {
+            ConfigureCameraHud();
+        }
+
+        private void LateUpdate() => EnsureCameraHud();
 
         public void Refresh(GravityGameManager game)
         {
@@ -84,7 +128,7 @@ namespace GravityRepulsion
         {
             if (defeatPanel == null) return;
             EnsureResultCards();
-            EnsureWorldMissionBoard();
+            EnsureCameraHud();
             defeatPanel.transform.SetAsLastSibling();
             defeatPanel.SetActive(true);
             EnsureResultCards();
@@ -112,47 +156,55 @@ namespace GravityRepulsion
             if (defeatPanel != null) defeatPanel.SetActive(false);
         }
 
-        private void ConfigureWorldMissionBoard()
+        private void ConfigureCameraHud()
         {
-            EnsureWorldMissionBoard();
+            EnsureCameraHud();
             var backplate = transform.Find("HUD_Backplate_XRReadable");
             if (backplate != null)
             {
-                backplate.gameObject.SetActive(true);
+                // The combat readout deliberately has no full-screen or centre plate.
+                // It is two small edge clusters, leaving the battlefield unobscured.
+                backplate.gameObject.SetActive(false);
                 var plate = backplate.GetComponent<Image>();
-                if (plate != null) plate.color = new Color(.015f, .025f, .06f, .82f);
+                if (plate != null) plate.color = Color.clear;
             }
 
-            Place(waveText, new Vector2(-400f, 285f), new Vector2(350f, 48f), TextAnchor.MiddleLeft, 25);
-            Place(enemyText, new Vector2(-400f, 230f), new Vector2(350f, 42f), TextAnchor.MiddleLeft, 22);
-            Place(scoreText, new Vector2(400f, 285f), new Vector2(350f, 48f), TextAnchor.MiddleRight, 25);
-            Place(energyText, new Vector2(400f, 230f), new Vector2(350f, 42f), TextAnchor.MiddleRight, 22);
-            Place(leftText, new Vector2(-400f, 105f), new Vector2(350f, 38f), TextAnchor.MiddleLeft, 20);
-            Place(rightText, new Vector2(400f, 105f), new Vector2(350f, 38f), TextAnchor.MiddleRight, 20);
-            Place(repulseText, new Vector2(-400f, 38f), new Vector2(350f, 34f), TextAnchor.MiddleLeft, 19);
-            Place(shieldText, new Vector2(400f, 38f), new Vector2(350f, 34f), TextAnchor.MiddleRight, 19);
-            Place(statusText, new Vector2(0f, -96f), new Vector2(900f, 48f), TextAnchor.MiddleCenter, 23);
-            PlaceTrack(repulseFill, new Vector2(-400f, 0f), new Vector2(325f, 12f));
-            PlaceTrack(shieldFill, new Vector2(400f, 0f), new Vector2(325f, 12f));
-            PlaceTrack(energyFill, new Vector2(400f, 194f), new Vector2(325f, 12f));
+            var layout = CurrentLayout;
+            // Anchoring to the actual left/right canvas bounds keeps the two clusters at
+            // the edge in the desktop view and inside each PICO eye's safe field of view.
+            PlaceLeft(waveText, layout.EdgeMargin, layout.ScaleY(405f), layout.ScaleSize(new Vector2(330f, 44f)), TextAnchor.MiddleLeft, layout.ScaleFont(24));
+            PlaceLeft(enemyText, layout.EdgeMargin, layout.ScaleY(352f), layout.ScaleSize(new Vector2(330f, 38f)), TextAnchor.MiddleLeft, layout.ScaleFont(21));
+            PlaceLeft(leftText, layout.EdgeMargin, layout.ScaleY(-275f), layout.ScaleSize(new Vector2(330f, 38f)), TextAnchor.MiddleLeft, layout.ScaleFont(19));
+            PlaceLeft(repulseText, layout.EdgeMargin, layout.ScaleY(-329f), layout.ScaleSize(new Vector2(330f, 34f)), TextAnchor.MiddleLeft, layout.ScaleFont(18));
+            PlaceTrackLeft(repulseFill, layout.EdgeMargin, layout.ScaleY(-359f), layout.ScaleSize(new Vector2(310f, 10f)));
+
+            PlaceRight(scoreText, layout.EdgeMargin, layout.ScaleY(405f), layout.ScaleSize(new Vector2(330f, 44f)), TextAnchor.MiddleRight, layout.ScaleFont(24));
+            PlaceRight(energyText, layout.EdgeMargin, layout.ScaleY(352f), layout.ScaleSize(new Vector2(330f, 38f)), TextAnchor.MiddleRight, layout.ScaleFont(21));
+            PlaceTrackRight(energyFill, layout.EdgeMargin, layout.ScaleY(323f), layout.ScaleSize(new Vector2(310f, 10f)));
+            PlaceRight(shieldText, layout.EdgeMargin, layout.ScaleY(-275f), layout.ScaleSize(new Vector2(330f, 34f)), TextAnchor.MiddleRight, layout.ScaleFont(18));
+            PlaceTrackRight(shieldFill, layout.EdgeMargin, layout.ScaleY(-305f), layout.ScaleSize(new Vector2(310f, 10f)));
+            PlaceRight(rightText, layout.EdgeMargin, layout.ScaleY(-365f), layout.ScaleSize(new Vector2(330f, 38f)), TextAnchor.MiddleRight, layout.ScaleFont(19));
+
+            // Brief interaction feedback is also an edge element. It starts hidden and
+            // never leaves a permanent message across the middle of the view.
+            PlaceLeft(statusText, layout.EdgeMargin, layout.ScaleY(-425f), layout.ScaleSize(new Vector2(360f, 42f)), TextAnchor.LowerLeft, layout.ScaleFont(18));
+            if (statusText != null) statusText.gameObject.SetActive(false);
 
             var help = transform.Find("Help")?.GetComponent<Text>();
-            Place(help, new Vector2(0f, -255f), new Vector2(1100f, 34f), TextAnchor.MiddleCenter, 17);
-            if (help != null)
-            {
-                help.color = new Color(.62f, .72f, .8f, .72f);
-                help.text = Application.isMobilePlatform
-                    ? "PICO  扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位"
-                    : "桌面  Q/E 吸取 · Space 对撞 · F 斥力 · R 奇点 · C 归位";
-                StartCoroutine(HideHelpAfterDelay(help));
-            }
+            if (help != null) help.gameObject.SetActive(false);
+            var reticle = transform.Find("Reticle");
+            if (reticle != null) reticle.gameObject.SetActive(false);
 
             foreach (var label in GetComponentsInChildren<Text>(true)) label.raycastTarget = false;
             foreach (var image in GetComponentsInChildren<Image>(true)) image.raycastTarget = false;
             var raycaster = GetComponent<GraphicRaycaster>();
             if (raycaster != null) raycaster.enabled = false;
 
-            EdgeLayoutConfigured = WorldSpaceConfigured && backplate != null && backplate.gameObject.activeSelf;
+            EdgeLayoutConfigured = CameraHudConfigured
+                                  && waveText != null && scoreText != null
+                                  && leftText != null && rightText != null
+                                  && backplate != null && !backplate.gameObject.activeSelf;
+            Debug.Log($"GRAVITY_EDGE_HUD_CONFIG canvas={rootCanvas?.renderMode} profile={ActiveSizeProfile} reference={ActiveReferenceResolution.x:0}x{ActiveReferenceResolution.y:0} distance={ActivePlaneDistance:0.00} camera={rootCanvas?.worldCamera?.name ?? "missing"} backplate=off");
         }
 
         public bool ValidateViewportLayout(Camera camera, out string failure)
@@ -163,16 +215,11 @@ namespace GravityRepulsion
                 failure = "camera missing";
                 return false;
             }
-            if (!WorldSpaceConfigured) failure += "canvas_not_world_space;";
-            var designStart = FindFirstObjectByType<GravityDesignStart>();
-            if (designStart == null) failure += "design_start_missing;";
-            else
-            {
-                var distance = Vector3.Distance(transform.position, designStart.MissionBoardPosition);
-                if (distance > .03f) failure += $"mission_board_not_at_design_offset[{distance:0.000}];";
-                var facing = Vector3.Dot(transform.forward, (designStart.WorldEyePosition - transform.position).normalized);
-                if (facing < .96f) failure += $"mission_board_not_facing_start[{facing:0.000}];";
-            }
+            if (!CameraHudConfigured) failure += "camera_hud_not_configured;";
+            if (rootCanvas.worldCamera != camera) failure += "camera_hud_not_bound_to_active_camera;";
+            var scaler = GetComponent<CanvasScaler>();
+            if (scaler == null || scaler.referenceResolution != ActiveReferenceResolution)
+                failure += $"unexpected_reference_resolution[{scaler?.referenceResolution.ToString() ?? "missing"}];";
             return failure.Length == 0;
         }
 
@@ -185,7 +232,7 @@ namespace GravityRepulsion
                 return false;
             }
             Canvas.ForceUpdateCanvases();
-            if (!WorldSpaceConfigured) failure += "result_canvas_not_world_space;";
+            if (!CameraHudConfigured) failure += "result_canvas_not_camera_hud;";
             if (resultLeftCard.anchoredPosition.x > -90f || resultRightCard.anchoredPosition.x < 90f)
                 failure += "result_cards_not_spatial_board_columns;";
             if (ResultTextContent.Contains("失败") || ResultTextContent.Contains("失守")) failure += "negative_failure_copy_present;";
@@ -201,19 +248,22 @@ namespace GravityRepulsion
                 failure = "hand_or_camera_missing";
                 return false;
             }
-            if (!WorldSpaceConfigured) failure += "mission_board_not_world_space;";
-            if (Vector3.Distance(transform.position, camera.transform.position) < 2.5f) failure += "mission_board_too_close_to_head;";
+            if (!CameraHudConfigured) failure += "camera_hud_not_configured;";
+            if (rootCanvas.worldCamera != camera) failure += "camera_hud_not_bound_to_active_camera;";
             return failure.Length == 0;
         }
 
         private IEnumerator ShowStatusBriefly(string message)
         {
+            if (statusText == null) yield break;
+            statusText.gameObject.SetActive(true);
             statusText.text = message;
             statusText.canvasRenderer.SetAlpha(1f);
             yield return new WaitForSeconds(1.65f);
             statusText.CrossFadeAlpha(0f, .42f, true);
             yield return new WaitForSeconds(.45f);
             statusText.text = string.Empty;
+            statusText.gameObject.SetActive(false);
             statusRoutine = null;
         }
 
@@ -226,39 +276,57 @@ namespace GravityRepulsion
             if (help != null) help.gameObject.SetActive(false);
         }
 
-        private void EnsureWorldMissionBoard()
+        private void EnsureCameraHud()
         {
             rootCanvas ??= GetComponent<Canvas>();
             if (rootCanvas == null) return;
-            if (transform.parent != null) transform.SetParent(null, true);
-            rootCanvas.renderMode = RenderMode.WorldSpace;
+            var camera = Camera.main;
+            if (IsPicoRuntime)
+            {
+                if (camera == null) return;
+                rootCanvas.renderMode = RenderMode.WorldSpace;
+                rootCanvas.overrideSorting = true;
+                rootCanvas.sortingOrder = 20;
+                rootCanvas.worldCamera = camera;
+                var picoScaler = GetComponent<CanvasScaler>();
+                if (picoScaler != null)
+                {
+                    picoScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+                    picoScaler.scaleFactor = 1f;
+                    picoScaler.referencePixelsPerUnit = 100f;
+                }
+                if (transform.parent != camera.transform) transform.SetParent(camera.transform, false);
+                if (transform is RectTransform picoRect)
+                {
+                    picoRect.anchorMin = picoRect.anchorMax = new Vector2(.5f, .5f);
+                    picoRect.pivot = new Vector2(.5f, .5f);
+                    picoRect.sizeDelta = PicoReferenceResolution;
+                    picoRect.localPosition = new Vector3(0f, 0f, PicoHudDistance);
+                    picoRect.localRotation = Quaternion.identity;
+                    picoRect.localScale = Vector3.one * PicoHudMetersPerPixel;
+                }
+                return;
+            }
+            rootCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             rootCanvas.overrideSorting = true;
             rootCanvas.sortingOrder = 20;
-            rootCanvas.planeDistance = 1f;
-            rootCanvas.worldCamera = Camera.main;
+            rootCanvas.planeDistance = ActivePlaneDistance;
+            rootCanvas.worldCamera = camera;
             var scaler = GetComponent<CanvasScaler>();
             if (scaler != null)
             {
-                scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
-                scaler.dynamicPixelsPerUnit = 1f;
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = ActiveReferenceResolution;
+                scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+                scaler.matchWidthOrHeight = .5f;
             }
             if (transform is RectTransform rect)
             {
                 rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
                 rect.pivot = new Vector2(.5f, .5f);
                 rect.anchoredPosition = Vector2.zero;
-                rect.sizeDelta = new Vector2(1200f, 760f);
-            }
-            var designStart = FindFirstObjectByType<GravityDesignStart>();
-            if (designStart != null)
-            {
-                transform.SetPositionAndRotation(designStart.MissionBoardPosition, designStart.MissionBoardRotation);
-                transform.localScale = Vector3.one * .0034f;
-                // A root RectTransform serializes its anchored XY independently of its Z.
-                // Keep both representations derived from the one design start, so reopening
-                // the scene cannot silently collapse this physical terminal onto the origin.
-                if (transform is RectTransform boardRect)
-                    boardRect.anchoredPosition3D = designStart.MissionBoardPosition;
+                rect.sizeDelta = ActiveReferenceResolution;
+                rect.localScale = Vector3.one;
             }
         }
 
@@ -269,16 +337,17 @@ namespace GravityRepulsion
             panelRect.anchorMin = panelRect.anchorMax = new Vector2(.5f, .5f);
             panelRect.pivot = new Vector2(.5f, .5f);
             panelRect.anchoredPosition = Vector2.zero;
-            panelRect.sizeDelta = new Vector2(1120f, 630f);
+            var layout = CurrentLayout;
+            panelRect.sizeDelta = layout.ScaleSize(new Vector2(1120f, 630f));
             var panelImage = defeatPanel.GetComponent<Image>();
             if (panelImage != null)
             {
                 panelImage.color = Color.clear;
                 panelImage.raycastTarget = false;
             }
-            resultLeftCard = CreateResultCard("RESULT_LEFT_CARD_本轮结算", new Vector2(-285f, 0f), new Vector2(440f, 470f), new Color(.025f, .045f, .09f, .92f), out resultLeftText);
-            resultRightCard = CreateResultCard("RESULT_RIGHT_CARD_额外奖励", new Vector2(285f, 0f), new Vector2(440f, 470f), new Color(.035f, .035f, .085f, .92f), out resultRightText);
-            Place(defeatText, new Vector2(0f, -288f), new Vector2(760f, 42f), TextAnchor.MiddleCenter, 21);
+            resultLeftCard = CreateResultCard("RESULT_LEFT_CARD_本轮结算", layout.Scale(new Vector2(-285f, 0f)), layout.ScaleSize(new Vector2(440f, 470f)), new Color(.025f, .045f, .09f, .92f), out resultLeftText);
+            resultRightCard = CreateResultCard("RESULT_RIGHT_CARD_额外奖励", layout.Scale(new Vector2(285f, 0f)), layout.ScaleSize(new Vector2(440f, 470f)), new Color(.035f, .035f, .085f, .92f), out resultRightText);
+            Place(defeatText, layout.Scale(new Vector2(0f, -288f)), layout.ScaleSize(new Vector2(760f, 42f)), TextAnchor.MiddleCenter, layout.ScaleFont(21));
             if (defeatText != null) defeatText.color = new Color(.86f, .93f, 1f, .95f);
             defeatPanel.transform.SetAsLastSibling();
         }
@@ -318,6 +387,37 @@ namespace GravityRepulsion
             return rect;
         }
 
+        private HudLayout CurrentLayout => IsPicoRuntime ? HudLayout.Pico : HudLayout.Desktop;
+
+        private readonly struct HudLayout
+        {
+            public static readonly HudLayout Desktop = new(34f, 1f, 1f, 1f);
+            // These values are in the 2400x800 PICO world-canvas space.  The cluster
+            // centres land about +/- 25 degrees from centre, and 1.75x text is readable
+            // in the headset without becoming a centre-screen panel.
+            public static readonly HudLayout Pico = new(360f, 1.25f, .78f, 1.75f);
+
+            private readonly float edgeMargin;
+            private readonly float horizontalScale;
+            private readonly float verticalScale;
+            private readonly float fontScale;
+
+            public float EdgeMargin => edgeMargin;
+
+            public HudLayout(float edgeMargin, float horizontalScale, float verticalScale, float fontScale)
+            {
+                this.edgeMargin = edgeMargin;
+                this.horizontalScale = horizontalScale;
+                this.verticalScale = verticalScale;
+                this.fontScale = fontScale;
+            }
+
+            public Vector2 Scale(Vector2 value) => new(value.x * horizontalScale, value.y * verticalScale);
+            public Vector2 ScaleSize(Vector2 value) => new(value.x * horizontalScale, value.y * verticalScale);
+            public float ScaleY(float value) => value * verticalScale;
+            public int ScaleFont(int value) => Mathf.RoundToInt(value * fontScale);
+        }
+
         private static void Place(Text label, Vector2 position, Vector2 size, TextAnchor alignment, int fontSize)
         {
             if (label == null) return;
@@ -336,6 +436,48 @@ namespace GravityRepulsion
             track.anchorMin = track.anchorMax = new Vector2(.5f, .5f);
             track.pivot = new Vector2(.5f, .5f);
             track.anchoredPosition = position;
+            track.sizeDelta = size;
+        }
+
+        private static void PlaceLeft(Text label, float margin, float y, Vector2 size, TextAnchor alignment, int fontSize)
+        {
+            if (label == null) return;
+            var rect = label.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0f, .5f);
+            rect.pivot = new Vector2(0f, .5f);
+            rect.anchoredPosition = new Vector2(margin, y);
+            rect.sizeDelta = size;
+            label.alignment = alignment;
+            label.fontSize = fontSize;
+        }
+
+        private static void PlaceRight(Text label, float margin, float y, Vector2 size, TextAnchor alignment, int fontSize)
+        {
+            if (label == null) return;
+            var rect = label.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(1f, .5f);
+            rect.pivot = new Vector2(1f, .5f);
+            rect.anchoredPosition = new Vector2(-margin, y);
+            rect.sizeDelta = size;
+            label.alignment = alignment;
+            label.fontSize = fontSize;
+        }
+
+        private static void PlaceTrackLeft(Image fill, float margin, float y, Vector2 size)
+        {
+            if (fill == null || fill.transform.parent is not RectTransform track) return;
+            track.anchorMin = track.anchorMax = new Vector2(0f, .5f);
+            track.pivot = new Vector2(0f, .5f);
+            track.anchoredPosition = new Vector2(margin, y);
+            track.sizeDelta = size;
+        }
+
+        private static void PlaceTrackRight(Image fill, float margin, float y, Vector2 size)
+        {
+            if (fill == null || fill.transform.parent is not RectTransform track) return;
+            track.anchorMin = track.anchorMax = new Vector2(1f, .5f);
+            track.pivot = new Vector2(1f, .5f);
+            track.anchoredPosition = new Vector2(-margin, y);
             track.sizeDelta = size;
         }
 

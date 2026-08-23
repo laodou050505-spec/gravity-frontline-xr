@@ -204,9 +204,9 @@ namespace GravityRepulsion
             var evidenceLabels = new List<GameObject>();
             try
             {
-                if (game.designStart == null || !game.designStart.MatchesRig() || game.hud == null || !game.hud.WorldSpaceConfigured)
+                if (game.designStart == null || !game.designStart.MatchesRig() || game.hud == null || !game.hud.CameraHudConfigured)
                 {
-                    FailCapture("world_start", Path.Combine(outputRoot, "00_WorldStart_ControllerRays.png"), "design_start_or_world_board_invalid");
+                    FailCapture("world_start", Path.Combine(outputRoot, "00_WorldStart_ControllerRays.png"), "design_start_or_camera_hud_invalid");
                     yield break;
                 }
                 game.leftHand.enabled = false;
@@ -450,7 +450,13 @@ namespace GravityRepulsion
             var image = new Texture2D(renderTarget.width, renderTarget.height, TextureFormat.RGBA32, false);
             try
             {
+                var hudCanvas = game != null && game.hud != null ? game.hud.GetComponent<Canvas>() : null;
+                var previousHudCamera = hudCanvas != null ? hudCanvas.worldCamera : null;
+                if (hudCanvas != null && hudCanvas.renderMode == RenderMode.ScreenSpaceCamera)
+                    hudCanvas.worldCamera = evidenceCamera;
                 PrepareEvidenceCamera(sourceCamera, renderTarget);
+                if (hudCanvas != null && hudCanvas.renderMode == RenderMode.ScreenSpaceCamera)
+                    hudCanvas.worldCamera = evidenceCamera;
                 Canvas.ForceUpdateCanvases();
                 Graphics.SetRenderTarget(renderTarget);
                 GL.Clear(true, true, evidenceCamera.backgroundColor);
@@ -481,6 +487,9 @@ namespace GravityRepulsion
             }
             finally
             {
+                var hudCanvas = game != null && game.hud != null ? game.hud.GetComponent<Canvas>() : null;
+                if (hudCanvas != null && hudCanvas.renderMode == RenderMode.ScreenSpaceCamera)
+                    hudCanvas.worldCamera = Camera.main;
                 if (evidenceCamera != null) evidenceCamera.targetTexture = null;
                 RenderTexture.active = previousActive;
                 RenderTexture.ReleaseTemporary(renderTarget);

@@ -84,14 +84,15 @@ namespace GravityRepulsion.Editor
                 ValidateController(manager.leftHand, "left", errors);
                 ValidateController(manager.rightHand, "right", errors);
                 var hudCanvas = manager.hud != null ? manager.hud.GetComponent<Canvas>() : null;
-                if (hudCanvas == null || hudCanvas.renderMode != RenderMode.WorldSpace || manager.hud.transform.parent != null || !manager.hud.WorldSpaceConfigured)
-                    errors.Add("Mission board must be a detached world-space canvas, never a camera HUD");
-                if (designStart != null && manager.hud != null)
+                if (hudCanvas == null || hudCanvas.renderMode != RenderMode.ScreenSpaceCamera || !manager.hud.CameraHudConfigured)
+                    errors.Add("Combat HUD must be a front-facing ScreenSpaceCamera canvas");
+                else
                 {
-                    var missionBoardDistance = Vector3.Distance(manager.hud.transform.position, designStart.MissionBoardPosition);
-                    Debug.Log($"GRAVITY_WORLD_BOARD_LAYOUT designStart={designStart.worldPosition}/{designStart.worldYaw:0.0}/{designStart.eyeHeight:0.000} board={manager.hud.transform.position} expected={designStart.MissionBoardPosition} distance={missionBoardDistance:0.0000} parent={(manager.hud.transform.parent == null ? "null" : HierarchyPath(manager.hud.transform.parent))}");
-                    if (missionBoardDistance > .03f)
-                        errors.Add("Mission board is not anchored from design player start");
+                    var scaler = manager.hud.GetComponent<CanvasScaler>();
+                    Debug.Log($"GRAVITY_CAMERA_HUD_LAYOUT canvas=ScreenSpaceCamera profile={manager.hud.ActiveSizeProfile} reference={manager.hud.ActiveReferenceResolution.x:0}x{manager.hud.ActiveReferenceResolution.y:0} planeDistance={hudCanvas.planeDistance:0.00} camera={hudCanvas.worldCamera?.name ?? "missing"}");
+                    if (hudCanvas.worldCamera != Camera.main) errors.Add("Combat HUD is not bound to the active camera");
+                    if (scaler == null || scaler.uiScaleMode != CanvasScaler.ScaleMode.ScaleWithScreenSize || scaler.referenceResolution != manager.hud.ActiveReferenceResolution)
+                        errors.Add("Combat HUD does not use its platform-specific reference resolution");
                 }
             }
             var preview = GameObject.Find("SCENE_PREVIEW_ENEMIES_仅Scene查看");
@@ -166,7 +167,7 @@ namespace GravityRepulsion.Editor
             if (pxr == null || pxr.stereoRenderingModeAndroid != PXR_Settings.StereoRenderingModeAndroid.Multiview) errors.Add("PICO Multiview not enabled");
             if (ReadInputHandler() != 1) errors.Add("Input System is not the sole input backend");
             if (errors.Count > 0) throw new BuildFailedException("GRAVITY_VALIDATION_FAIL\n- " + string.Join("\n- ", errors));
-            Debug.Log($"GRAVITY_EXISTING_VALIDATION_PASS scene={scene.path} layoutBackup=true realModels=true pullables={UnityEngine.Object.FindObjectsByType<GravityTarget>(FindObjectsSortMode.None).Count(t => t.kind == GravityTargetKind.Prop)} worldSpaceMissionBoard=true designStart=({designStart?.worldPosition})/{designStart?.worldYaw:0.0}/{designStart?.eyeHeight:0.000} picoLoader=true multiview=true arm64=true il2cpp=true activity=true inputSystemOnly=true");
+            Debug.Log($"GRAVITY_EXISTING_VALIDATION_PASS scene={scene.path} layoutBackup=true realModels=true pullables={UnityEngine.Object.FindObjectsByType<GravityTarget>(FindObjectsSortMode.None).Count(t => t.kind == GravityTargetKind.Prop)} cameraHud=ScreenSpaceCamera hudProfile={manager?.hud?.ActiveSizeProfile ?? "missing"} designStart=({designStart?.worldPosition})/{designStart?.worldYaw:0.0}/{designStart?.eyeHeight:0.000} picoLoader=true multiview=true arm64=true il2cpp=true activity=true inputSystemOnly=true");
         }
 
         public static void BatchValidate() => ValidateExistingScene();
@@ -250,12 +251,26 @@ namespace GravityRepulsion.Editor
 
         public static void BatchCreateTitleScene() => CreateOrUpdateTitleScene();
 
+        [MenuItem("引力 斥力/修复战斗 HUD 为相机前固定面板")]
+        public static void MigrateCombatHudToCameraSpace()
+        {
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            var hud = UnityEngine.Object.FindFirstObjectByType<GravityHud>();
+            if (hud == null) throw new InvalidOperationException("GravityHud missing");
+            PolishHud(hud);
+            EditorSceneManager.SaveScene(scene, ScenePath);
+            AssetDatabase.SaveAssets();
+            Debug.Log("GRAVITY_CAMERA_HUD_MIGRATION_PASS scene=Gameplay canvas=ScreenSpaceCamera profile=Desktop_1600x1000");
+        }
+
+        public static void BatchMigrateCombatHudToCameraSpace() => MigrateCombatHudToCameraSpace();
+
         [MenuItem("引力 斥力/构建当前摆位 macOS 测试版")]
         public static void BuildMac()
         {
             ValidateExistingScene();
             Directory.CreateDirectory("Builds/macOS");
-            Build(BuildTarget.StandaloneOSX, "Builds/macOS/引力 斥力.app", BuildOptions.Development);
+            Build(BuildTarget.StandaloneOSX, "Builds/macOS/重力战线.app", BuildOptions.Development);
         }
 
         public static void BatchBuildMac() => BuildMac();
@@ -266,7 +281,7 @@ namespace GravityRepulsion.Editor
             ValidateExistingScene();
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
             Directory.CreateDirectory("Builds/PICO");
-            Build(BuildTarget.Android, "Builds/PICO/引力 斥力-PICO.apk", BuildOptions.None);
+            Build(BuildTarget.Android, "Builds/PICO/重力战线-PICO.apk", BuildOptions.None);
         }
 
         public static void BatchBuildAndroid() => BuildAndroid();
@@ -1147,16 +1162,19 @@ namespace GravityRepulsion.Editor
             if (canvas != null)
             {
                 hud.transform.SetParent(null, false);
-                canvas.renderMode = RenderMode.WorldSpace;
+                hud.gameObject.name = "COMBAT_HUD_相机前固定";
+                canvas.renderMode = RenderMode.ScreenSpaceCamera;
                 canvas.worldCamera = Camera.main;
                 canvas.overrideSorting = true;
                 canvas.sortingOrder = 20;
-                canvas.planeDistance = 1f;
+                canvas.planeDistance = 1.05f;
                 var scaler = hud.GetComponent<CanvasScaler>();
                 if (scaler != null)
                 {
-                    scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
-                    scaler.dynamicPixelsPerUnit = 1f;
+                    scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                    scaler.referenceResolution = GravityHud.DesktopReferenceResolution;
+                    scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+                    scaler.matchWidthOrHeight = .5f;
                     EditorUtility.SetDirty(scaler);
                 }
                 if (hud.transform is RectTransform rect)
@@ -1164,15 +1182,8 @@ namespace GravityRepulsion.Editor
                     rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
                     rect.pivot = new Vector2(.5f, .5f);
                     rect.anchoredPosition = Vector2.zero;
-                    rect.sizeDelta = new Vector2(1200f, 760f);
-                }
-                var designStart = UnityEngine.Object.FindFirstObjectByType<GravityDesignStart>();
-                if (designStart != null)
-                {
-                    hud.transform.SetPositionAndRotation(designStart.MissionBoardPosition, designStart.MissionBoardRotation);
-                    hud.transform.localScale = Vector3.one * .0034f;
-                    if (hud.transform is RectTransform boardRect)
-                        boardRect.anchoredPosition3D = designStart.MissionBoardPosition;
+                    rect.sizeDelta = GravityHud.DesktopReferenceResolution;
+                    rect.localScale = Vector3.one;
                 }
                 EditorUtility.SetDirty(canvas);
                 EditorUtility.SetDirty(hud.transform);
@@ -1187,9 +1198,16 @@ namespace GravityRepulsion.Editor
             panelRect.anchoredPosition = Vector2.zero;
             panelRect.sizeDelta = new Vector2(1160f, 700f);
             var panelImage = panel.GetComponent<Image>();
-            panelImage.color = new Color(.015f, .025f, .06f, .82f);
-            panel.SetActive(true);
+            // Permanent combat information is a pair of edge clusters. There must not
+            // be a centre/backplate layer in either the Unity Game view or PICO.
+            panelImage.color = Color.clear;
+            panel.SetActive(false);
             panelImage.raycastTarget = false;
+            var help = hud.transform.Find("Help");
+            if (help != null) help.gameObject.SetActive(false);
+            var reticle = hud.transform.Find("Reticle");
+            if (reticle != null) reticle.gameObject.SetActive(false);
+            if (hud.statusText != null) hud.statusText.gameObject.SetActive(false);
             foreach (var label in hud.GetComponentsInChildren<Text>(true))
             {
                 var color = label == hud.statusText ? new Color(1f, .76f, .3f, 1f) : new Color(.84f, .94f, 1f, 1f);
@@ -1207,6 +1225,7 @@ namespace GravityRepulsion.Editor
             }
             var raycaster = hud.GetComponent<GraphicRaycaster>();
             if (raycaster != null) raycaster.enabled = false;
+            hud.ApplyEdgeLayoutForEditor();
         }
 
         private static Material CreateProceduralSkybox()
@@ -1230,7 +1249,7 @@ namespace GravityRepulsion.Editor
 
         private static void ConfigureProjectAndPico()
         {
-            PlayerSettings.productName = "引力 斥力";
+            PlayerSettings.productName = "重力战线";
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion");
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;

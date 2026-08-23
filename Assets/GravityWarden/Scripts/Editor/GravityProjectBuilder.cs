@@ -430,34 +430,40 @@ namespace GravityRepulsion.Editor
 
         private static GravityHud BuildHud(GravityDesignStart designStart)
         {
-            var canvasGo = New("MISSION_BOARD_街道作战终端_世界空间");
-            canvasGo.transform.SetPositionAndRotation(designStart.MissionBoardPosition, designStart.MissionBoardRotation);
-            canvasGo.transform.localScale = Vector3.one * .0034f;
+            var canvasGo = New("COMBAT_HUD_相机前固定");
             var canvas = canvasGo.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.worldCamera = Camera.main;
             canvas.sortingOrder = 20;
+            canvas.planeDistance = 1.05f;
             var rect = canvasGo.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(1400f, 800f);
-            canvasGo.AddComponent<CanvasScaler>().dynamicPixelsPerUnit = 1f;
+            rect.sizeDelta = GravityHud.DesktopReferenceResolution;
+            var scaler = canvasGo.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = GravityHud.DesktopReferenceResolution;
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            scaler.matchWidthOrHeight = .5f;
             canvasGo.AddComponent<GraphicRaycaster>();
             var hud = canvasGo.AddComponent<GravityHud>();
-            hud.waveText = Label("Wave", canvasGo.transform, new Vector2(-520f, 330f), new Vector2(330f, 46f), 27, Color.white, TextAnchor.MiddleLeft);
-            hud.scoreText = Label("Score", canvasGo.transform, new Vector2(520f, 330f), new Vector2(300f, 46f), 27, Cyan, TextAnchor.MiddleRight);
-            hud.enemyText = Label("Enemies", canvasGo.transform, new Vector2(0f, 330f), new Vector2(300f, 46f), 24, new Color(.72f, .8f, .88f), TextAnchor.MiddleCenter);
-            hud.leftText = Label("Left", canvasGo.transform, new Vector2(-530f, -105f), new Vector2(320f, 52f), 24, new Color(.78f, .55f, 1f), TextAnchor.MiddleLeft);
-            hud.rightText = Label("Right", canvasGo.transform, new Vector2(530f, -105f), new Vector2(320f, 52f), 24, new Color(.78f, .55f, 1f), TextAnchor.MiddleRight);
-            hud.statusText = Label("Status", canvasGo.transform, new Vector2(0f, -255f), new Vector2(760f, 54f), 24, Color.white, TextAnchor.MiddleCenter);
-            hud.shieldText = Label("Shield", canvasGo.transform, new Vector2(490f, -260f), new Vector2(340f, 42f), 22, Cyan, TextAnchor.MiddleRight);
-            hud.energyText = Label("Energy", canvasGo.transform, new Vector2(0f, -314f), new Vector2(520f, 42f), 22, new Color(.82f, .55f, 1f), TextAnchor.MiddleCenter);
-            hud.repulseText = Label("Repulse", canvasGo.transform, new Vector2(-490f, -260f), new Vector2(340f, 42f), 22, new Color(.82f, .55f, 1f), TextAnchor.MiddleLeft);
-            hud.shieldFill = Bar("ShieldBar", canvasGo.transform, new Vector2(505f, -296f), new Vector2(300f, 12f), mats["cyanUI"].color);
-            hud.energyFill = Bar("EnergyBar", canvasGo.transform, new Vector2(0f, -350f), new Vector2(460f, 13f), mats["violet"].color);
-            hud.repulseFill = Bar("RepulseBar", canvasGo.transform, new Vector2(-505f, -296f), new Vector2(300f, 12f), mats["violet"].color);
+            hud.waveText = Label("Wave", canvasGo.transform, new Vector2(-760f, 405f), new Vector2(330f, 44f), 24, Color.white, TextAnchor.MiddleLeft);
+            hud.enemyText = Label("Enemies", canvasGo.transform, new Vector2(-760f, 352f), new Vector2(330f, 38f), 21, new Color(.72f, .8f, .88f), TextAnchor.MiddleLeft);
+            hud.leftText = Label("Left", canvasGo.transform, new Vector2(-760f, -275f), new Vector2(330f, 38f), 19, new Color(.78f, .55f, 1f), TextAnchor.MiddleLeft);
+            hud.repulseText = Label("Repulse", canvasGo.transform, new Vector2(-760f, -329f), new Vector2(330f, 34f), 18, new Color(.82f, .55f, 1f), TextAnchor.MiddleLeft);
+            hud.repulseFill = Bar("RepulseBar", canvasGo.transform, new Vector2(-760f, -359f), new Vector2(310f, 10f), mats["violet"].color);
+            hud.scoreText = Label("Score", canvasGo.transform, new Vector2(760f, 405f), new Vector2(330f, 44f), 24, Cyan, TextAnchor.MiddleRight);
+            hud.energyText = Label("Energy", canvasGo.transform, new Vector2(760f, 352f), new Vector2(330f, 38f), 21, new Color(.82f, .55f, 1f), TextAnchor.MiddleRight);
+            hud.energyFill = Bar("EnergyBar", canvasGo.transform, new Vector2(760f, 323f), new Vector2(310f, 10f), mats["violet"].color);
+            hud.shieldText = Label("Shield", canvasGo.transform, new Vector2(760f, -275f), new Vector2(330f, 34f), 18, Cyan, TextAnchor.MiddleRight);
+            hud.shieldFill = Bar("ShieldBar", canvasGo.transform, new Vector2(760f, -305f), new Vector2(310f, 10f), mats["cyanUI"].color);
+            hud.rightText = Label("Right", canvasGo.transform, new Vector2(760f, -365f), new Vector2(330f, 38f), 19, new Color(.78f, .55f, 1f), TextAnchor.MiddleRight);
+            hud.statusText = Label("Status", canvasGo.transform, new Vector2(-760f, -425f), new Vector2(360f, 42f), 18, Color.white, TextAnchor.LowerLeft);
+            hud.statusText.gameObject.SetActive(false);
             var reticle = Label("Reticle", canvasGo.transform, Vector2.zero, new Vector2(50f, 50f), 34, new Color(.78f, .55f, 1f), TextAnchor.MiddleCenter);
             reticle.text = "+";
+            reticle.gameObject.SetActive(false);
             var help = Label("Help", canvasGo.transform, new Vector2(0f, -390f), new Vector2(1240f, 34f), 16, new Color(.55f, .66f, .75f), TextAnchor.MiddleCenter);
             help.text = "PICO 扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位  |  桌面 Q/E · Space · F · R · C";
+            help.gameObject.SetActive(false);
 
             hud.defeatPanel = New("DefeatPanel", canvasGo.transform);
             var panelRect = hud.defeatPanel.AddComponent<RectTransform>();
@@ -630,7 +636,7 @@ namespace GravityRepulsion.Editor
         private static void ConfigureProject()
         {
             PlayerSettings.companyName = "Gravity Warden Studio";
-            PlayerSettings.productName = "引力 斥力";
+            PlayerSettings.productName = "重力战线";
             PlayerSettings.bundleVersion = "0.1.0";
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion");
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
