@@ -1,0 +1,19 @@
+{
+  "task_id": "2d38618e-553a-414b-830a-08e96955426a",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "A production-ready 2D texture sheet for a futuristic sci-fi helmet HUD overlay, ultra-wide landscape canvas. Transparent-feeling deep navy glass accents only along the extreme outer edges and four corners: sharp angular cut-corner brackets, thin cyan and violet luminous linework, tiny geometric calibration ticks and restrained micro-grid fragments. Keep the center and most of the canvas completely empty and dark or transparent-looking so game text can be placed in the four corner safe zones. Symmetric but not sterile, premium military spacecraft interface, crisp vector-like edges, subtle bloom, high contrast, clean negative space. NO words, NO letters, NO numbers, NO logos, NO icons, NO buttons, NO characters, NO scenery, NO giant panel, NO rounded rectangle, NO circular frame, NO text anywhere.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/2d38618e-553a-414b-830a-08e96955426a/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvMmQzODYxOGUtNTUzYS00MTRiLTgzMGEtMDhlOTY5NTU0MjZhL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MjQ4Mzl9fX1dfQ__&Signature=Tfmj6cms7UxuqHZNdQDvMMurs7ZRKu53zVOczcSlKtBSVH85eUsSgYcDHyCR5Tp135zhf54xSlYZuhhfdwXQbbOU3S5RgUYYd-f5e91nTZvDGVz6Tcqfjb6q9IECYbzyufTAzOZNn8Oh4cbpf5gLgAOx6X7Rv8i-3-g6fdk1HADLhHGaludqwErOuke-FUoCOt60qhmGtdn7-eEK9F0ryjc0qYUZbWwYTKKPd5eIy7EM-KWrn6AyBGpHaAioV-ME5YT8qXWJLwV~MO007s~l9xjc2NalZa8aeMxis~-vO7NsY1EPGgDR1enNBVDf7zdA486dQgrHLXQH583yD3kkKw__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T03:33:50.232555Z",
+  "completed_at": "2026-09-08T03:33:55.929805Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/HudFrame/01_generated_image_url.png"
+  ]
+}

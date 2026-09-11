@@ -1,0 +1,19 @@
+{
+  "task_id": "4fe48909-1ace-4aa4-b723-21a65bce3aa2",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "A single seamless full-bleed cinematic environment background for a premium immersive gravity action game. Wide 16:9 composition across the ENTIRE image, naturally continuous atmospheric world, never a framed picture, no panels. Human eye-level view along a beautifully convincing old European clocktower boulevard at blue hour after rain. The clocktower is in the right third at a believable distance, elegant warm amber streetlamps, aged limestone facades, subtle copper clockwork details, wet cobblestones with soft physically plausible reflections, nuanced cool slate blue air and warm lights, drifting fine fog. On the right half, a restrained gravitational distortion lifts a few pavement stones in gently curving trajectories, delicate diffuse cyan and violet light scattered through the mist, NO giant portal ring, NO laser web, NO obvious circular sci-fi gateway. Elegant art direction, organic lighting, tactile architecture and convincing spatial scale, sophisticated narrative atmosphere rather than a glossy generic sci-fi wallpaper. The left 43 percent is naturally darker and visually quiet: shadowed foreground building frontage and soft fog, still coherent with the SAME street and vanishing point, suitable negative space for separately overlaid title and menu buttons. The bottom left remains dark and quiet. Detail and warm visual interest concentrate in the right two thirds, with gradual organic contrast transitions, absolutely no abrupt rectangular edges or inset picture. No text, no letters, no logos, no UI, no buttons, no watermark. A cinematic environment matte painting with photoreal materials, subtle film grain and natural light, beautifully restrained.",
+    "model_version": "banana_pro"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/4fe48909-1ace-4aa4-b723-21a65bce3aa2/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvNGZlNDg5MDktMWFjZS00YWE0LWI3MjMtMjFhNjViY2UzYWEyL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzcxNDJ9fX1dfQ__&Signature=SgKkLLOpurADgC8vec0TMa1So1QRMCXzWu2agQHTWLdw93FczAAXf-TF5G6G1HGlkdE6bzuVCLYp~bDkZ9KxOzN9wY1IlM~98k3UYz5~ia1DhWEZHpx1Zw-PuecuVAXovPhEGehDVoM1hGY5Htf-BUbfoEOJ6~wRXC8wTqSt2uGxyjiR4LQ8bN4arGSmvzG2d4vQWAXvhzum-erMPxSx7YtYcUbS011xbTvaN2ilWeaD7tOtC8QUqb5op7PgWWsGyioHpaTmDc6pa9GGyuIm50fWExCXD1mp1pfnpzl3S4e0coOsrW1nLDDZjpL5ZIXma8i8NZirzTAh9g5a7smL1Q__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T06:58:30.206008Z",
+  "completed_at": "2026-09-08T06:59:00.742163Z",
+  "credits_consumed": 15.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitlePremiumFix/BackgroundNatural/01_generated_image_url.png"
+  ]
+}

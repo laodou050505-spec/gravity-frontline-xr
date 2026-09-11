@@ -247,6 +247,7 @@ namespace GravityRepulsion
             if (gameOver || ultimateActive || damageGrace > 0f || damageCooldown > 0f) return;
             damageCooldown = 1.4f;
             Shield = Mathf.Max(0f, Shield - amount);
+            hud?.Refresh(this);
             hud?.SetStatus($"护盾受损  -{amount}");
             GravityFeedback.Shockwave(playerHead != null ? playerHead.position : Vector3.zero, new Color(1f, .08f, .2f), 1.4f);
             GravityAudio.Play(GravitySound.PlayerHurt, playerHead != null ? playerHead.position : Vector3.zero, .92f);
@@ -264,6 +265,7 @@ namespace GravityRepulsion
         {
             if (pack == null || pack.kind != GravityTargetKind.Heal) return;
             Shield = Mathf.Min(100f, Shield + 35f);
+            hud?.Refresh(this);
             GravityAudio.Play(GravitySound.Pickup, pack.Center, 1f);
             GravityFeedback.TargetPulse(pack.Center, new Color(.2f, 1f, .62f), 2f);
             GravityFeedback.Burst(pack.Center, new Color(.18f, 1f, .52f), 36, 1.45f);
@@ -420,8 +422,10 @@ namespace GravityRepulsion
                     var orbit = new Vector3(Mathf.Sin(time * (phaseIndex == 1 ? 5.5f : 3.5f) + phase) * radius, Mathf.Cos(time * 4f + phase) * radius * .45f, Mathf.Cos(time * 5.1f + phase) * radius);
                     enemy.Body.useGravity = false;
                     enemy.Body.linearVelocity = Vector3.zero;
-                    enemy.transform.position = Vector3.Lerp(enemy.transform.position, center + orbit, Time.deltaTime * (phaseIndex == 0 ? 2.8f : phaseIndex == 2 ? 10f : 6f));
-                    enemy.transform.Rotate(220f * Time.deltaTime, 300f * Time.deltaTime, 0f);
+                    var nextPosition = Vector3.Lerp(enemy.transform.position, center + orbit,
+                        Time.deltaTime * (phaseIndex == 0 ? 2.8f : phaseIndex == 2 ? 10f : 6f));
+                    var nextRotation = enemy.transform.rotation * Quaternion.Euler(220f * Time.deltaTime, 300f * Time.deltaTime, 0f);
+                    GravityArchitectureCollision.MoveSafely(enemy, nextPosition, nextRotation);
                 }
                 yield return null;
             }
@@ -456,9 +460,16 @@ namespace GravityRepulsion
                 spawnPosition.y = Mathf.Max(spawnPosition.y + .12f, .12f);
                 var spawnRotation = playerHead != null ? RobotEnemy.RootRotationFacing(playerHead.position - spawnPosition) : point.rotation * Quaternion.Euler(0f, 180f, 0f);
                 var spawned = Instantiate(prefab, spawnPosition, spawnRotation);
+                if (spawned.TryGetComponent<GravityTarget>(out var target))
+                {
+                    GravityArchitectureCollision.ResolvePenetration(target);
+                    GravityGroundSurface.Active?.ResolvePenetration(target);
+                }
                 if (spawned.TryGetComponent<Rigidbody>(out var body)) body.linearVelocity = Vector3.zero;
             }
-            hud?.SetStatus($"第 {Wave:00} 波侵入者抵达");
+            hud?.SetStatus(Wave == 1
+                ? "对准敌人 · 扳机抓取 · 松开投掷"
+                : $"第 {Wave:00} 波侵入者抵达 · 锁定目标");
         }
 
         private void CheckWaveState()
@@ -474,7 +485,9 @@ namespace GravityRepulsion
                 var supplied = false;
                 if (Wave % 3 == 0 && Shield < 92f && healthPackPrefab != null && supplyPoint != null && !targets.Any(t => t != null && t.IsAlive && t.kind == GravityTargetKind.Heal))
                 {
-                    Instantiate(healthPackPrefab, supplyPoint.position, supplyPoint.rotation);
+                    var supply = Instantiate(healthPackPrefab, supplyPoint.position, supplyPoint.rotation);
+                    if (supply.TryGetComponent<GravityTarget>(out var pack))
+                        GravityArchitectureCollision.ResolvePenetration(pack);
                     supplied = true;
                     hud?.SetStatus("防卫补给已投放  吸取即可恢复");
                 }

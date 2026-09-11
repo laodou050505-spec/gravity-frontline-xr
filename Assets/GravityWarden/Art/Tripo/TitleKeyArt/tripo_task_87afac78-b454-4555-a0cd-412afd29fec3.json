@@ -1,0 +1,19 @@
+{
+  "task_id": "87afac78-b454-4555-a0cd-412afd29fec3",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "A cinematic key art background for a native XR sci-fi action game called Gravity Frontline. Dark futuristic clock-tower boulevard at night, monumental gothic-futurist clock tower architecture framing the distant horizon, one hostile humanoid combat robot standing far ahead and facing the viewer, clearly readable full silhouette, luminous cyan and violet gravitational rings warping the air around the enemy, subtle floating debris and gravitational distortion, wet pavement with restrained cyan-purple reflections, deep navy-black atmosphere, premium AAA game cover composition, realistic hard-surface detail, crisp focal hierarchy, immersive wide-angle perspective at human eye height. Preserve calm clean negative space in the upper center for a separately overlaid title and in the lower center for separately overlaid buttons; keep the enemy and major energy effects away from those clean zones. Full-bleed artwork. Absolutely no text, no letters, no numbers, no logo, no button, no UI, no HUD, no frame, no border, no panel, no watermark.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/87afac78-b454-4555-a0cd-412afd29fec3/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvODdhZmFjNzgtYjQ1NC00NTU1LWEwY2QtNDEyYWZkMjlmZWMzL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MjQxODl9fX1dfQ__&Signature=Sq1nfotwyRCjH8rHLn5e~iTCHjRwhcxBn0CMEuv9Z54DMptabgs2BDwNdKwTw8KhUPembYmIyXNnM5N42m7lNZV19az6KX6GzCwnnDpGZc-rjlplXLXCDHWZURrVB3ychhoyBIocWXiW2mRQJODYhS6EzL2O~rjSUE434bqzjCG~omAnmAMk1tlsSwks0Gs4RgwIZe7v7d1d~iskrSl~tFsHVP9gfskjIbqOorIKGNeM4gY5qZsKdWdT2w2ayujGS9nE~XlA8Hj1m9CrlReYYGAl6EtIvJY1U0vCig9Ri7XU4GXYOsZi7yvl~quhft5fDcShRp-fgE3xtH5PtBgVDQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T03:22:49.933015Z",
+  "completed_at": "2026-09-08T03:23:07.004541Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitleKeyArt/01_generated_image_url.png"
+  ]
+}

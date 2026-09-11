@@ -183,7 +183,8 @@ namespace GravityRepulsion.Editor
             var designStart = titleRoot.AddComponent<GravityDesignStart>();
             designStart.worldPosition = Vector3.zero;
             designStart.worldYaw = 0f;
-            designStart.eyeHeight = 1.72f;
+            designStart.eyeHeight = 1.84f;
+            designStart.trackedViewLift = .12f;
             designStart.gameplayLandmark = titleRoot.transform;
             designStart.missionBoardOffset = Vector3.zero;
             designStart.ApplyToRig();
@@ -207,6 +208,11 @@ namespace GravityRepulsion.Editor
             titleCamera.farClipPlane = 80f;
             titleCamera.fieldOfView = 67f;
             camera.AddComponent<AudioListener>();
+            var tracked = camera.AddComponent<UnityEngine.InputSystem.XR.TrackedPoseDriver>();
+            tracked.trackingType = UnityEngine.InputSystem.XR.TrackedPoseDriver.TrackingType.RotationAndPosition;
+            tracked.updateType = UnityEngine.InputSystem.XR.TrackedPoseDriver.UpdateType.UpdateAndBeforeRender;
+            tracked.positionInput = new UnityEngine.InputSystem.InputActionProperty(new UnityEngine.InputSystem.InputAction("Title Head Position", binding:"<XRHMD>/centerEyePosition"));
+            tracked.rotationInput = new UnityEngine.InputSystem.InputActionProperty(new UnityEngine.InputSystem.InputAction("Title Head Rotation", binding:"<XRHMD>/centerEyeRotation"));
             origin.Camera = titleCamera;
 
             var canvasGo = new GameObject("TITLE_CANVAS_不透明封面", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
@@ -230,13 +236,8 @@ namespace GravityRepulsion.Editor
             coverRect.offsetMin = coverRect.offsetMax = Vector2.zero;
             cover.GetComponent<Image>().color = new Color(.006f, .009f, .024f, 1f);
 
-            TitleText("TITLE_引力斥力", canvasGo.transform, new Vector2(0f, 170f), new Vector2(1200f, 170f), "引 力  ·  斥 力", 104, new Color(.84f, .72f, 1f), TextAnchor.MiddleCenter);
-            TitleText("SUBTITLE", canvasGo.transform, new Vector2(0f, 56f), new Vector2(1050f, 72f), "重力战线 · 街道防卫 XR", 34, new Color(.36f, .84f, 1f), TextAnchor.MiddleCenter);
-            TitleText("RULE", canvasGo.transform, new Vector2(0f, -52f), new Vector2(980f, 112f), "抬手锁定 · 双极对撞 · 斥力反击", 28, new Color(.82f, .87f, 1f), TextAnchor.MiddleCenter);
-            var start = TitleText("START", canvasGo.transform, new Vector2(0f, -190f), new Vector2(500f, 92f), "START  开始战斗", 36, new Color(1f, .9f, .54f), TextAnchor.MiddleCenter);
-            start.GetComponent<Text>().fontStyle = FontStyle.Bold;
-            TitleText("EXIT", canvasGo.transform, new Vector2(0f, -268f), new Vector2(500f, 52f), "ESC / EXIT  退出", 20, new Color(.59f, .66f, .8f), TextAnchor.MiddleCenter);
-            TitleText("TITLE_HELP", canvasGo.transform, new Vector2(0f, -367f), new Vector2(900f, 54f), "Enter / Space / 扳机：开始    C / 左 Y：重新居中", 19, new Color(.47f, .55f, .73f), TextAnchor.MiddleCenter);
+            var titleHud = canvasGo.AddComponent<GravityTitleHud>();
+            titleHud.ApplyLayoutForEditor();
 
             titleRoot.AddComponent<GravityTitleController>().designStart = designStart;
             EditorSceneManager.SaveScene(scene, TitleScenePath);
@@ -748,7 +749,8 @@ namespace GravityRepulsion.Editor
             }
             designStart.worldPosition = new Vector3(0f, 0f, 10.5f);
             designStart.worldYaw = 180f;
-            designStart.eyeHeight = 2.136f;
+            designStart.eyeHeight = 2.336f;
+            designStart.trackedViewLift = .2f;
             designStart.gameplayLandmark = GameObject.Find("SPAWN_POINTS_敌人出生点")?.transform;
             designStart.missionBoardOffset = new Vector3(-3.35f, 1.65f, 3.7f);
             designStart.ApplyToRig();
@@ -1204,7 +1206,12 @@ namespace GravityRepulsion.Editor
             panel.SetActive(false);
             panelImage.raycastTarget = false;
             var help = hud.transform.Find("Help");
-            if (help != null) help.gameObject.SetActive(false);
+            if (help != null)
+            {
+                var helpText = help.GetComponent<Text>();
+                if (helpText != null) helpText.text = "扳机 / 握把 引力抓取 · 双手合拢 对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 重置视角";
+                help.gameObject.SetActive(false);
+            }
             var reticle = hud.transform.Find("Reticle");
             if (reticle != null) reticle.gameObject.SetActive(false);
             if (hud.statusText != null) hud.statusText.gameObject.SetActive(false);
@@ -1717,6 +1724,41 @@ namespace GravityRepulsion.Editor
             text.horizontalOverflow = HorizontalWrapMode.Overflow;
             text.verticalOverflow = VerticalWrapMode.Overflow;
             return text;
+        }
+
+        private static RectTransform TitlePlate(string name, Transform parent, Vector2 position, Vector2 size, string content, Color accent, TextAnchor alignment)
+        {
+            var plate = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            plate.transform.SetParent(parent, false);
+            var rect = plate.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
+            rect.pivot = new Vector2(.5f, .5f);
+            rect.anchoredPosition = position;
+            rect.sizeDelta = size;
+            var image = plate.GetComponent<Image>();
+            image.color = new Color(.015f, .07f, .11f, .56f);
+            image.raycastTarget = false;
+
+            var top = new GameObject("ACCENT_TOP", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            top.transform.SetParent(plate.transform, false);
+            var topRect = top.GetComponent<RectTransform>();
+            topRect.anchorMin = topRect.anchorMax = new Vector2(.5f, .5f);
+            topRect.anchoredPosition = new Vector2(0f, size.y * .5f - 2f);
+            topRect.sizeDelta = new Vector2(size.x, 3f);
+            top.GetComponent<Image>().color = accent;
+
+            var side = new GameObject("ACCENT_SIDE", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            side.transform.SetParent(plate.transform, false);
+            var sideRect = side.GetComponent<RectTransform>();
+            sideRect.anchorMin = sideRect.anchorMax = new Vector2(.5f, .5f);
+            sideRect.anchoredPosition = new Vector2(-size.x * .5f + 2f, 0f);
+            sideRect.sizeDelta = new Vector2(4f, size.y);
+            side.GetComponent<Image>().color = accent;
+
+            var text = TitleText("TEXT", plate.transform, Vector2.zero, size - new Vector2(48f, 26f), content, 17, new Color(.76f, .94f, 1f), alignment);
+            text.horizontalOverflow = HorizontalWrapMode.Wrap;
+            text.lineSpacing = 1.16f;
+            return rect;
         }
 
         private static void ValidateIsolatedTitleScene(List<string> errors)

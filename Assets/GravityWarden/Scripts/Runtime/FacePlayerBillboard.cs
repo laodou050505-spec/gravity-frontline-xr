@@ -12,9 +12,14 @@ namespace GravityRepulsion
         public float PlayerFacingDot { get; private set; }
 
         private Transform player;
+        private GravityTarget target;
         private bool runtimeFacingReported;
 
-        private void Start() => player = FindFirstObjectByType<GravityGameManager>()?.playerHead ?? Camera.main?.transform;
+        private void Start()
+        {
+            player = FindFirstObjectByType<GravityGameManager>()?.playerHead ?? Camera.main?.transform;
+            target = GetComponent<GravityTarget>();
+        }
 
         private void LateUpdate()
         {
@@ -24,6 +29,13 @@ namespace GravityRepulsion
             if (direction.sqrMagnitude < .001f) return;
             transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             if (visualRoot != null) visualRoot.localRotation = Quaternion.Euler(pitchOffset, yawOffset, 0f);
+            // Billboarding changes the whole pickup footprint even when its rigidbody sleeps.
+            if (target != null && target.IsAlive)
+            {
+                GravityArchitectureCollision.ResolvePenetration(target);
+                target.Body.position = transform.position;
+                target.Body.rotation = transform.rotation;
+            }
             PlayerFacingDot = Vector3.Dot(VisualFacingDirection.normalized, direction.normalized);
             if (runtimeFacingReported) return;
             runtimeFacingReported = true;

@@ -32,6 +32,7 @@ namespace GravityRepulsion
             target.Body.useGravity = false;
             target.Body.linearVelocity = direction * speed;
             FaceVelocity(direction);
+            if (StopInsideArchitecture()) return;
             ValidateDirection("launch");
             GravityAudio.Play(GravitySound.Projectile, transform.position, .72f, 1.08f);
         }
@@ -42,6 +43,7 @@ namespace GravityRepulsion
             target.Body.linearVelocity = direction * 16f;
             target.MarkAsReflected();
             FaceVelocity(direction);
+            if (StopInsideArchitecture()) return;
             IntendedDirection = direction;
             ValidateDirection("reflect");
             GravityFeedback.TargetPulse(target.Center, new Color(1f, .28f, .62f), .85f);
@@ -55,6 +57,37 @@ namespace GravityRepulsion
             if (target.Body.linearVelocity.sqrMagnitude > .05f) FaceVelocity(target.Body.linearVelocity.normalized);
             life -= Time.deltaTime;
             if (life <= 0f) target.DestroyTarget(string.Empty, false);
+        }
+
+        private void FixedUpdate()
+        {
+            if (!target.IsAlive || target.IsHeld || target.Body == null || target.Body.isKinematic) return;
+            if (StopInsideArchitecture()) return;
+            // Trigger projectiles do not receive physical wall response. Check the entire
+            // next physics step, including reflected shots, before a fast missile can tunnel.
+            var displacement = target.Body.linearVelocity * Time.fixedDeltaTime;
+            if (!GravityArchitectureCollision.CastTarget(target, displacement, out var hit)) return;
+            if (displacement.sqrMagnitude > .000001f)
+            {
+                var position = target.Body.position + displacement.normalized * Mathf.Max(0f, hit.distance - GravityArchitectureCollision.Skin);
+                transform.position = position;
+                target.Body.position = position;
+            }
+            HitArchitecture();
+        }
+
+        private bool StopInsideArchitecture()
+        {
+            if (target.IsHeld || !GravityArchitectureCollision.HasPenetration(target)) return false;
+            GravityArchitectureCollision.ResolvePenetration(target);
+            HitArchitecture();
+            return true;
+        }
+
+        private void HitArchitecture()
+        {
+            if (!target.IsAlive || target.IsHeld) return;
+            target.DestroyTarget(string.Empty, false);
         }
 
         private void FaceVelocity(Vector3 velocityDirection)
@@ -86,6 +119,11 @@ namespace GravityRepulsion
         private void OnTriggerEnter(Collider other)
         {
             if (!target.IsAlive || target.IsHeld) return;
+            if (other.GetComponentInParent<GravityArchitectureSolid>() != null)
+            {
+                HitArchitecture();
+                return;
+            }
             var game = other.GetComponentInParent<GravityPlayerShield>()?.game;
             if (game != null)
             {

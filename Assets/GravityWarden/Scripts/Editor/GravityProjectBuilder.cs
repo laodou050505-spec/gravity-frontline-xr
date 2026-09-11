@@ -357,7 +357,8 @@ namespace GravityRepulsion.Editor
             var designStart = root.AddComponent<GravityDesignStart>();
             designStart.worldPosition = new Vector3(0f, 0f, 10.5f);
             designStart.worldYaw = 180f;
-            designStart.eyeHeight = 2.136f;
+            designStart.eyeHeight = 2.336f;
+            designStart.trackedViewLift = .2f;
             designStart.missionBoardOffset = new Vector3(-3.35f, 1.65f, 3.7f);
             designStart.ApplyToRig();
             var origin = root.AddComponent<XROrigin>();

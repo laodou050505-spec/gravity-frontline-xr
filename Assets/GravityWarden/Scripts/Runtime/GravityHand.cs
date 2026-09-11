@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,9 +20,26 @@ namespace GravityRepulsion
         public LayerMask targetMask = ~0;
 
         public GravityTarget Held { get; private set; }
+        public GravityTarget Candidate => Held != null ? Held : IsValid(lastCandidate) ? lastCandidate : null;
         public bool IsXRTracked { get; private set; }
+        public float LastAimInputTime { get; private set; } = float.NegativeInfinity;
+        public float LastGrabInputTime { get; private set; } = float.NegativeInfinity;
         public Vector3 RayOriginPosition => rayOrigin != null ? rayOrigin.position : transform.position;
-        public Ray AimRay => new Ray(RayOriginPosition, transform.forward);
+        public Ray AimRay => new Ray(RayOriginPosition, rayOrigin != null ? rayOrigin.forward : transform.forward);
+        public Vector3 AimPoint
+        {
+            get
+            {
+                var target = Held != null ? Held : IsValid(lastCandidate) ? lastCandidate : null;
+                if (target != null) return target.WorldBounds.center;
+                var ray = AimRay;
+                foreach (var hit in Physics.RaycastAll(ray, rayLength, ~0, QueryTriggerInteraction.Collide).OrderBy(hit => hit.distance))
+                {
+                    if (IsAimOccluder(hit.collider)) return hit.point;
+                }
+                return ray.GetPoint(rayLength);
+            }
+        }
 
         private UnityEngine.XR.InputDevice device;
         private bool wasPressed;
@@ -36,6 +52,8 @@ namespace GravityRepulsion
         private GravityTarget lastCandidate;
         private float nextHeldPulse;
         private bool usingPresentationSafePose;
+        private Vector3 lastAimPosition;
+        private Quaternion lastAimRotation;
 
         private static readonly Color IdleColor = new(.35f, .82f, 1f, .7f);
         private static readonly Color TargetColor = new(.78f, .35f, 1f, 1f);
@@ -55,6 +73,8 @@ namespace GravityRepulsion
             if (gravityRay != null) rayMaterial = gravityRay.material;
             lastPosition = transform.position;
             lastRotation = transform.rotation;
+            lastAimPosition = transform.localPosition;
+            lastAimRotation = transform.localRotation;
         }
 
         private void Update()
@@ -62,6 +82,7 @@ namespace GravityRepulsion
             UpdatePose();
             UpdateVelocity();
             var pressed = ReadGrabPressed();
+            if (pressed != wasPressed) LastGrabInputTime = Time.unscaledTime;
             if (pressed && !wasPressed) TryGrab();
             if (!pressed && wasPressed && Held != null) ReleaseHeld();
             wasPressed = pressed;
@@ -83,8 +104,9 @@ namespace GravityRepulsion
 
         public void TryGrab()
         {
+            LastGrabInputTime = Time.unscaledTime;
             if (Held != null) return;
-            var target = FindTarget();
+            var target = FindAimTarget();
             if (target == null) return;
             if (target.kind == GravityTargetKind.Heal)
             {
@@ -95,10 +117,12 @@ namespace GravityRepulsion
             if (!target.RequestGrab(this)) return;
             Held = target;
             Pulse(.32f, .08f);
+            FindFirstObjectByType<GravityGameManager>()?.SetStatus($"已抓取  {target.displayName} · 松开投掷");
         }
 
         public void ReleaseHeld(float throwSpeed = 9.5f)
         {
+            LastGrabInputTime = Time.unscaledTime;
             if (Held == null) return;
             var target = Held;
             Held = null;
@@ -106,6 +130,7 @@ namespace GravityRepulsion
             if (target.kind == GravityTargetKind.Projectile) throwVelocity = AimRay.direction * 17f;
             target.Release(throwVelocity, estimatedAngularVelocity);
             Pulse(.2f, .05f);
+            FindFirstObjectByType<GravityGameManager>()?.SetStatus($"已释放  {target.displayName}");
         }
 
         public void ForceForget(GravityTarget target)
@@ -132,54 +157,71 @@ namespace GravityRepulsion
             device.SendHapticImpulse(0u, Mathf.Clamp01(amplitude), duration);
         }
 
-        private GravityTarget FindTarget()
+        public GravityTarget FindAimTarget()
         {
-            var direct = Physics.OverlapSphere(transform.position, directGrabRadius, targetMask, QueryTriggerInteraction.Collide)
-                .Select(c => c.GetComponentInParent<GravityTarget>())
-                .Where(IsValid)
-                .Distinct()
-                .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
-                .FirstOrDefault();
-            if (direct != null) return direct;
+            var ray = AimRay;
+            // Keep touch-range grabs, but only in front of the hand and close to its
+            // pointing axis. A nearby object behind the wrist must not steal the aim.
+            var nearby = Physics.OverlapSphere(transform.position, directGrabRadius, targetMask, QueryTriggerInteraction.Collide)
+                .OrderBy(collider => (collider.ClosestPoint(transform.position) - transform.position).sqrMagnitude);
+            foreach (var collider in nearby)
+            {
+                var target = collider.GetComponentInParent<GravityTarget>();
+                if (!IsValid(target)) continue;
+                var point = collider.ClosestPoint(transform.position);
+                var delta = point - transform.position;
+                var along = Vector3.Dot(delta, ray.direction);
+                if (along < 0f || Vector3.Dot(target.Center - transform.position, ray.direction) <= 0f) continue;
+                if ((delta - ray.direction * along).sqrMagnitude > .22f * .22f) continue;
+                if (HasClearPath(transform.position, point, target)) return target;
+            }
 
-            var hits = Physics.SphereCastAll(AimRay, .22f, rayLength, targetMask, QueryTriggerInteraction.Collide);
-            var candidates = new List<(GravityTarget target, int priority, float distance)>();
+            // Query every layer so walls still block an interaction when targetMask
+            // only includes grabbable objects. The first real surface wins by distance.
+            var hits = Physics.SphereCastAll(ray, .22f, rayLength, ~0, QueryTriggerInteraction.Collide)
+                .OrderBy(hit => hit.distance);
             foreach (var hit in hits)
             {
+                if (IsHandCollider(hit.collider)) continue;
                 var target = hit.collider.GetComponentInParent<GravityTarget>();
-                if (!IsValid(target)) continue;
-                var priority = target.kind switch
+                if (IsValid(target) && (targetMask.value & (1 << hit.collider.gameObject.layer)) != 0)
                 {
-                    GravityTargetKind.Robot => 0,
-                    GravityTargetKind.Projectile => 1,
-                    GravityTargetKind.Heal => 2,
-                    _ => 3
-                };
-                candidates.Add((target, priority, hit.distance));
+                    // Unity reports a zero point for initial sphere overlaps. Those
+                    // are handled by the directional touch-range query above.
+                    if (hit.distance <= .0001f) continue;
+                    if (HasClearPath(ray.origin, hit.point, target)) return target;
+                }
+                if (IsAimOccluder(hit.collider)) break;
             }
-            var selected = candidates.OrderBy(c => c.priority).ThenBy(c => c.distance).FirstOrDefault().target;
-            if (selected != null) return selected;
-
-            var game = FindFirstObjectByType<GravityGameManager>();
-            if (game == null) return null;
-            if (OtherHandHasRobot() && game.AliveEnemies.Count == 1) return game.NearestAvailableProp(transform.position);
-            var alive = game.AliveEnemies.Where(t => t != null && t.IsAlive && !t.IsHeld).ToList();
-            if (alive.Count <= 2 && alive.Count > 0)
-                return alive.OrderByDescending(t => Vector3.Dot(AimRay.direction, (t.transform.position - AimRay.origin).normalized)).First();
             return null;
         }
 
-        private bool OtherHandHasRobot()
+        private bool HasClearPath(Vector3 origin, Vector3 point, GravityTarget target)
         {
-            var game = FindFirstObjectByType<GravityGameManager>();
-            if (game == null) return false;
-            var other = side == GravityHandSide.Left ? game.rightHand : game.leftHand;
-            return other != null && other.Held != null && other.Held.kind == GravityTargetKind.Robot;
+            var delta = point - origin;
+            if (delta.sqrMagnitude < .000001f) return true;
+            foreach (var hit in Physics.RaycastAll(origin, delta.normalized, delta.magnitude + .005f, ~0, QueryTriggerInteraction.Collide).OrderBy(hit => hit.distance))
+            {
+                if (IsHandCollider(hit.collider)) continue;
+                if (hit.collider.GetComponentInParent<GravityTarget>() == target) return true;
+                if (IsAimOccluder(hit.collider)) return false;
+            }
+            return true;
+        }
+
+        private static bool IsHandCollider(Collider collider) => collider == null || collider.GetComponentInParent<GravityHand>() != null;
+
+        private bool IsAimOccluder(Collider collider)
+        {
+            if (IsHandCollider(collider)) return false;
+            var target = collider.GetComponentInParent<GravityTarget>();
+            if (target != null && target.HeldBy == this) return false;
+            return !collider.isTrigger || IsValid(target);
         }
 
         private static bool IsValid(GravityTarget target)
         {
-            if (target == null || !target.IsAlive || target.IsHeld) return false;
+            if (target == null || !target.isActiveAndEnabled || !target.IsAlive || target.IsHeld || target.IsScenePreview) return false;
             return target.kind != GravityTargetKind.Prop || target.HasValidVisibleInteractionGeometry(out _);
         }
 
@@ -199,6 +241,9 @@ namespace GravityRepulsion
                 if (playerCamera != null && eyeDistance < .42f)
                 {
                     ApplyPresentationSafePose();
+                    // Only move the presentation model out of the eye. Its pointing
+                    // rotation must continue to follow the tracked controller exactly.
+                    transform.rotation = transform.parent != null ? transform.parent.rotation * rotation : rotation;
                     if (!usingPresentationSafePose)
                         Debug.Log($"GRAVITY_HAND_POSE_GUARD side={side} source=tracked eyeDistance={eyeDistance:0.000} fallback=true");
                     usingPresentationSafePose = true;
@@ -211,6 +256,7 @@ namespace GravityRepulsion
                 usingPresentationSafePose = false;
                 return;
             }
+            IsXRTracked = false;
             if (playerCamera == null) return;
             usingPresentationSafePose = false;
             var mouseRay = Mouse.current != null ? playerCamera.ScreenPointToRay(Mouse.current.position.ReadValue()) : new Ray(playerCamera.transform.position, playerCamera.transform.forward);
@@ -228,6 +274,14 @@ namespace GravityRepulsion
 
         private void UpdateVelocity()
         {
+            // Accumulate small movements against the last accepted pose, not the last
+            // frame. Compare local poses so moving the player rig does not switch hands.
+            if (Vector3.Distance(transform.localPosition, lastAimPosition) > .015f || Quaternion.Angle(transform.localRotation, lastAimRotation) > 2f)
+            {
+                LastAimInputTime = Time.unscaledTime;
+                lastAimPosition = transform.localPosition;
+                lastAimRotation = transform.localRotation;
+            }
             var dt = Mathf.Max(.001f, Time.deltaTime);
             estimatedVelocity = Vector3.Lerp(estimatedVelocity, (transform.position - lastPosition) / dt, .45f);
             var delta = transform.rotation * Quaternion.Inverse(lastRotation);
@@ -253,11 +307,15 @@ namespace GravityRepulsion
 
         private void UpdateFeedback()
         {
-            var candidate = Held == null ? FindTarget() : Held;
+            var candidate = Held == null ? FindAimTarget() : Held;
             if (Held == null && candidate != null && candidate != lastCandidate)
             {
                 Pulse(.12f, .028f);
                 GravityAudio.Play(GravitySound.Select, candidate.Center, .34f);
+                GravityFeedback.TargetPulse(candidate.Center, candidate.kind == GravityTargetKind.Heal
+                    ? new Color(.2f, 1f, .55f)
+                    : new Color(.55f, .35f, 1f), 1.25f);
+                FindFirstObjectByType<GravityGameManager>()?.SetStatus($"目标锁定  {candidate.displayName} · 扳机抓取");
             }
             lastCandidate = candidate;
             var color = Held != null ? HeldColor : candidate != null ? TargetColor : IdleColor;
@@ -267,17 +325,22 @@ namespace GravityRepulsion
                 if (glowMaterial.HasProperty("_EmissionColor")) glowMaterial.SetColor("_EmissionColor", color * (Held != null ? 4f : 2f));
             }
             if (gravityRay == null) return;
-            gravityRay.enabled = Held != null;
-            if (Held == null)
+            // Keep a thin aim ray visible while a target is only being hovered. The
+            // previous behaviour showed the ray only after a successful grab, which
+            // made XR aiming feel unresponsive and gave no confirmation of a valid hit.
+            gravityRay.enabled = Held != null || candidate != null;
+            if (Held == null && candidate == null)
             {
                 if (rayMaterial != null) rayMaterial.color = new Color(IdleColor.r, IdleColor.g, IdleColor.b, 0f);
                 return;
             }
             gravityRay.positionCount = 2;
             gravityRay.SetPosition(0, RayOriginPosition);
-            gravityRay.SetPosition(1, Held.WorldBounds.center);
+            gravityRay.SetPosition(1, (Held != null ? Held : candidate).WorldBounds.center);
             gravityRay.startColor = color;
-            gravityRay.endColor = new Color(color.r, color.g, color.b, Held != null ? .42f : .28f);
+            gravityRay.endColor = new Color(color.r, color.g, color.b, Held != null ? .48f : .34f);
+            gravityRay.startWidth = Held != null ? .018f : .009f;
+            gravityRay.endWidth = Held != null ? .008f : .004f;
             if (rayMaterial != null) rayMaterial.color = color;
         }
 

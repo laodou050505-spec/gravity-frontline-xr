@@ -1,0 +1,19 @@
+{
+  "task_id": "e74fee2d-cbd4-47c4-b173-58416f9eca2c",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Create a PRODUCTION GAME BUTTON SPRITE SHEET: two separate large horizontal controls stacked vertically on pure solid black background. Top button reads exactly START GAME. Bottom button reads exactly EXIT GAME. Upper button contained between 12% and 44% of image height; lower between 56% and 88%. Both around 84% of canvas width. Each is a designed tangible spacecraft control with layered machined gunmetal housing, precisely beveled asymmetric corners, sculpted brushed titanium outer edges, finely engraved seams, small copper fasteners and captivating inner cyan optics. Top START GAME is the hero control: substantial luminous cyan inlay, crisp large bone-white bespoke angular lettering, beautiful triangular play icon inside a small gravitational ring on its left, a short segmented activation strip at the right edge. Lower EXIT GAME is visually quieter: smoked slate inner surface, restrained bronze rim, clear silver lettering and an elegant power icon on the left. Editorial precision and expensive material quality; rich but controlled detail, no busy greebles behind text, no flat rectangles, no thin wireframe rectangles, no ordinary web buttons. The exact English labels are part of the art. No other text, no digits, no background scene, no watermark. Front-facing flat UI camera with realistic shallow relief, no perspective skew. Empty solid black gutters around and between the independently reusable button sprites.",
+    "model_version": "banana_pro"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/e74fee2d-cbd4-47c4-b173-58416f9eca2c/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvZTc0ZmVlMmQtY2JkNC00N2M0LWIxNzMtNTg0MTZmOWVjYTJjL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzY2MzB9fX1dfQ__&Signature=M9jszct8ok-H0sxdt~zrSsE3VS7rmZR7n7zru9ew3iRNq~AqjlK4uBxKOYDYnPlYdn5nZnnyxkLZq5j7oogDTO7lJj6rBQpeT0SOBPWlEqvzks44cwoNjrlYobZoZ5oNpkKpb734RccC6IctFOOyZSYtviIOPdIuAlzNMNrgaWT39ZhY-7ll2BAvPO9wWGnoL3LmRw95VDbK2jaWFEfAFQmUUvqCJF9~dZuFxn1xABIxjPhUuBgKVoFiutVv3L-xao0oBkyroKSaiJir15kO5dUAB3x0O0xDSVPiaA3M8Rakv~VF8aZG7FnEsgkaj0jGXd8kQcw8y9kir27sGZNBnQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T06:49:51.949281Z",
+  "completed_at": "2026-09-08T06:50:30.520389Z",
+  "credits_consumed": 15.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitlePremiumFix/ButtonsPremium/01_generated_image_url.png"
+  ]
+}

@@ -22,6 +22,7 @@ namespace GravityRepulsion
         private bool recenterWasPressed;
         private bool loading;
         private float titleReadyAt;
+        public bool IsReadyForButtonInput => !loading && Time.unscaledTime >= titleReadyAt;
 
         private void Awake()
         {
@@ -34,14 +35,13 @@ namespace GravityRepulsion
             recenterWasPressed = ReadRecenterPressed();
             titleReadyAt = Time.unscaledTime + 2f;
             Debug.Log($"GRAVITY_TITLE_PHASE_READY root={designStart?.worldPosition} yaw={designStart?.worldYaw:0.0} eye={designStart?.eyeHeight:0.000} gameplayLoaded=false");
-            if (Array.IndexOf(Environment.GetCommandLineArgs(), "-gravitySmoke") >= 0) Invoke(nameof(StartGame), 2.1f);
+            if (Array.IndexOf(Environment.GetCommandLineArgs(), "-gravitySmoke") >= 0) { Application.runInBackground = true; Invoke(nameof(StartGame), 2.1f); }
         }
 
         private void Update()
         {
-            var startPressed = ReadStartPressed();
-            if (Time.unscaledTime >= titleReadyAt && startPressed && !startWasPressed) StartGame();
-            startWasPressed = startPressed;
+            // The menu owns hit-tested activation. Global trigger input must not
+            // start gameplay while the player is aiming at EXIT or empty space.
 
             var recenterPressed = ReadRecenterPressed();
             if (recenterPressed && !recenterWasPressed) RecenterTitle();
@@ -63,6 +63,7 @@ namespace GravityRepulsion
 #endif
             designStart?.ApplyToRig();
             Debug.Log("GRAVITY_TITLE_RECENTER_PASS currentPhase=Title gameplayLoaded=false");
+            FindFirstObjectByType<GravityTitleHud>()?.ReframeAtCurrentView();
         }
 
         public void ExitGame()
@@ -91,7 +92,8 @@ namespace GravityRepulsion
         {
             if (Keyboard.current != null && Keyboard.current.cKey.isPressed) return true;
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return ReadHandButton(UnityEngine.XR.CommonUsages.secondaryButton);
+            var left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+            return left.isValid && left.TryGetFeatureValue(UnityEngine.XR.CommonUsages.secondaryButton, out var pressed) && pressed;
 #else
             return false;
 #endif

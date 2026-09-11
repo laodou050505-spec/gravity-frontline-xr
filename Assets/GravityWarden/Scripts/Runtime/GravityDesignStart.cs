@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR;
+using Unity.XR.CoreUtils;
 
 namespace GravityRepulsion
 {
@@ -11,7 +13,8 @@ namespace GravityRepulsion
         [Header("Battle-axis start: street landmark at world origin")]
         public Vector3 worldPosition = new(0f, 0f, 10.5f);
         [Range(-180f, 180f)] public float worldYaw = 180f;
-        [Min(.5f)] public float eyeHeight = 2.136f;
+        [Min(.5f)] public float eyeHeight = 2.336f;
+        [Min(0f)] public float trackedViewLift;
         public Transform gameplayLandmark;
 
         [Header("Physical world-space mission board, in front of the start")]
@@ -30,11 +33,27 @@ namespace GravityRepulsion
             }
         }
 
+        private bool liftReported;
         private void Awake() => ApplyToRig();
+        private void LateUpdate() => ApplyTrackedViewLift();
+        private void ApplyTrackedViewLift()
+        {
+            if (!XRSettings.isDeviceActive || trackedViewLift <= 0f) return;
+            var origin = GetComponent<XROrigin>();
+            if (origin == null || origin.CameraFloorOffsetObject == null) return;
+            var offset = origin.CameraFloorOffsetObject.transform;
+            var position = offset.localPosition; position.y = trackedViewLift; offset.localPosition = position;
+            if (!liftReported && Time.timeSinceLevelLoad > 2f && origin.Camera != null)
+            {
+                liftReported = true;
+                Debug.Log($"GRAVITY_VIEW_HEIGHT_RUNTIME trackedEye={origin.Camera.transform.localPosition.y:0.000} lift={offset.localPosition.y:0.000} worldEye={origin.Camera.transform.position.y:0.000}");
+            }
+        }
 
         public void ApplyToRig()
         {
             transform.SetPositionAndRotation(worldPosition, WorldRotation);
+            ApplyTrackedViewLift();
             Debug.Log($"GRAVITY_DESIGN_START_APPLIED landmark={gameplayLandmark?.name ?? "StreetBattleAxis"} root={worldPosition} yaw={worldYaw:0.0} eye={eyeHeight:0.000}");
         }
 

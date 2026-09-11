@@ -113,11 +113,30 @@ namespace GravityRepulsion
         private bool heldVisualScaleInitialized;
         private float struggleSeed;
         private bool dissolving;
+        private static PhysicsMaterial restingPropMaterial;
+
+        public static PhysicsMaterial RestingPropMaterial
+        {
+            get
+            {
+                if (restingPropMaterial == null)
+                    restingPropMaterial = new PhysicsMaterial("Gravity props — non-bouncing contact")
+                    {
+                        bounciness = 0f,
+                        dynamicFriction = .65f,
+                        staticFriction = .75f,
+                        bounceCombine = PhysicsMaterialCombine.Minimum,
+                        frictionCombine = PhysicsMaterialCombine.Average
+                    };
+                return restingPropMaterial;
+            }
+        }
 
         private void Awake()
         {
             Body = GetComponent<Rigidbody>();
             RefreshGeometryCache();
+            ConfigurePropContactGeometry();
             Health = Mathf.Max(1, maxHealth);
             BlockAvailable = canBlockOnce && kind != GravityTargetKind.Projectile;
             if (!IsScenePreview)
@@ -145,18 +164,165 @@ namespace GravityRepulsion
 
         public void RefreshGeometryCache()
         {
-            colliders = GetComponentsInChildren<Collider>(true);
-            renderers = GetComponentsInChildren<Renderer>(true);
+            colliders = GetComponentsInChildren<Collider>(true)
+                .Where(c => c.GetComponentInParent<GravityTarget>() == this).ToArray();
+            // Interaction beams, rings and particles are not part of the object's shape.
+            renderers = GetComponentsInChildren<Renderer>(true)
+                .Where(r => (r is MeshRenderer || r is SkinnedMeshRenderer)
+                            && r.GetComponentInParent<GravityTarget>() == this).ToArray();
             CacheHeldVisualScale();
+        }
+
+        /// <summary>Fit authored prop colliders in their own coordinate system, including rotated imports.</summary>
+        public void ConfigurePropContactGeometry()
+        {
+            if (kind != GravityTargetKind.Prop || !MatchesApprovedPropIdentity()) return;
+            Body ??= GetComponent<Rigidbody>();
+            if (colliders == null || renderers == null) RefreshGeometryCache();
+            // These scene props each have one authored box. Keep future compound colliders intact.
+            if (colliders.Length == 1 && colliders[0] is BoxCollider box
+                && TryGetLocalGeometryBounds(box.transform, out var localBounds))
+            {
+                box.center = localBounds.center;
+                box.size = Vector3.Max(localBounds.size, Vector3.one * .005f);
+            }
+            foreach (var item in colliders)
+            {
+                item.sharedMaterial = RestingPropMaterial;
+                item.contactOffset = .005f;
+            }
+            Body.linearDamping = .06f;
+            Body.angularDamping = .8f;
+            Body.solverIterations = 12;
+            Body.solverVelocityIterations = 4;
+            Body.maxDepenetrationVelocity = 2f;
+            Body.sleepThreshold = .008f;
+        }
+
+        public bool TryGetLocalGeometryBounds(Transform relativeTo, out Bounds bounds)
+        {
+            bounds = default;
+            bool found = false;
+            var geometry = renderers ?? GetComponentsInChildren<Renderer>(true);
+            foreach (var renderer in geometry)
+            {
+                if (renderer == null || !(renderer is MeshRenderer || renderer is SkinnedMeshRenderer)
+                    || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
+                var local = renderer.localBounds;
+                var matrix = relativeTo.worldToLocalMatrix * renderer.localToWorldMatrix;
+                for (int i = 0; i < 8; i++)
+                {
+                    var corner = local.center + Vector3.Scale(local.extents,
+                        new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
+                    var point = matrix.MultiplyPoint3x4(corner);
+                    if (!found) { bounds = new Bounds(point, Vector3.zero); found = true; }
+                    else bounds.Encapsulate(point);
+                }
+            }
+            return found && bounds.extents.sqrMagnitude > .000001f;
+        }
+
+        public IReadOnlyList<Collider> ContactColliders => colliders ?? Array.Empty<Collider>();
+
+        public Bounds ContactBounds
+        {
+            get
+            {
+                bool found = false;
+                var bounds = new Bounds(transform.position, Vector3.zero);
+                if (colliders == null) return bounds;
+                foreach (var collider in colliders)
+                {
+                    if (collider == null || !collider.enabled || !collider.gameObject.activeInHierarchy) continue;
+                    var itemBounds = collider.bounds;
+                    if (collider is BoxCollider box)
+                    {
+                        // BoxCollider.bounds may still describe the previous physics step while held.
+                        itemBounds = TransformBounds(new Bounds(box.center, box.size), box.transform.localToWorldMatrix);
+                    }
+                    if (!found) { bounds = itemBounds; found = true; }
+                    else bounds.Encapsulate(itemBounds);
+                }
+                return bounds;
+            }
+        }
+
+        public Bounds PhysicalContactBounds
+        {
+            get
+            {
+                if (Body == null || colliders == null || colliders.Length == 0) return ContactBounds;
+                bool found = false;
+                var bounds = new Bounds(Body.position, Vector3.zero);
+                var physicalRoot = Matrix4x4.TRS(Body.position, Body.rotation, transform.lossyScale);
+                foreach (var collider in colliders)
+                {
+                    if (collider == null || !collider.enabled || !collider.gameObject.activeInHierarchy) continue;
+                    var itemBounds = collider.bounds;
+                    if (collider is BoxCollider box)
+                    {
+                        var childFromRoot = transform.worldToLocalMatrix * box.transform.localToWorldMatrix;
+                        itemBounds = TransformBounds(new Bounds(box.center, box.size), physicalRoot * childFromRoot);
+                    }
+                    if (!found) { bounds = itemBounds; found = true; }
+                    else bounds.Encapsulate(itemBounds);
+                }
+                return bounds;
+            }
+        }
+
+        private static Bounds TransformBounds(Bounds local, Matrix4x4 matrix)
+        {
+            var x = matrix.MultiplyVector(new Vector3(local.extents.x, 0, 0));
+            var y = matrix.MultiplyVector(new Vector3(0, local.extents.y, 0));
+            var z = matrix.MultiplyVector(new Vector3(0, 0, local.extents.z));
+            var extents = new Vector3(Mathf.Abs(x.x) + Mathf.Abs(y.x) + Mathf.Abs(z.x),
+                Mathf.Abs(x.y) + Mathf.Abs(y.y) + Mathf.Abs(z.y), Mathf.Abs(x.z) + Mathf.Abs(y.z) + Mathf.Abs(z.z));
+            return new Bounds(matrix.MultiplyPoint3x4(local.center), extents * 2f);
         }
 
         public void ActivatePhysicsForInteraction(bool gravity = true)
         {
             if (Body == null || !IsAlive) return;
+            // Keep both physics pose axes in sync before changing trigger/solid contact state.
+            Body.position = transform.position;
+            Body.rotation = transform.rotation;
+            // Resolve newly-solid props before the solver sees them inside the street or steps.
+            if (gravity && !IsHeld)
+            {
+                SetCollisionMode(true);
+                GravityArchitectureCollision.ResolvePenetration(this);
+                GravityGroundSurface.Active?.ResolvePenetration(this);
+            }
             Body.isKinematic = false;
             Body.detectCollisions = true;
             Body.useGravity = gravity && kind != GravityTargetKind.Projectile && kind != GravityTargetKind.Heal;
+            // Speculative CCD includes angular motion: sweep CCD misses a tall prop tipping
+            // into the street after its first contact or an off-centre release.
+            Body.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             Body.WakeUp();
+        }
+
+        private void FixedUpdate()
+        {
+            if (IsAlive && !IsHeld && kind == GravityTargetKind.Heal && Body != null && !Body.isKinematic)
+            {
+                // Heal pickups remain triggers for collection, but their free flight still stops at buildings.
+                GravityArchitectureCollision.ResolvePenetration(this);
+                var movement = Body.linearVelocity * Time.fixedDeltaTime;
+                if (GravityArchitectureCollision.CastTarget(this, movement, out var hit))
+                {
+                    var travel = movement.normalized * Mathf.Min(movement.magnitude,
+                        Mathf.Max(0, hit.distance - GravityArchitectureCollision.Skin));
+                    transform.position += travel;
+                    Body.position = transform.position;
+                    float speed = Vector3.Dot(Body.linearVelocity, hit.normal);
+                    if (speed < 0) Body.linearVelocity -= hit.normal * speed;
+                }
+            }
+            // Ordinary resting contacts belong to PhysX. Never repeatedly lift a settling body.
+            if (IsAlive && !IsHeld && Body != null && !Body.isKinematic && Body.useGravity && !Body.IsSleeping())
+                GravityGroundSurface.Active?.RecoverFallenTarget(this);
         }
 
         public bool RequestGrab(GravityHand hand)
@@ -182,9 +348,9 @@ namespace GravityRepulsion
 
         public void Grab(GravityHand hand)
         {
-            if (!IsAlive || HeldBy != null) return;
+            if (!IsAlive || HeldBy != null || hand == null) return;
             HeldBy = hand;
-            heldCenterOffset = Center - transform.position;
+            heldCenterOffset = transform.InverseTransformPoint(Center);
             heldRotationOffset = Quaternion.Inverse(hand.holdAnchor.rotation) * transform.rotation;
             ActivatePhysicsForInteraction(false);
             Body.linearVelocity = Vector3.zero;
@@ -216,10 +382,15 @@ namespace GravityRepulsion
             var sharpness = heldFollowSharpness * massResponse * stageResponse * sizeResponse;
             sharpness = Mathf.Clamp(sharpness, kind == GravityTargetKind.Projectile ? 10f : 3.6f, 12f);
             var t = 1f - Mathf.Exp(-sharpness * deltaTime);
-            var desiredRoot = desiredCenter + offset - heldCenterOffset;
-            transform.position = Vector3.Lerp(transform.position, desiredRoot, t);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, t);
+            var nextRotation = Quaternion.Slerp(transform.rotation, rotation, t);
+            var rotatedCenterOffset = nextRotation * Vector3.Scale(heldCenterOffset, transform.lossyScale);
+            var desiredRoot = desiredCenter + offset - rotatedCenterOffset;
             UpdateHeldVisualScale(deltaTime);
+            GravityArchitectureCollision.MoveSafely(this, Vector3.Lerp(transform.position, desiredRoot, t), nextRotation);
+            GravityGroundSurface.Active?.ResolvePenetration(this);
+            GravityArchitectureCollision.ResolvePenetration(this);
+            Body.position = transform.position;
+            Body.rotation = transform.rotation;
             Body.linearVelocity = Vector3.zero;
             Body.angularVelocity = Vector3.zero;
         }
@@ -233,6 +404,8 @@ namespace GravityRepulsion
             SetCollisionMode(true);
             Body.linearVelocity = velocity;
             Body.angularVelocity = angularVelocity;
+            GravityArchitectureCollision.ResolvePenetration(this);
+            GravityGroundSurface.Active?.ResolvePenetration(this);
             ThrownUntil = Time.time + 1.75f;
             GravityAudio.Play(GravitySound.Release, Center, .55f);
         }
@@ -294,6 +467,8 @@ namespace GravityRepulsion
         {
             get
             {
+                if (kind == GravityTargetKind.Prop && colliders != null && colliders.Length > 0)
+                    return ContactBounds;
                 var activeColliders = colliders?.Where(c => c != null && c.enabled).ToArray();
                 var activeRenderers = renderers?.Where(r => r != null && r.enabled).ToArray();
                 var found = false;
@@ -325,7 +500,9 @@ namespace GravityRepulsion
             {
                 if (item == null) continue;
                 item.enabled = true;
-                item.isTrigger = !enabled || kind == GravityTargetKind.Projectile || kind == GravityTargetKind.Heal || IsSafeTriggerCollider(item);
+                // safeTriggerColliders only prevent authored props from fighting nearby
+                // architecture before interaction. Released props must collide with ground.
+                item.isTrigger = !enabled || kind == GravityTargetKind.Projectile || kind == GravityTargetKind.Heal;
             }
         }
 

@@ -22,12 +22,22 @@ namespace GravityRepulsion
         public Text defeatText;
 
         private Coroutine statusRoutine;
+        private GravityGeneratedHud generated;
+        private GravityVisorHud visor;
+        private GravityVisorDamage visorDamage;
         private Font uiFont;
         private Canvas rootCanvas;
         private RectTransform resultLeftCard;
         private RectTransform resultRightCard;
         private Text resultLeftText;
         private Text resultRightText;
+        private RectTransform topLeftFrame;
+        private RectTransform topRightFrame;
+        private RectTransform bottomLeftFrame;
+        private RectTransform bottomRightFrame;
+        private Color shieldBaseColor = Color.white;
+        private Color energyBaseColor = Color.white;
+        private Color repulseBaseColor = Color.white;
         public bool EdgeLayoutConfigured { get; private set; }
         // The gameplay HUD is intentionally camera-space. The battlefield, targets and
         // controller rays remain in world space; this is only the small, always-readable
@@ -38,7 +48,7 @@ namespace GravityRepulsion
         // interpreted as a double-eye surface by the emulator: the left cluster fell beyond
         // the left eye and the right cluster past the right eye.  The PICO HUD is a single,
         // camera-relative world canvas with an explicitly safe per-eye layout instead.
-        public static readonly Vector2 PicoReferenceResolution = new(2400f, 800f);
+        public static readonly Vector2 PicoReferenceResolution = new(2400f, 2400f);
         private const float DesktopPlaneDistance = 1.05f;
         private const float PicoHudDistance = 2.20f;
         // Larger than desktop pixels by design: readable at normal PICO viewing distance,
@@ -76,18 +86,22 @@ namespace GravityRepulsion
         }
         public bool ResultLayoutConfigured => resultLeftCard != null && resultRightCard != null && resultLeftText != null && resultRightText != null;
         public bool ResultPanelVisible => defeatPanel != null && defeatPanel.activeSelf;
-        public bool TopmostLayerConfigured => CameraHudConfigured;
+        public bool TopmostLayerConfigured => CameraHudConfigured && visor != null && visor.TopmostConfigured;
         public string ResultTextContent => (resultLeftText != null ? resultLeftText.text : string.Empty) + "\n" + (resultRightText != null ? resultRightText.text : string.Empty);
         public Vector2 ActiveReferenceResolution => IsPicoRuntime ? PicoReferenceResolution : DesktopReferenceResolution;
         public float ActivePlaneDistance => IsPicoRuntime ? PicoHudDistance : DesktopPlaneDistance;
-        public string ActiveSizeProfile => IsPicoRuntime ? "PICO_WorldSpace_1200x800" : "Desktop_1600x1000";
-        private static bool IsPicoRuntime => Application.platform == RuntimePlatform.Android;
+        public string ActiveSizeProfile => IsPicoRuntime ? "PICO_HeadRelative_2400x2400" : "Desktop_1600x1000";
+        public static bool UsesPicoLayout => Application.platform == RuntimePlatform.Android || System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-gravityPicoHudPreview") >= 0;
+        private static bool IsPicoRuntime => UsesPicoLayout;
 
         private void Awake()
         {
             uiFont = Font.CreateDynamicFontFromOSFont(new[] { "PingFang SC", "Noto Sans CJK SC", "Arial Unicode MS", "Arial" }, 28);
             EnsureResultCards();
             foreach (var label in GetComponentsInChildren<Text>(true)) label.font = uiFont;
+            shieldBaseColor = shieldText != null ? shieldText.color : Color.white;
+            energyBaseColor = energyText != null ? energyText.color : Color.white;
+            repulseBaseColor = repulseText != null ? repulseText.color : Color.white;
             ConfigureCameraHud();
             HideRunSummary();
         }
@@ -104,24 +118,86 @@ namespace GravityRepulsion
         public void Refresh(GravityGameManager game)
         {
             if (game == null) return;
+            visorDamage?.SetHealth(game.Shield);
+            if (visor != null && visor.Ready)
+            {
+                visor.Refresh(game);
+                ApplyReadoutFeedback(game);
+                return;
+            }
+            if (generated != null && generated.Ready)
+            {
+                generated.Refresh(game);
+                ApplyReadoutFeedback(game);
+                return;
+            }
             waveText.text = $"威胁波次  {game.Wave:00}";
             scoreText.text = $"得分  {game.Score:00000}";
             enemyText.text = $"{game.AliveEnemies.Count:00} HOSTILES";
             shieldText.text = $"WARD  {Mathf.CeilToInt(game.Shield):000}";
             energyText.text = $"奇点能量  {Mathf.FloorToInt(game.UltimateCharge)}/{game.UltimateRequirement}";
-            repulseText.text = game.RepulseCooldown > 0f ? $"斥力冷却 {game.RepulseCooldown:0.0}s" : "斥力就绪  F / 左主按钮";
-            leftText.text = "L  " + (game.leftHand?.Held != null ? game.leftHand.Held.displayName : "未锁定");
-            rightText.text = "R  " + (game.rightHand?.Held != null ? game.rightHand.Held.displayName : "未锁定");
+            repulseText.text = game.RepulseCooldown > 0f ? $"斥力冷却 {game.RepulseCooldown:0.0}s" : "斥力就绪  左手 X";
+            leftText.text = HandReadout("L", game.leftHand);
+            rightText.text = HandReadout("R", game.rightHand);
             shieldFill.fillAmount = game.Shield / 100f;
             energyFill.fillAmount = game.UltimateCharge / game.UltimateRequirement;
             repulseFill.fillAmount = 1f - game.RepulseCooldown / game.repulseCooldownDuration;
+            ApplyReadoutFeedback(game);
         }
 
         public void SetStatus(string message)
         {
+            if (visor != null && visor.Ready) { visor.Status(message); return; }
+            if (generated != null && generated.Ready) { generated.Status(message); return; }
             if (statusText == null) return;
             if (statusRoutine != null) StopCoroutine(statusRoutine);
+            statusText.color = StatusColor(message);
             statusRoutine = StartCoroutine(ShowStatusBriefly(message));
+        }
+
+        private static string HandReadout(string label, GravityHand hand)
+        {
+            if (hand == null) return $"{label}  待机";
+            if (hand.Held != null) return $"{label}  抓取 · {ShortName(hand.Held.displayName)}";
+            if (hand.Candidate != null) return $"{label}  锁定 · {ShortName(hand.Candidate.displayName)}";
+            return $"{label}  待机 · 对准目标";
+        }
+
+        private static string ShortName(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return "目标";
+            return value.Length <= 8 ? value : value.Substring(0, 8) + "…";
+        }
+
+        private void ApplyReadoutFeedback(GravityGameManager game)
+        {
+            var pulse = .78f + Mathf.Sin(Time.unscaledTime * 7f) * .22f;
+            var shieldRatio = Mathf.Clamp01(game.Shield / 100f);
+            if (shieldText != null) shieldText.color = shieldRatio <= .3f
+                ? new Color(1f, .18f, .24f, pulse)
+                : shieldBaseColor;
+            if (shieldFill != null) shieldFill.color = shieldRatio <= .3f
+                ? new Color(1f, .14f, .22f, pulse)
+                : new Color(.2f, .86f, 1f, .95f);
+            var ultimateReady = game.UltimateCharge >= game.UltimateRequirement;
+            if (energyText != null) energyText.color = ultimateReady
+                ? new Color(1f, .82f, .24f, pulse)
+                : energyBaseColor;
+            if (energyFill != null) energyFill.color = ultimateReady
+                ? new Color(1f, .66f, .18f, pulse)
+                : new Color(.56f, .34f, 1f, .95f);
+            if (repulseText != null) repulseText.color = game.RepulseCooldown <= 0f
+                ? new Color(.3f, 1f, .7f, 1f)
+                : repulseBaseColor;
+        }
+
+        private static Color StatusColor(string message)
+        {
+            if (string.IsNullOrEmpty(message)) return Color.white;
+            if (message.Contains("受损") || message.Contains("冷却")) return new Color(1f, .34f, .4f, 1f);
+            if (message.Contains("锁定") || message.Contains("抓取")) return new Color(.72f, .62f, 1f, 1f);
+            if (message.Contains("击破") || message.Contains("完成") || message.Contains("恢复") || message.Contains("就绪") || message.Contains("释放")) return new Color(.38f, 1f, .76f, 1f);
+            return new Color(.82f, .92f, 1f, 1f);
         }
 
         public void ShowRunSummary(GravityRunSummary summary)
@@ -147,13 +223,20 @@ namespace GravityRepulsion
                 $"双极对撞 ×{summary.collisionAttackCount}   +{summary.collisionAttackBonus}\n" +
                 $"环境连锁 ×{summary.environmentAttackCount}   +{summary.environmentAttackBonus}\n" +
                 $"奇点湮灭 ×{summary.ultimateAttackCount}   +{summary.ultimateAttackBonus}";
-            defeatText.text = "按 Enter / 右手 A 重新部署";
+            defeatText.text = "右手 A 重新部署";
+            if (generated != null && generated.Ready) generated.Results(summary, resultLeftCard, resultRightCard, resultLeftText, resultRightText);
+            visor?.SetVisible(false);
+            visorDamage?.HoldDeathState();
+            visor?.ApplyTopmostMaterials();
             Canvas.ForceUpdateCanvases();
         }
 
         public void HideRunSummary()
         {
             if (defeatPanel != null) defeatPanel.SetActive(false);
+            if (generated != null) generated.SetCombatVisible(true);
+            if (visor != null && visor.Ready) { generated?.SetCombatVisible(false); visor.SetVisible(true); }
+            visorDamage?.ResetForCombat();
         }
 
         private void ConfigureCameraHud()
@@ -170,6 +253,7 @@ namespace GravityRepulsion
             }
 
             var layout = CurrentLayout;
+            EnsureHelmetFrames(layout);
             // Anchoring to the actual left/right canvas bounds keeps the two clusters at
             // the edge in the desktop view and inside each PICO eye's safe field of view.
             PlaceLeft(waveText, layout.EdgeMargin, layout.ScaleY(405f), layout.ScaleSize(new Vector2(330f, 44f)), TextAnchor.MiddleLeft, layout.ScaleFont(24));
@@ -204,7 +288,68 @@ namespace GravityRepulsion
                                   && waveText != null && scoreText != null
                                   && leftText != null && rightText != null
                                   && backplate != null && !backplate.gameObject.activeSelf;
+            generated = GetComponent<GravityGeneratedHud>() ?? gameObject.AddComponent<GravityGeneratedHud>();
+            generated.Configure(this);
+            visor = GetComponent<GravityVisorHud>() ?? gameObject.AddComponent<GravityVisorHud>();
+            visor.Configure(this);
+            visorDamage = GetComponent<GravityVisorDamage>() ?? gameObject.AddComponent<GravityVisorDamage>();
+            visorDamage.Configure(this);
             Debug.Log($"GRAVITY_EDGE_HUD_CONFIG canvas={rootCanvas?.renderMode} profile={ActiveSizeProfile} reference={ActiveReferenceResolution.x:0}x{ActiveReferenceResolution.y:0} distance={ActivePlaneDistance:0.00} camera={rootCanvas?.worldCamera?.name ?? "missing"} backplate=off");
+        }
+
+        private void EnsureHelmetFrames(HudLayout layout)
+        {
+            topLeftFrame = CreateHelmetFrame("HUD_FRAME_TOP_LEFT", true, new Color(.16f, .86f, 1f),
+                layout.EdgeMargin - layout.ScaleX(14f), layout.ScaleY(380f), layout.ScaleSize(new Vector2(390f, 126f)));
+            topRightFrame = CreateHelmetFrame("HUD_FRAME_TOP_RIGHT", false, new Color(.62f, .34f, 1f),
+                layout.EdgeMargin - layout.ScaleX(14f), layout.ScaleY(380f), layout.ScaleSize(new Vector2(390f, 126f)));
+            bottomLeftFrame = CreateHelmetFrame("HUD_FRAME_BOTTOM_LEFT", true, new Color(.2f, .86f, 1f),
+                layout.EdgeMargin - layout.ScaleX(14f), layout.ScaleY(-345f), layout.ScaleSize(new Vector2(390f, 202f)));
+            bottomRightFrame = CreateHelmetFrame("HUD_FRAME_BOTTOM_RIGHT", false, new Color(.72f, .35f, 1f),
+                layout.EdgeMargin - layout.ScaleX(14f), layout.ScaleY(-326f), layout.ScaleSize(new Vector2(390f, 158f)));
+
+            // Frames are decorative and always stay behind the data readouts.
+            bottomRightFrame?.SetAsFirstSibling();
+            bottomLeftFrame?.SetAsFirstSibling();
+            topRightFrame?.SetAsFirstSibling();
+            topLeftFrame?.SetAsFirstSibling();
+        }
+
+        private RectTransform CreateHelmetFrame(string name, bool left, Color accent, float margin, float y, Vector2 size)
+        {
+            var child = transform.Find(name);
+            var frame = child != null ? child.gameObject : new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            frame.transform.SetParent(transform, false);
+            frame.SetActive(true);
+            var rect = frame.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(left ? 0f : 1f, .5f);
+            rect.pivot = new Vector2(left ? 0f : 1f, .5f);
+            rect.anchoredPosition = new Vector2(left ? margin : -margin, y);
+            rect.sizeDelta = size;
+            var image = frame.GetComponent<Image>();
+            image.color = new Color(.008f, .055f, .09f, .42f);
+            image.raycastTarget = false;
+
+            CreateHelmetLine(frame.transform, "ACCENT_TOP", accent,
+                new Vector2(0f, size.y * .5f - 1.5f), new Vector2(size.x, 3f), new Vector2(.5f, .5f));
+            CreateHelmetLine(frame.transform, "ACCENT_SIDE", accent,
+                new Vector2((left ? -1f : 1f) * (size.x * .5f - 1.5f), 0f), new Vector2(3f, size.y), new Vector2(.5f, .5f));
+            return rect;
+        }
+
+        private static void CreateHelmetLine(Transform parent, string name, Color color, Vector2 position, Vector2 size, Vector2 pivot)
+        {
+            var child = parent.Find(name);
+            var line = child != null ? child.gameObject : new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            line.transform.SetParent(parent, false);
+            var rect = line.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(.5f, .5f);
+            rect.pivot = pivot;
+            rect.anchoredPosition = position;
+            rect.sizeDelta = size;
+            var image = line.GetComponent<Image>();
+            image.color = color;
+            image.raycastTarget = false;
         }
 
         public bool ValidateViewportLayout(Camera camera, out string failure)
@@ -286,7 +431,7 @@ namespace GravityRepulsion
                 if (camera == null) return;
                 rootCanvas.renderMode = RenderMode.WorldSpace;
                 rootCanvas.overrideSorting = true;
-                rootCanvas.sortingOrder = 20;
+                rootCanvas.sortingOrder = GravityVisorHud.SortOrder;
                 rootCanvas.worldCamera = camera;
                 var picoScaler = GetComponent<CanvasScaler>();
                 if (picoScaler != null)
@@ -294,6 +439,7 @@ namespace GravityRepulsion
                     picoScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
                     picoScaler.scaleFactor = 1f;
                     picoScaler.referencePixelsPerUnit = 100f;
+                    picoScaler.referenceResolution = PicoReferenceResolution;
                 }
                 if (transform.parent != camera.transform) transform.SetParent(camera.transform, false);
                 if (transform is RectTransform picoRect)
@@ -307,9 +453,13 @@ namespace GravityRepulsion
                 }
                 return;
             }
+            // Unity owns a screen-space canvas transform after it is configured.
+            // Rewriting it in LateUpdate invalidates the matrix used by the aim cursor
+            // until the canvas rebuild, causing a one-frame disappearance after motion.
+            if (CameraHudConfigured && rootCanvas.worldCamera == camera) return;
             rootCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             rootCanvas.overrideSorting = true;
-            rootCanvas.sortingOrder = 20;
+            rootCanvas.sortingOrder = GravityVisorHud.SortOrder;
             rootCanvas.planeDistance = ActivePlaneDistance;
             rootCanvas.worldCamera = camera;
             var scaler = GetComponent<CanvasScaler>();
@@ -414,6 +564,7 @@ namespace GravityRepulsion
 
             public Vector2 Scale(Vector2 value) => new(value.x * horizontalScale, value.y * verticalScale);
             public Vector2 ScaleSize(Vector2 value) => new(value.x * horizontalScale, value.y * verticalScale);
+            public float ScaleX(float value) => value * horizontalScale;
             public float ScaleY(float value) => value * verticalScale;
             public int ScaleFont(int value) => Mathf.RoundToInt(value * fontScale);
         }

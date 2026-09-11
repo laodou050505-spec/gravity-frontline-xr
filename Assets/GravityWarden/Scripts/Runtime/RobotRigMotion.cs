@@ -145,6 +145,9 @@ namespace GravityRepulsion
             if (pelvis.IsValid) pelvis.bone.localPosition = pelvis.bindPosition + Vector3.up * (Mathf.Abs(Mathf.Sin(walkPhase)) * .028f * walkBlend);
             CurrentWalkBoneAngle = Mathf.Abs(stride);
             CurrentHeldVisualAngle = Mathf.Sqrt(swayPitch * swayPitch + swayRoll * swayRoll);
+            // Bones move outside the locomotion capsule during a stride or held sway.
+            // Recheck the posed visible mesh so arms cannot animate into a nearby facade.
+            GravityArchitectureCollision.ResolvePenetration(target);
         }
 
         private void RestoreAll()

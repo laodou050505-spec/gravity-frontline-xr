@@ -37,7 +37,8 @@ namespace GravityRepulsion
             Debug.Log("GRAVITY_RESULT_PANEL_PASS cameraHud=true totalScore=true completedWaves=true rewardBreakdown=true failureCopy=false");
             hud.HideRunSummary();
             Debug.Log("GRAVITY_CAMERA_HUD_PASS canvas=ScreenSpaceCamera frontFacing=true gameplay=street_enemies_props_projectiles");
-            if (!Check(!game.leftHand.gravityRay.enabled && !game.rightHand.gravityRay.enabled, "idle controller rays remained visible")) yield break;
+            if (!Check((!game.leftHand.gravityRay.enabled || game.leftHand.Candidate != null)
+                       && (!game.rightHand.gravityRay.enabled || game.rightHand.Candidate != null), "controller ray was visible without a valid aim candidate")) yield break;
             if (!Check(game.AliveEnemies.Count == 8, "wave 1 did not spawn 8 enemies")) yield break;
             if (!Check(game.ProjectileConcurrencyLimit == 2 && game.EnemyShotInterval >= 1.35f && game.EnemyShotInterval <= 1.45f, "enemy projectile pacing was not moderately increased")) yield break;
             if (!Check(game.AliveEnemies.All(e => e.GetComponentsInChildren<Renderer>(true).Count(r => r is MeshRenderer || r is SkinnedMeshRenderer) >= 8), "29/30/31 real split robot meshes missing")) yield break;

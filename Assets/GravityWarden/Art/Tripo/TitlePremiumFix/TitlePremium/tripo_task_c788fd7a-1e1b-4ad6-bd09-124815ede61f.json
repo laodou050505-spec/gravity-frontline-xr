@@ -1,0 +1,19 @@
+{
+  "task_id": "c788fd7a-1e1b-4ad6-bd09-124815ede61f",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Design a premium finished GAME TITLE EMBLEM texture, exact words GRAVITY FRONTLINE in two stacked lines, impeccable readable custom letterforms. The brand is an immersive first-person gravity combat game in a monumental clockwork boulevard. A distinctive 3D machined gunmetal gravitational gyroscope behind and embracing the typography, nested physically credible thin orbit rings, a small brilliant cyan singularity at the upper centre, fine engraved bronze calibrations, subtle brushed titanium surfaces and high-end product photography lighting. Typography is heavy sculpted brushed pale silver with precision bevels, restrained inner blue emission, intelligent ligatures unique to GRAVITY FRONTLINE. Sophisticated brutalist science fiction title treatment, genuinely crafted hardware identity. Warm aged bronze accents tie into a clock tower, restrained cyan and violet optical energy. Strong hierarchy, 60 percent type and 40 percent emblem, wide compact composition, not a generic esports logo, not a flat font, not a blank rectangle or UI wireframe. All letters must be correctly spelled and fully readable. No extra text, no subtitle. Entire emblem isolated on pure solid BLACK background, bounded in central 85% width and 75% height, generous margin to crop, no vignette border, no characters, no landscape. Orthographic front view with shallow material depth, clean silhouette. This is one separate title block to combine with a cinematic image and two independent buttons.",
+    "model_version": "banana_pro"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/c788fd7a-1e1b-4ad6-bd09-124815ede61f/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvYzc4OGZkN2EtMWUxYi00YWQ2LWJkMDktMTI0ODE1ZWRlNjFmL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzY1ODV9fX1dfQ__&Signature=TGy13NiOPq99uQiUOGjFxtnfoPWBaJncgiXAbA7fJPNZOcfTGgN4O-abR8hYGGtmFzxA5nVEZMtXBrMjZGQVm18XhwkjHUppi-ZoTdUrCO-jpeMABtnRdoT4CSGn01ucfwgE7QymSUxrklk2gQAPnAz5OPDHmQIc6oIahOfhSfLb7sTEprrHqTC9d1VROLzm4VTVkSdMjJSjDA0iBHYT0Km7-21YmTokYsLYC1RMvTEql3f-n675Va6UFlxCtyd1OfzA2mKFp69xzGJkaZqQc5lGbYeJjWNoWwzunggIkbCMqFXdixy8bDHGNHSDk-o4MNBU2P6hagvpdxjkYA~HqQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T06:49:15.576080Z",
+  "completed_at": "2026-09-08T06:49:44.010091Z",
+  "credits_consumed": 15.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitlePremiumFix/TitlePremium/01_generated_image_url.png"
+  ]
+}

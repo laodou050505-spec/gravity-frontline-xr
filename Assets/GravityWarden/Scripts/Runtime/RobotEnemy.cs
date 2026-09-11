@@ -27,6 +27,7 @@ namespace GravityRepulsion
         }
 
         private GravityTarget target;
+        private GravityGameManager game;
         private Transform player;
         private float attackTimer;
         private bool alternateShot;
@@ -39,13 +40,15 @@ namespace GravityRepulsion
 
         private void Start()
         {
-            var game = FindFirstObjectByType<GravityGameManager>();
+            game = FindFirstObjectByType<GravityGameManager>();
             player = game != null ? game.playerHead : Camera.main?.transform;
         }
 
         private void FixedUpdate()
         {
             if (!target.IsAlive || player == null) return;
+            // The singularity owns the safe pose while enemies are orbiting it.
+            if (game != null && game.UltimateActive) return;
             if (target.IsHeld)
             {
                 target.Body.linearVelocity = Vector3.zero;
@@ -58,12 +61,23 @@ namespace GravityRepulsion
             if (distance > 5.3f)
             {
                 var desired = flat.normalized * moveSpeed;
+                // The visible robot is wider than its locomotion capsule. Sweep its full
+                // shape so shoulders and equipment stop at facades too, retaining wall sliding.
+                for (int pass = 0; pass < 2; pass++)
+                {
+                    if (!GravityArchitectureCollision.CastTarget(target, desired * Time.fixedDeltaTime, out var hit)) break;
+                    var normal = Vector3.ProjectOnPlane(hit.normal, Vector3.up).normalized;
+                    float inwardSpeed = Vector3.Dot(desired, normal);
+                    if (normal.sqrMagnitude < .1f || inwardSpeed >= 0f) break;
+                    desired -= normal * inwardSpeed;
+                }
                 target.Body.linearVelocity = new Vector3(desired.x, target.Body.linearVelocity.y, desired.z);
             }
             if (flat.sqrMagnitude > .01f)
             {
                 var rotation = RootRotationFacing(flat);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * 5f);
+                GravityArchitectureCollision.MoveSafely(target, target.Body.position,
+                    Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * 5f));
             }
             attackTimer -= Time.fixedDeltaTime;
             if (distance <= attackDistance && attackTimer <= 0f)
@@ -75,7 +89,7 @@ namespace GravityRepulsion
 
         private void Fire()
         {
-            var game = FindFirstObjectByType<GravityGameManager>();
+            game ??= FindFirstObjectByType<GravityGameManager>();
             if (game == null || !game.CanEnemyFire || projectilePrefab == null || player == null) return;
             var origin = muzzle != null ? muzzle.position : target.Center + transform.forward * .65f;
             var prefab = alternateShot && alternateProjectilePrefab != null ? alternateProjectilePrefab : projectilePrefab;
