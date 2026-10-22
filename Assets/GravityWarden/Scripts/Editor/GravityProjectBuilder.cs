@@ -462,8 +462,8 @@ namespace GravityRepulsion.Editor
             var reticle = Label("Reticle", canvasGo.transform, Vector2.zero, new Vector2(50f, 50f), 34, new Color(.78f, .55f, 1f), TextAnchor.MiddleCenter);
             reticle.text = "+";
             reticle.gameObject.SetActive(false);
-            var help = Label("Help", canvasGo.transform, new Vector2(0f, -390f), new Vector2(1240f, 34f), 16, new Color(.55f, .66f, .75f), TextAnchor.MiddleCenter);
-            help.text = "[Trigger/Grip] TO GRAB · RELEASE TO THROW · CLAP HANDS TO COLLIDE · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER  |  Desktop: Q/E · Space · F · R · C";
+            var help = Label("Help", canvasGo.transform, new Vector2(0f, -390f), new Vector2(1240f, 46f), 22, new Color(.55f, .66f, .75f), TextAnchor.MiddleCenter);
+            help.text = "[Trigger/Grip] GRAB  ·  RELEASE THROW  ·  [Left X] REPULSE  ·  [Right A] SINGULARITY  ·  [Left Y] RECENTER";
             help.gameObject.SetActive(false);
 
             hud.defeatPanel = New("DefeatPanel", canvasGo.transform);

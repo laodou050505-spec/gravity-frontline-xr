@@ -1209,7 +1209,12 @@ namespace GravityRepulsion.Editor
             if (help != null)
             {
                 var helpText = help.GetComponent<Text>();
-                if (helpText != null) helpText.text = "[Trigger/Grip] TO GRAB · RELEASE TO THROW · CLAP HANDS TO COLLIDE · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER";
+                if (helpText != null)
+                {
+                    helpText.text = "[Trigger/Grip] GRAB  ·  RELEASE THROW  ·  [Left X] REPULSE  ·  [Right A] SINGULARITY  ·  [Left Y] RECENTER";
+                    helpText.fontSize = 22; // 从 16 提升至 22，VR 头显内更易读
+                    helpText.resizeTextMaxSize = 22;
+                }
                 help.gameObject.SetActive(false);
             }
             var reticle = hud.transform.Find("Reticle");

@@ -10,8 +10,8 @@
 | 项目 | 值 |
 |---|---|
 | 文件路径 | `Builds/EN/GravityFrontline-EN-PICO.apk` |
-| 文件大小 | 94 MB (99,078,780 bytes) |
-| SHA-256 | `2a684cfde7ea28fe7d40b8e1157b657910a46d4187625300d99aba460d8072e4` |
+| 文件大小 | 97 MB (101,455,528 bytes) |
+| SHA-256 | `f53e63ae2d9dbcb95ad834441c7c491073bfca5bd99b387dbe2e2865bbd38f49` |
 | 包名 | `com.gravitywarden.repulsion.en` |
 | 产品名 | `GRAVITY FRONTLINE` |
 | Unity 版本 | 6000.5.5f1 |
@@ -103,10 +103,22 @@
 | 项目 | 值 |
 |---|---|
 | 目标设备 | `emulator-5554` |
-| 安装日期 | 2026-10-22 14:03 |
-| 安装命令 | `adb -s emulator-5554 install GravityFrontline-EN-PICO.apk` |
+| 安装日期 | 2026-10-22 14:21（第二轮：含新 Title.png + Help text 精简） |
+| 安装命令 | `adb -s emulator-5554 install -r GravityFrontline-EN-PICO.apk`（.en 已安装用 -r 更新） |
 | 安装结果 | Success |
-| pm list 验证 | `package:com.gravitywarden.repulsion` + `package:com.gravitywarden.repulsion.en` 同时存在 |
+| pm list 验证 | `package:com.gravitywarden.repulsion`（原版，lastUpdate=2026-09-10，未被覆盖） + `package:com.gravitywarden.repulsion.en`（英文版，lastUpdate=2026-10-22 14:21:58） |
+
+---
+
+## 图标与封面验证
+
+| 检查项 | 结果 |
+|---|---|
+| 原版 APK 图标 vs 英文版 APK 图标 | 24 个 PNG 文件逐字节完全一致（diff 结果零差异） |
+| 原版包包名被覆盖风险 | 否——原版 com.gravitywarden.repulsion lastUpdate=2026-09-10，未被改动 |
+| 包名 .en 检查（aapt） | 每次安装前均通过 `aapt dump badging` 确认以 .en 结尾 |
+| Title.png 更新 | banana2 重生成：等离子电弧引力环（青+紫）+ 太空背景，拼写 GRAVITY FRONTLINE 逐字核对 ✓ |
+| 面罩 Help text | `m_IsActive: 0`（场景中永久隐藏），代码同时 SetActive(false)；字号从 16→22、文本精简提升可读性 |
 
 ---
 
