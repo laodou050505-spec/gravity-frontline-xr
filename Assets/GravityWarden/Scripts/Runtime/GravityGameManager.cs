@@ -261,10 +261,17 @@ namespace GravityRepulsion
             hud?.SetStatus(HudStatusEvent.Danger, $"SHIELD DAMAGED  -{amount}");
             GravityFeedback.Shockwave(playerHead != null ? playerHead.position : Vector3.zero, new Color(1f, .08f, .2f), 1.4f);
             GravityAudio.Play(GravitySound.PlayerHurt, playerHead != null ? playerHead.position : Vector3.zero, .92f);
+            // Haptic impact feedback on shield hit — strength scales with remaining health
+            var hitStrength = Mathf.Lerp(.55f, .88f, 1f - Shield / 100f);
+            leftHand?.Pulse(hitStrength, .14f);
+            rightHand?.Pulse(hitStrength, .14f);
             if (Shield > 0f) return;
             gameOver = true;
             leftHand?.Held?.Release(Vector3.zero, Vector3.zero);
             rightHand?.Held?.Release(Vector3.zero, Vector3.zero);
+            // Death: triple heavy pulse to both hands
+            leftHand?.PulsePattern(.95f, .1f, 3);
+            rightHand?.PulsePattern(.95f, .1f, 3);
             FreezeRunAtEnd();
             hud?.Refresh(this);
             hud?.ShowRunSummary(BuildRunSummary());
@@ -492,6 +499,9 @@ namespace GravityRepulsion
                 intermission = true;
                 CompletedWaves = Wave;
                 waveScore += 100 + Wave * 25;
+                // Wave-clear haptic: double tap confirms wave completion
+                leftHand?.PulsePattern(.38f, .06f, 2);
+                rightHand?.PulsePattern(.38f, .06f, 2);
                 var supplied = false;
                 if (Wave % 3 == 0 && Shield < 92f && healthPackPrefab != null && supplyPoint != null && !targets.Any(t => t != null && t.IsAlive && t.kind == GravityTargetKind.Heal))
                 {

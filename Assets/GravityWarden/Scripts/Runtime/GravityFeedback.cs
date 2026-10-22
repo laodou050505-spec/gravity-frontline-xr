@@ -111,13 +111,20 @@ namespace GravityRepulsion
         public static void HitFlash(Vector3 position, Color color)
         {
             EnsureRunner();
+            // Primary flash sphere
             var flash = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             flash.name = "VFX_受击闪光";
             Object.Destroy(flash.GetComponent<Collider>());
             flash.transform.position = position;
-            flash.transform.localScale = Vector3.one * .12f;
+            flash.transform.localScale = Vector3.one * .10f;
             flash.GetComponent<Renderer>().sharedMaterial = GetMaterial(color, false);
-            runner.StartCoroutine(AnimateFlash(flash, .8f, .16f));
+            runner.StartCoroutine(AnimateFlash(flash, 1.05f, .18f));
+            // Secondary soft glow ring for depth
+            var ring = CreateRing("VFX_受击光环", null, color, .022f, .55f).gameObject;
+            ring.transform.position = position;
+            ring.transform.rotation = RingFacingViewer(position);
+            ring.transform.localScale = Vector3.one * .08f;
+            runner.StartCoroutine(AnimateRing(ring, .72f, .22f));
         }
 
         public static void BlockBreak(Vector3 position, float radius)
