@@ -1106,17 +1106,30 @@ namespace GravityRepulsion.Editor
 
             foreach (var r in root.GetComponentsInChildren<Renderer>(true))
             {
-                var n = r.name;
-                Material mat;
-                if      (n.Contains("Core") || n.Contains("EmitterRing") || n.Contains("BtnPrimary"))                              mat = core;
-                else if (n.Contains("GlowStrip"))                                                                                   mat = glow;
-                else if (n.Contains("BtnSecondary"))                                                                                mat = btnWarm;
-                else if (n.Contains("Rail") || n.Contains("BrassRing") || n.Contains("EnergyCoil") ||
-                         n.Contains("Trigger") || n.Contains("Rivet"))                                                              mat = brass;
-                else if (n.Contains("Spine") || n.Contains("Grip"))                                                                mat = rubber;
-                else if (n.Contains("HandGuard") || n.Contains("Sleeve") || n.Contains("Fin") || n.Contains("Wing"))              mat = steelLight;
-                else                                                                                                                mat = steel;
-                r.sharedMaterial = mat;
+                var rn = r.name;
+                // 支持合并网格（多材质槽）和旧版拆件（单槽），按渲染器名 + 槽名联合判断
+                var mats = r.sharedMaterials;
+                for (var si = 0; si < mats.Length; si++)
+                {
+                    var sn = mats[si]?.name ?? "";
+                    Material assign;
+                    if      (rn.Contains("Core")      || sn.Contains("Core")   ||
+                             rn.Contains("EmitterRing")|| rn.Contains("BtnPrimary"))                  assign = core;
+                    else if (sn.Contains("Glow")      || rn.Contains("GlowStrip"))                   assign = glow;
+                    else if (sn.Contains("Warm")      || rn.Contains("BtnSecondary"))                assign = btnWarm;
+                    else if (sn.Contains("Brass")     || rn.Contains("Rail")   || rn.Contains("BrassRing") ||
+                             rn.Contains("EnergyCoil")|| rn.Contains("Trigger")|| rn.Contains("Rivet"))
+                                                                                                      assign = brass;
+                    else if (sn.Contains("Rubber")    || rn.Contains("Spine")  || rn.Contains("Grip"))
+                                                                                                      assign = rubber;
+                    else if (sn.Contains("Light")     || rn.Contains("HandGuard") || rn.Contains("Sleeve") ||
+                             rn.Contains("Fin")       || rn.Contains("Wing"))                        assign = steelLight;
+                    else                                                                               assign = steel;
+                    mats[si] = assign;
+                }
+                r.sharedMaterials = mats;
+                // 规范 D：手柄视觉对象不投射实时阴影
+                r.shadowCastingMode = ShadowCastingMode.Off;
                 EditorUtility.SetDirty(r);
             }
         }
