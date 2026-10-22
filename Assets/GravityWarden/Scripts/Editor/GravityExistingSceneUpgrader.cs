@@ -1035,6 +1035,7 @@ namespace GravityRepulsion.Editor
         private static void UpgradeControllerVisual(GravityHand hand, bool rightHand)
         {
             if (hand == null) throw new InvalidOperationException(rightHand ? "Right GravityHand missing" : "Left GravityHand missing");
+            // 清除旧可视模型（Unity 方块版 + FBX 版均清除）
             for (var i = hand.transform.childCount - 1; i >= 0; i--)
             {
                 var child = hand.transform.GetChild(i);
@@ -1045,43 +1046,83 @@ namespace GravityRepulsion.Editor
             }
 
             var sideName = rightHand ? "右_青" : "左_紫";
-            var root = new GameObject("VISUAL_原创机械重力护腕_" + sideName);
-            root.transform.SetParent(hand.transform, false);
-            root.transform.localPosition = new Vector3(0f, -.015f, .015f);
-            root.transform.localScale = Vector3.one * .68f;
+            // 加载 Blender 脚本导出的引力拳套 FBX（左右复用同一模型，左手镜像 X 轴）
+            const string fbxPath = "Assets/GravityWarden/Art/GravityGauntlet_R.fbx";
+            AssetDatabase.ImportAsset(fbxPath, ImportAssetOptions.ForceSynchronousImport);
+            var fbxPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(fbxPath);
+            if (fbxPrefab == null) throw new InvalidOperationException($"无法加载引力拳套 FBX：{fbxPath}");
 
-            var shell = ControllerMaterial("M_Controller_Gunmetal", new Color(.11f, .15f, .21f), new Color(.015f, .035f, .07f));
-            var shellLight = ControllerMaterial("M_Controller_Steel", new Color(.22f, .28f, .35f), new Color(.025f, .05f, .08f));
-            var brass = ControllerMaterial("M_Controller_Brass", new Color(.62f, .4f, .16f), new Color(.16f, .07f, .015f));
-            var rubber = ControllerMaterial("M_Controller_Rubber", new Color(.045f, .05f, .065f), Color.black);
+            var visual = (GameObject)UnityEngine.Object.Instantiate(fbxPrefab, hand.transform, false);
+            visual.name = "VISUAL_原创机械重力护腕_" + sideName;
+            visual.transform.localPosition = new Vector3(0f, -.015f, .015f);
+            // 右手正常缩放；左手 X 轴镜像实现左右对称
+            visual.transform.localScale = rightHand ? Vector3.one * .68f : new Vector3(-.68f, .68f, .68f);
+
             var coreColor = rightHand ? new Color(.12f, .76f, 1f) : new Color(.68f, .2f, 1f);
-            var core = ControllerMaterial(rightHand ? "M_Controller_Core_Right" : "M_Controller_Core_Left", coreColor, coreColor * 3.5f);
-            var warm = ControllerMaterial("M_Controller_ButtonWarm", new Color(1f, .5f, .12f), new Color(1f, .18f, .015f) * 2f);
+            SetupGauntletMaterials(visual.transform, rightHand, coreColor);
 
-            ControllerPart("主金属护壳", PrimitiveType.Cube, root.transform, new Vector3(0f, .005f, .035f), new Vector3(.18f, .105f, .27f), shell, Quaternion.identity);
-            ControllerPart("上层装甲脊", PrimitiveType.Cube, root.transform, new Vector3(0f, .067f, .045f), new Vector3(.125f, .035f, .2f), shellLight, Quaternion.Euler(4f, 0f, 0f));
-            ControllerPart("后部握把", PrimitiveType.Capsule, root.transform, new Vector3(0f, -.095f, -.085f), new Vector3(.067f, .115f, .067f), rubber, Quaternion.Euler(-18f, 0f, 0f));
-            ControllerPart("腕部黄铜环", PrimitiveType.Cylinder, root.transform, new Vector3(0f, -.002f, -.115f), new Vector3(.14f, .025f, .14f), brass, Quaternion.Euler(90f, 0f, 0f));
-            ControllerPart("前端黄铜护圈", PrimitiveType.Cylinder, root.transform, new Vector3(0f, .004f, .205f), new Vector3(.13f, .025f, .13f), brass, Quaternion.Euler(90f, 0f, 0f));
-            ControllerPart("前端深色套筒", PrimitiveType.Cylinder, root.transform, new Vector3(0f, .004f, .232f), new Vector3(.105f, .032f, .105f), shell, Quaternion.Euler(90f, 0f, 0f));
-            for (var side = -1; side <= 1; side += 2)
-            {
-                ControllerPart(side < 0 ? "左黄铜导轨" : "右黄铜导轨", PrimitiveType.Cube, root.transform, new Vector3(side * .102f, .004f, .035f), new Vector3(.024f, .075f, .225f), brass, Quaternion.identity);
-                ControllerPart(side < 0 ? "左前护翼" : "右前护翼", PrimitiveType.Cube, root.transform, new Vector3(side * .092f, .018f, .185f), new Vector3(.038f, .095f, .075f), shellLight, Quaternion.Euler(0f, 0f, side * -12f));
-            }
-            ControllerPart("机械扳机", PrimitiveType.Cube, root.transform, new Vector3(0f, -.073f, .055f), new Vector3(.035f, .075f, .026f), brass, Quaternion.Euler(24f, 0f, 0f));
-            ControllerPart("主技能按钮", PrimitiveType.Cylinder, root.transform, new Vector3(-.042f, .096f, .035f), new Vector3(.026f, .012f, .026f), core, Quaternion.identity);
-            ControllerPart("副技能按钮", PrimitiveType.Cylinder, root.transform, new Vector3(.042f, .096f, .012f), new Vector3(.023f, .012f, .023f), warm, Quaternion.identity);
-            var corePart = ControllerPart("重力能量核心_射线起点", PrimitiveType.Sphere, root.transform, new Vector3(0f, .004f, .285f), Vector3.one * .068f, core, Quaternion.identity);
-            ControllerRing("前端能量发射环", root.transform, new Vector3(0f, .004f, .286f), .103f, .009f, core);
-            ControllerRing("腕部状态环", root.transform, new Vector3(0f, -.002f, -.142f), .122f, .006f, brass);
+            // 找到射线起点 empty 并重命名，以通过 ValidateController 名称前缀检查
+            var rayOriginT = FindDeepChild(visual.transform, "GravityRayOrigin");
+            if (rayOriginT == null) throw new InvalidOperationException("FBX 中未找到 GravityRayOrigin 节点，请重新运行 make_gauntlet.py");
+            rayOriginT.name = "GravityRayOrigin_能量发射口";
 
-            var rayOrigin = new GameObject("GravityRayOrigin_能量发射口").transform;
-            rayOrigin.SetParent(corePart.transform, false);
-            rayOrigin.localPosition = new Vector3(0f, 0f, .058f);
-            hand.rayOrigin = rayOrigin;
-            hand.handGlow = corePart.GetComponent<Renderer>();
+            // 找到能量核心 Renderer 作为手部发光（UpdateFeedback 会修改其颜色）
+            var coreTrans = FindDeepChild(visual.transform, "GravityGauntlet_Core");
+            var coreRenderer = coreTrans != null ? coreTrans.GetComponent<Renderer>() : null;
+
+            hand.rayOrigin = rayOriginT;
+            hand.handGlow = coreRenderer;
             EditorUtility.SetDirty(hand);
+        }
+
+        /// <summary>递归在子层级中按名称前缀查找 Transform。</summary>
+        private static Transform FindDeepChild(Transform parent, string name)
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.name == name || child.name.StartsWith(name, StringComparison.Ordinal)) return child;
+                var found = FindDeepChild(child, name);
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        /// <summary>为从 FBX 实例化的引力拳套网格按件名分配 PBR 材质。</summary>
+        private static void SetupGauntletMaterials(Transform root, bool rightHand, Color coreColor)
+        {
+            var suffix = rightHand ? "R" : "L";
+            var steel      = GauntletMaterial($"M_Gauntlet_Steel_{suffix}",      new Color(.11f,.15f,.21f),  new Color(.015f,.035f,.07f),  .85f, .74f);
+            var steelLight = GauntletMaterial($"M_Gauntlet_SteelLight_{suffix}", new Color(.22f,.28f,.35f),  new Color(.025f,.05f,.10f),   .75f, .82f);
+            var brass      = GauntletMaterial($"M_Gauntlet_Brass_{suffix}",      new Color(.62f,.4f,.16f),   new Color(.18f,.08f,.02f),    .80f, .72f);
+            var rubber     = GauntletMaterial($"M_Gauntlet_Rubber_{suffix}",     new Color(.04f,.045f,.06f), Color.black,                  .05f, .28f);
+            var core       = GauntletMaterial($"M_Gauntlet_Core_{suffix}",       coreColor,                  coreColor * 3.5f,             .40f, .90f);
+            var glow       = GauntletMaterial($"M_Gauntlet_Glow_{suffix}",       coreColor * .6f,            coreColor * 2.0f,             .30f, .85f);
+            var btnWarm    = GauntletMaterial($"M_Gauntlet_BtnWarm_{suffix}",    new Color(1f,.5f,.12f),     new Color(1f,.18f,.015f)*2f,  .35f, .82f);
+
+            foreach (var r in root.GetComponentsInChildren<Renderer>(true))
+            {
+                var n = r.name;
+                Material mat;
+                if      (n.Contains("Core") || n.Contains("EmitterRing") || n.Contains("BtnPrimary"))                              mat = core;
+                else if (n.Contains("GlowStrip"))                                                                                   mat = glow;
+                else if (n.Contains("BtnSecondary"))                                                                                mat = btnWarm;
+                else if (n.Contains("Rail") || n.Contains("BrassRing") || n.Contains("EnergyCoil") ||
+                         n.Contains("Trigger") || n.Contains("Rivet"))                                                              mat = brass;
+                else if (n.Contains("Spine") || n.Contains("Grip"))                                                                mat = rubber;
+                else if (n.Contains("HandGuard") || n.Contains("Sleeve") || n.Contains("Fin") || n.Contains("Wing"))              mat = steelLight;
+                else                                                                                                                mat = steel;
+                r.sharedMaterial = mat;
+                EditorUtility.SetDirty(r);
+            }
+        }
+
+        private static Material GauntletMaterial(string name, Color color, Color emission, float metallic, float glossiness)
+        {
+            var mat = RuntimeMaterial(name, color, emission);
+            mat.SetFloat("_Metallic", metallic);
+            mat.SetFloat("_Glossiness", glossiness);
+            EditorUtility.SetDirty(mat);
+            return mat;
         }
 
         private static GameObject ControllerPart(string name, PrimitiveType type, Transform parent, Vector3 position, Vector3 scale, Material material, Quaternion rotation)

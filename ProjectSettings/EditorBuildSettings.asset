@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GravityWarden/Scenes/GravityTitle.unity
-    guid: 9a96831b4f5274e7c825493fca48cc9b
-  - enabled: 1
     path: Assets/GravityWarden/Scenes/GravityBoulevard.unity
     guid: cdcddf7d1dc6d43a79c396bf157c8e8c
   m_configObjects:

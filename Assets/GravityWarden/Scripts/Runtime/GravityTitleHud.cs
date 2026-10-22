@@ -43,13 +43,29 @@ namespace GravityRepulsion
         private Vector3 leftEyeOffset, rightEyeOffset;
         private bool renderPassProjection;
         private bool previousStartHover, previousExitHover;
+        // 按钮悬停/按下动画状态
+        private AudioSource menuAudio;
+        private AudioClip hoverClip, clickClip;
+        private float startHoverScale = 1f, exitHoverScale = 1f;
+        private float startFlash = 0f, exitFlash = 0f;
         private static bool IsPico => Application.platform == RuntimePlatform.Android;
         private static bool PicoLayout => IsPico || System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-gravityPicoMenuPreview") >= 0;
         public bool StartHovered { get; private set; }
         public bool ExitHovered { get; private set; }
         public bool IsSpatialReady => !PicoLayout || spatialPlacementLocked;
 
-        private void Awake() { Configure(); controller = FindFirstObjectByType<GravityTitleController>(); }
+        private void Awake()
+        {
+            Configure();
+            controller = FindFirstObjectByType<GravityTitleController>();
+            // 加载开始菜单 UI 音效（来自 ange-embed ui_audio 集合）
+            menuAudio = gameObject.AddComponent<AudioSource>();
+            menuAudio.playOnAwake = false;
+            menuAudio.spatialBlend = 0f;
+            menuAudio.volume = 1f;
+            hoverClip = Resources.Load<AudioClip>("Audio/UI_Hover_Scifi");
+            clickClip = Resources.Load<AudioClip>("Audio/UI_Click_Scifi");
+        }
         private void OnEnable() => Application.onBeforeRender += PlaceBeforeRender;
         private void OnDisable() => Application.onBeforeRender -= PlaceBeforeRender;
         public void ApplyLayoutForEditor() => Configure();
@@ -305,13 +321,45 @@ namespace GravityRepulsion
                 activateStart |= down && !held[i] && hs; activateExit |= down && !held[i] && he;
                 held[i] = down;
                 DrawRay(i, valid, ray, hs || he);
-                if (!handAim && valid && ((hs && !previousStartHover) || (he && !previousExitHover))) device.SendHapticImpulse(0, .12f, .035f);
+                if (!handAim && valid && ((hs && !previousStartHover) || (he && !previousExitHover))) device.SendHapticImpulse(0, .15f, .02f);
             }
+            // 悬停进入检测（用于播放音效，防重复）
+            bool startEnter = sh && !previousStartHover;
+            bool exitEnter = eh && !previousExitHover;
             StartHovered = sh; ExitHovered = eh; previousStartHover = sh; previousExitHover = eh;
-            start.color = sh ? Color.white : new Color(.84f, .91f, .95f);
-            exit.color = eh ? Color.white : new Color(.76f, .79f, .84f);
-            start.rectTransform.localScale = Vector3.one * (sh ? 1.035f : 1f);
-            exit.rectTransform.localScale = Vector3.one * (eh ? 1.035f : 1f);
+
+            // 悬停缩放：缓动到 1.05（约 0.1s）；按下强制拉到 0.97
+            if (activateStart) startHoverScale = 0.97f;
+            if (activateExit)  exitHoverScale  = 0.97f;
+            startHoverScale = Mathf.Lerp(startHoverScale, sh ? 1.05f : 1f, Time.unscaledDeltaTime * 14f);
+            exitHoverScale  = Mathf.Lerp(exitHoverScale,  eh ? 1.05f : 1f, Time.unscaledDeltaTime * 14f);
+
+            // 亮度短闪：按下时置 1，快速衰减到 0；颜色向暖白色插值
+            startFlash = Mathf.Lerp(startFlash, 0f, Time.unscaledDeltaTime * 9f);
+            exitFlash  = Mathf.Lerp(exitFlash,  0f, Time.unscaledDeltaTime * 9f);
+            if (activateStart) startFlash = 1f;
+            if (activateExit)  exitFlash  = 1f;
+
+            var startBase = sh ? Color.white : new Color(.84f, .91f, .95f);
+            var exitBase  = eh ? Color.white : new Color(.76f, .79f, .84f);
+            start.color = Color.Lerp(startBase, new Color(1f, .96f, .82f), startFlash * .6f);
+            exit.color  = Color.Lerp(exitBase,  new Color(1f, .96f, .82f), exitFlash  * .6f);
+            start.rectTransform.localScale = Vector3.one * startHoverScale;
+            exit.rectTransform.localScale  = Vector3.one * exitHoverScale;
+
+            // 悬停进入：轻播音效（hover 已在控制器循环里发震动）
+            if ((startEnter || exitEnter) && menuAudio != null && hoverClip != null)
+                menuAudio.PlayOneShot(hoverClip, .65f);
+
+            // 按下：播放点击音效 + 较强震动
+            if (activateStart || activateExit)
+            {
+                if (menuAudio != null && clickClip != null)
+                    menuAudio.PlayOneShot(clickClip, 1f);
+                for (int j = 0; j < 2; j++)
+                    if (ControllerRay(j == 0 ? XRNode.LeftHand : XRNode.RightHand, out _, out var hd))
+                        hd.SendHapticImpulse(0, .4f, .04f);
+            }
             if (IsPico && Time.unscaledTime >= nextDiagnostic)
             {
                 nextDiagnostic = Time.unscaledTime + 4f;
