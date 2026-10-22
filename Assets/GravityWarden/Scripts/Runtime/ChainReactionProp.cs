@@ -22,7 +22,7 @@ namespace GravityRepulsion
             var target = GetComponent<GravityTarget>();
             if (target.IsAlive && target.ThrownUntil > Time.time && collision.relativeVelocity.sqrMagnitude > 25f)
             {
-                target.DestroyTarget("环境连锁");
+                target.DestroyTarget(DestroyReason.ChainReaction);
             }
         }
 
@@ -37,7 +37,7 @@ namespace GravityRepulsion
                 var target = hit.GetComponentInParent<GravityTarget>();
                 if (target != null && target.IsAlive && target.gameObject != gameObject && target.kind == GravityTargetKind.Robot)
                 {
-                    target.Damage(damage, "环境连锁");
+                    target.Damage(damage, DestroyReason.ChainReaction);
                 }
                 var body = hit.attachedRigidbody;
                 if (body != null && body.gameObject != gameObject) body.AddExplosionForce(force, transform.position, radius, 1.2f, ForceMode.VelocityChange);

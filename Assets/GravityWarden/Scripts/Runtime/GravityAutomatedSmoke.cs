@@ -32,7 +32,7 @@ namespace GravityRepulsion
             if (!Check(hud.ValidateHandAvoidance(Camera.main, game.leftHand, game.rightHand, out var handHudFailure), "camera HUD binding failed: " + handHudFailure)) yield break;
             hud.ShowRunSummary(GravityGameManager.BuildEvidenceRunSummary());
             if (!Check(hud.ValidateResultLayout(Camera.main, out var resultFailure), "result side-card layout failed: " + resultFailure)) yield break;
-            if (!Check(!hud.ResultTextContent.Contains("失败") && !hud.ResultTextContent.Contains("失守"), "result panel still contains failure copy")) yield break;
+            if (!Check(hud.ResultTextContent.Contains("TOTAL SCORE") && hud.ResultTextContent.Contains("WAVES CLEARED"), "result panel missing expected English content")) yield break;
             Debug.Log($"GRAVITY_CAMERA_HUD_PASS designStart={game.designStart.worldPosition}/{game.designStart.worldYaw:0.0}/{game.designStart.eyeHeight:0.000} profile={hud.ActiveSizeProfile} reference={hud.ActiveReferenceResolution.x:0}x{hud.ActiveReferenceResolution.y:0} controllerRays=worldspace");
             Debug.Log("GRAVITY_RESULT_PANEL_PASS cameraHud=true totalScore=true completedWaves=true rewardBreakdown=true failureCopy=false");
             hud.HideRunSummary();
@@ -106,7 +106,7 @@ namespace GravityRepulsion
             heldFacingProbe.Release(Vector3.zero, Vector3.zero);
 
             var defeated = game.AliveEnemies[0];
-            defeated.DestroyTarget("死亡清理断言", false);
+            defeated.DestroyTarget(DestroyReason.SmokeTest, false);
             if (!Check(!game.IsRegistered(defeated), "defeated enemy remained registered")) yield break;
             yield return new WaitForSeconds(.85f);
             if (!Check(RobotBreakApartEffect.LastCenterDissolvePassed && RobotBreakApartEffect.LastCenterYDrift < .03f, $"enemy death center drifted {RobotBreakApartEffect.LastCenterYDrift:0.0000}m")) yield break;
@@ -147,7 +147,7 @@ namespace GravityRepulsion
                 yield return new WaitForSeconds(.5f);
             }
 
-            foreach (var survivor in game.AliveEnemies.ToArray()) survivor.DestroyTarget("自动清场兜底", false);
+            foreach (var survivor in game.AliveEnemies.ToArray()) survivor.DestroyTarget(DestroyReason.SmokeTest, false);
 
             if (!Check(game.AliveEnemies.Count == 0, "wave 1 enemies remained after paired collision loop")) yield break;
             yield return new WaitForSeconds(4.1f);
@@ -162,7 +162,7 @@ namespace GravityRepulsion
             yield return null;
             if (!Check(projectileLogic.Target.ThrownUntil > Time.time, "repulse did not reflect projectile")) yield break;
             if (!Check(projectileLogic.VisualVelocityDot > .98f && projectileLogic.CameraNoseDot < -.98f, "reflected projectile nose did not flip naturally to new velocity")) yield break;
-            projectileLogic.Target.DestroyTarget(string.Empty, false);
+            projectileLogic.Target.DestroyTarget(DestroyReason.SmokeTest, false);
 
             var beforeChain = game.AliveEnemies.Count;
             var canister = FindAnyObjectByType<ChainReactionProp>();
@@ -170,7 +170,7 @@ namespace GravityRepulsion
             {
                 canister.transform.position = game.AliveEnemies[0].transform.position;
                 Physics.SyncTransforms();
-                canister.GetComponent<GravityTarget>().DestroyTarget("环境连锁测试", false);
+                canister.GetComponent<GravityTarget>().DestroyTarget(DestroyReason.ChainReaction, false);
                 yield return null;
                 if (!Check(game.AliveEnemies.Count < beforeChain, "environment chain reaction did not damage an enemy")) yield break;
             }

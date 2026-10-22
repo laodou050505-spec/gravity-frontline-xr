@@ -117,7 +117,7 @@ namespace GravityRepulsion
             if (!target.RequestGrab(this)) return;
             Held = target;
             Pulse(.32f, .08f);
-            FindFirstObjectByType<GravityGameManager>()?.SetStatus($"已抓取  {target.displayName} · 松开投掷");
+            FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Holding, $"HOLDING  {target.displayName} · RELEASE TO THROW");
         }
 
         public void ReleaseHeld(float throwSpeed = 9.5f)
@@ -130,7 +130,7 @@ namespace GravityRepulsion
             if (target.kind == GravityTargetKind.Projectile) throwVelocity = AimRay.direction * 17f;
             target.Release(throwVelocity, estimatedAngularVelocity);
             Pulse(.2f, .05f);
-            FindFirstObjectByType<GravityGameManager>()?.SetStatus($"已释放  {target.displayName}");
+            FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Ready, $"RELEASED  {target.displayName}");
         }
 
         public void ForceForget(GravityTarget target)
@@ -315,7 +315,7 @@ namespace GravityRepulsion
                 GravityFeedback.TargetPulse(candidate.Center, candidate.kind == GravityTargetKind.Heal
                     ? new Color(.2f, 1f, .55f)
                     : new Color(.55f, .35f, 1f), 1.25f);
-                FindFirstObjectByType<GravityGameManager>()?.SetStatus($"目标锁定  {candidate.displayName} · 扳机抓取");
+                FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Locked, $"LOCKED  {candidate.displayName} · TRIGGER TO GRAB");
             }
             lastCandidate = candidate;
             var color = Held != null ? HeldColor : candidate != null ? TargetColor : IdleColor;

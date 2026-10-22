@@ -18,7 +18,7 @@ namespace GravityRepulsion
     public sealed class GravityTarget : MonoBehaviour
     {
         public GravityTargetKind kind = GravityTargetKind.Prop;
-        public string displayName = "可吸取物";
+        public string displayName = "Pullable Object";
         public int maxHealth = 1;
         public int ultimateCharge;
         public bool canBlockOnce = true;
@@ -55,7 +55,7 @@ namespace GravityRepulsion
 
         public static readonly string[] ApprovedScenePropDisplayNames =
         {
-            "蒸汽消防栓", "机械邮筒", "街道隔离柱", "手压水泵", "街边金属长椅", "金属货箱", "齿轮装饰街道筒"
+            "Steam Fire Hydrant", "Mechanical Mailbox", "Street Barrier", "Hand Pump", "Metal Bench", "Metal Crate", "Gear Street Column"
         };
 
         public bool HasValidVisibleInteractionGeometry(out string failure)
@@ -84,19 +84,19 @@ namespace GravityRepulsion
             approvedName = string.Empty;
             if (string.IsNullOrEmpty(objectName)) return false;
             if (objectName.StartsWith("tripo_convert_0a16797e-2372-4122-82ee-5a4b7a810995", StringComparison.Ordinal))
-                approvedName = "蒸汽消防栓";
+                approvedName = "Steam Fire Hydrant";
             else if (objectName.StartsWith("tripo_convert_45459f4d-1251-4a44-b5be-690fbc1b60b4", StringComparison.Ordinal))
-                approvedName = "机械邮筒";
+                approvedName = "Mechanical Mailbox";
             else if (objectName.StartsWith("tripo_convert_9a369c7b-c9bd-4b04-9200-292a71135d35", StringComparison.Ordinal))
-                approvedName = "街道隔离柱";
+                approvedName = "Street Barrier";
             else if (objectName.StartsWith("tripo_convert_5a9fa6f2-50fc-4988-84ca-c06bf4d9dbb7", StringComparison.Ordinal))
-                approvedName = "手压水泵";
+                approvedName = "Hand Pump";
             else if (objectName.StartsWith("tripo_convert_c2c2230e-0627-436d-9a50-7dd939f0e4c3", StringComparison.Ordinal))
-                approvedName = "街边金属长椅";
+                approvedName = "Metal Bench";
             else if (objectName.StartsWith("tripo_convert_6524e622-a9af-4f19-9d44-d03d23a4ea5b", StringComparison.Ordinal))
-                approvedName = "金属货箱";
+                approvedName = "Metal Crate";
             else if (objectName.StartsWith("tripo_convert_9e43d7f3-ff46-4c4f-90b8-b13cc38b3b5f", StringComparison.Ordinal))
-                approvedName = "齿轮装饰街道筒";
+                approvedName = "Gear Street Column";
             return approvedName.Length > 0;
         }
 
@@ -337,7 +337,7 @@ namespace GravityRepulsion
                 GravityFeedback.TargetPulse(Center, new Color(.42f, .3f, 1f), 1.15f);
                 GravityAudio.Play(GravitySound.Suction, Center, .82f);
                 hand.PulsePattern(.28f, .065f, 2);
-                game?.SetStatus($"{displayName} 质量过大：引力锁定 {PullStagesCompleted}/{pullStagesRequired}");
+                game?.SetStatus(HudStatusEvent.Locked, $"{displayName} TOO HEAVY: GRAVITY LOCK {PullStagesCompleted}/{pullStagesRequired}");
                 return false;
             }
 
@@ -429,7 +429,7 @@ namespace GravityRepulsion
             return true;
         }
 
-        public void Damage(int amount, string reason = "击破", bool grantsCharge = true)
+        public void Damage(int amount, DestroyReason reason = DestroyReason.Default, bool grantsCharge = true)
         {
             if (!IsAlive || amount <= 0) return;
             Health -= amount;
@@ -438,7 +438,7 @@ namespace GravityRepulsion
             if (Health <= 0) DestroyTarget(reason, grantsCharge);
         }
 
-        public void DestroyTarget(string reason = "分解", bool grantsCharge = true)
+        public void DestroyTarget(DestroyReason reason = DestroyReason.Default, bool grantsCharge = true)
         {
             if (!IsAlive) return;
             IsAlive = false;
@@ -595,8 +595,8 @@ namespace GravityRepulsion
             if (Time.time > ThrownUntil || Body.linearVelocity.sqrMagnitude < 10f) return;
             var other = collision.collider.GetComponentInParent<GravityTarget>();
             if (other == null || !other.IsAlive || other == this || other.kind != GravityTargetKind.Robot) return;
-            other.Damage(kind == GravityTargetKind.Robot ? 2 : 1, displayName + "撞击");
-            DestroyTarget(string.Empty, false);
+            other.Damage(kind == GravityTargetKind.Robot ? 2 : 1, DestroyReason.Default);
+            DestroyTarget(DestroyReason.Default, false);
         }
     }
 }

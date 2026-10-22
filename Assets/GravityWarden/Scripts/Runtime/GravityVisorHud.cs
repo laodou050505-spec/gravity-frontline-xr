@@ -152,10 +152,17 @@ namespace GravityRepulsion
             }
             if(Time.unscaledTime>=noticeUntil) notice.gameObject.SetActive(false);
         }
-        public void Status(string message)
+        public void Status(HudStatusEvent ev)
         {
             if(!Ready)return;
-            notice.texture=Load(message.Contains("受损")?"Danger":message.Contains("已抓取")?"Holding":message.Contains("锁定")?"Locked":message.Contains("击破")||message.Contains("对撞")?"Impact":"Ready");
+            string texName = ev switch {
+                HudStatusEvent.Danger  => "Danger",
+                HudStatusEvent.Holding => "Holding",
+                HudStatusEvent.Locked  => "Locked",
+                HudStatusEvent.Impact  => "Impact",
+                _                      => "Ready",
+            };
+            notice.texture=Load(texName);
             notice.gameObject.SetActive(true); noticeUntil=Time.unscaledTime+1.65f;
         }
         public void SetVisible(bool visible) { if(layer!=null)layer.gameObject.SetActive(visible); }

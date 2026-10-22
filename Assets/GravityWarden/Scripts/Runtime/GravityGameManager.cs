@@ -168,7 +168,7 @@ namespace GravityRepulsion
             targets.Remove(target);
         }
 
-        public void OnTargetDestroyed(GravityTarget target, string reason, bool grantsCharge)
+        public void OnTargetDestroyed(GravityTarget target, DestroyReason reason, bool grantsCharge)
         {
             if (target.kind == GravityTargetKind.Robot)
             {
@@ -185,10 +185,10 @@ namespace GravityRepulsion
             {
                 GravityFeedback.Burst(target.transform.position, new Color(.72f, .38f, 1f), 14, .75f);
             }
-            if (!string.IsNullOrWhiteSpace(reason)) hud?.SetStatus(reason);
+            hud?.SetStatus(HudStatusEvent.Impact, $"TARGET DOWN");
         }
 
-        public void SetStatus(string message) => hud?.SetStatus(message);
+        public void SetStatus(HudStatusEvent ev, string displayText = "") => hud?.SetStatus(ev, displayText);
         public void DebugReadyUltimate() => UltimateCharge = UltimateRequirement;
 
         public GravityRunSummary BuildRunSummary()
@@ -229,14 +229,14 @@ namespace GravityRepulsion
                 if (guard == null || !guard.IsAlive || guard.kind == GravityTargetKind.Projectile) continue;
                 if (Vector3.Distance(guard.WorldBounds.center, projectile.transform.position) > guard.WorldBounds.extents.magnitude + .75f) continue;
                 if (!guard.ConsumeBlock()) continue;
-                projectile.Target.DestroyTarget(string.Empty, false);
+                projectile.Target.DestroyTarget(DestroyReason.Default, false);
                 GravityFeedback.BlockBreak(guard.Center, guard.WorldBounds.extents.magnitude);
                 GravityAudio.Play(GravitySound.ShieldBreak, guard.Center, 1f);
-                guard.DestroyTarget("手持物挡下一次攻击：防御物裂解", false);
+                guard.DestroyTarget(DestroyReason.PrecisionDefense, false);
                 hand.Pulse(.65f, .12f);
                 precisionDefenseCount++;
                 precisionDefenseBonus += 60;
-                hud?.SetStatus("精准防御  +60");
+                hud?.SetStatus(HudStatusEvent.Impact, "PRECISION DEFENSE  +60");
                 return true;
             }
             return false;
@@ -248,7 +248,7 @@ namespace GravityRepulsion
             damageCooldown = 1.4f;
             Shield = Mathf.Max(0f, Shield - amount);
             hud?.Refresh(this);
-            hud?.SetStatus($"护盾受损  -{amount}");
+            hud?.SetStatus(HudStatusEvent.Danger, $"SHIELD DAMAGE  -{amount}");
             GravityFeedback.Shockwave(playerHead != null ? playerHead.position : Vector3.zero, new Color(1f, .08f, .2f), 1.4f);
             GravityAudio.Play(GravitySound.PlayerHurt, playerHead != null ? playerHead.position : Vector3.zero, .92f);
             if (Shield > 0f) return;
@@ -269,7 +269,7 @@ namespace GravityRepulsion
             GravityAudio.Play(GravitySound.Pickup, pack.Center, 1f);
             GravityFeedback.TargetPulse(pack.Center, new Color(.2f, 1f, .62f), 2f);
             GravityFeedback.Burst(pack.Center, new Color(.18f, 1f, .52f), 36, 1.45f);
-            pack.DestroyTarget("护盾恢复 +35", false);
+            pack.DestroyTarget(DestroyReason.HealthPack, false);
         }
 
         public GravityTarget NearestAvailableProp(Vector3 point)
@@ -283,7 +283,7 @@ namespace GravityRepulsion
             if (gameOver || ultimateActive) return;
             if (RepulseCooldown > 0f)
             {
-                hud?.SetStatus($"斥力冷却 {RepulseCooldown:0.0}s");
+                hud?.SetStatus(HudStatusEvent.Ready, $"REPULSE COOLDOWN {RepulseCooldown:0.0}s");
                 return;
             }
             RepulseCooldown = repulseCooldownDuration;
@@ -304,7 +304,7 @@ namespace GravityRepulsion
                 }
                 else if (target.kind == GravityTargetKind.Robot && (distance < 5.3f || target.maxHealth == 1))
                 {
-                    target.Damage(1, "斥力崩解");
+                    target.Damage(1, DestroyReason.RepulseAttack);
                 }
                 hitCount++;
             }
@@ -312,7 +312,7 @@ namespace GravityRepulsion
             rightHand?.Pulse(.48f, .11f);
             GravityFeedback.Shockwave(origin, new Color(.68f, .35f, 1f), .55f);
             GravityAudio.Play(GravitySound.Repulse, origin, 1f);
-            hud?.SetStatus(hitCount > 0 ? $"斥力爆发  击退 {hitCount} 个目标" : "斥力爆发  空域净空");
+            hud?.SetStatus(HudStatusEvent.Impact, hitCount > 0 ? $"REPULSE BURST  PUSHED {hitCount} TARGETS" : "REPULSE BURST  CLEAR");
         }
 
         public void CollideHeld()
@@ -322,7 +322,7 @@ namespace GravityRepulsion
             var b = rightHand?.Held;
             if (a == null || b == null || !a.IsAlive || !b.IsAlive)
             {
-                hud?.SetStatus("需要双手各锁定一个目标");
+                hud?.SetStatus(HudStatusEvent.Ready, "LOCK TWO TARGETS  ONE PER HAND");
                 return;
             }
             lastCollisionTime = Time.time;
@@ -330,15 +330,15 @@ namespace GravityRepulsion
             foreach (var robot in AliveEnemies.ToArray())
             {
                 if (robot == a || robot == b) continue;
-                if (Vector3.Distance(robot.transform.position, midpoint) < 3.2f) robot.Damage(1, "对撞冲击");
+                if (Vector3.Distance(robot.transform.position, midpoint) < 3.2f) robot.Damage(1, DestroyReason.BipolarCollision);
             }
             GravityFeedback.Burst(midpoint, new Color(.82f, .52f, 1f), 52, 1.7f);
             GravityFeedback.Shockwave(midpoint, new Color(.72f, .28f, 1f), 4.2f);
             leftHand.Pulse(.8f, .16f);
             rightHand.Pulse(.8f, .16f);
-            a.DestroyTarget("双极对撞", true);
-            b.DestroyTarget("双极对撞", true);
-            hud?.SetStatus("双极对撞  完美分解");
+            a.DestroyTarget(DestroyReason.BipolarCollision, true);
+            b.DestroyTarget(DestroyReason.BipolarCollision, true);
+            hud?.SetStatus(HudStatusEvent.Impact, "BIPOLAR COLLISION  ANNIHILATED");
         }
 
         public void ActivateUltimate()
@@ -346,12 +346,12 @@ namespace GravityRepulsion
             if (gameOver || ultimateActive) return;
             if (UltimateCharge < UltimateRequirement)
             {
-                hud?.SetStatus($"奇点能量不足 {Mathf.FloorToInt(UltimateCharge)}/{UltimateRequirement}");
+                hud?.SetStatus(HudStatusEvent.Ready, $"SINGULARITY INSUFFICIENT  {Mathf.FloorToInt(UltimateCharge)}/{UltimateRequirement}");
                 return;
             }
             if (AliveEnemies.Count == 0)
             {
-                hud?.SetStatus("当前没有可收束的敌人");
+                hud?.SetStatus(HudStatusEvent.Ready, "NO TARGETS IN SINGULARITY RANGE");
                 return;
             }
             UltimateCharge = 0f;
@@ -368,7 +368,7 @@ namespace GravityRepulsion
             // same authored battle-axis start used by desktop. Local headset movement remains
             // available after this, but the world root never drifts below/behind the encounter.
             designStart?.ApplyToRig();
-            hud?.SetStatus("战场起点与追踪原点已重新校准");
+            hud?.SetStatus(HudStatusEvent.Ready, "COMBAT ORIGIN RECALIBRATED");
         }
 
         private IEnumerator UltimateRoutine()
@@ -380,7 +380,7 @@ namespace GravityRepulsion
             var duration = 4.25f;
             var announcedPhase = 0;
             GravityAudio.Play(GravitySound.UltimateCharge, center, 1f);
-            hud?.SetStatus("地爆天星：引力锚定");
+            hud?.SetStatus(HudStatusEvent.Locked, "SINGULARITY: GRAVITY LOCK");
             for (var time = 0f; time < duration; time += Time.deltaTime)
             {
                 var progress = time / duration;
@@ -390,17 +390,17 @@ namespace GravityRepulsion
                     announcedPhase = phaseIndex;
                     if (phaseIndex == 1)
                     {
-                        hud?.SetStatus("地爆天星：群体环绕");
+                        hud?.SetStatus(HudStatusEvent.Locked, "SINGULARITY: ORBITAL PULL");
                         GravityFeedback.Shockwave(center, new Color(.28f, .68f, 1f), 6f);
                     }
                     else if (phaseIndex == 2)
                     {
-                        hud?.SetStatus("地爆天星：奇点压缩");
+                        hud?.SetStatus(HudStatusEvent.Danger, "SINGULARITY: COMPRESSION");
                         GravityAudio.Play(GravitySound.UltimateCompress, center, 1f);
                     }
                     else if (phaseIndex == 3)
                     {
-                        hud?.SetStatus("地爆天星：湮灭爆发");
+                        hud?.SetStatus(HudStatusEvent.Impact, "SINGULARITY: ANNIHILATION BURST");
                         GravityFeedback.TargetPulse(center, new Color(.92f, .72f, 1f), 3.2f);
                     }
                 }
@@ -429,12 +429,12 @@ namespace GravityRepulsion
                 }
                 yield return null;
             }
-            foreach (var enemy in victims) if (enemy != null && enemy.IsAlive) enemy.DestroyTarget("奇点湮灭", false);
+            foreach (var enemy in victims) if (enemy != null && enemy.IsAlive) enemy.DestroyTarget(DestroyReason.SingularityAnnihilation, false);
             GravityFeedback.Burst(center, new Color(.92f, .72f, 1f), 120, 2.5f);
             GravityFeedback.Shockwave(center, new Color(.75f, .25f, 1f), 10f);
             GravityAudio.Play(GravitySound.UltimateBlast, center, 1f);
             Destroy(core);
-            hud?.SetStatus("奇点坍缩  大道净空");
+            hud?.SetStatus(HudStatusEvent.Impact, "SINGULARITY COLLAPSE  AREA CLEAR");
             yield return new WaitForSeconds(.55f);
             ultimateActive = false;
         }
@@ -467,9 +467,9 @@ namespace GravityRepulsion
                 }
                 if (spawned.TryGetComponent<Rigidbody>(out var body)) body.linearVelocity = Vector3.zero;
             }
-            hud?.SetStatus(Wave == 1
-                ? "对准敌人 · 扳机抓取 · 松开投掷"
-                : $"第 {Wave:00} 波侵入者抵达 · 锁定目标");
+            hud?.SetStatus(HudStatusEvent.Ready, Wave == 1
+                ? "AIM · TRIGGER TO GRAB · RELEASE TO THROW"
+                : $"WAVE {Wave:00} INCOMING · LOCK TARGETS");
         }
 
         private void CheckWaveState()
@@ -489,47 +489,47 @@ namespace GravityRepulsion
                     if (supply.TryGetComponent<GravityTarget>(out var pack))
                         GravityArchitectureCollision.ResolvePenetration(pack);
                     supplied = true;
-                    hud?.SetStatus("防卫补给已投放  吸取即可恢复");
+                    hud?.SetStatus(HudStatusEvent.Ready, "SUPPLY DROP  GRAB TO RESTORE SHIELD");
                 }
-                else hud?.SetStatus($"第 {Wave} 波守护完成  总分 {Score}");
+                else hud?.SetStatus(HudStatusEvent.Impact, $"WAVE {Wave} CLEAR  SCORE {Score}");
                 intermissionTimer = supplied ? 5.5f : intermissionDuration;
             }
             else if (!intermission) zeroEnemyConfirmTimer = 0f;
             if (!intermission) return;
             intermissionTimer -= Time.deltaTime;
             if (intermissionTimer > 0f) return;
-            foreach (var projectile in targets.Where(t => t != null && t.IsAlive && t.kind == GravityTargetKind.Projectile).ToArray()) projectile.DestroyTarget(string.Empty, false);
+            foreach (var projectile in targets.Where(t => t != null && t.IsAlive && t.kind == GravityTargetKind.Projectile).ToArray()) projectile.DestroyTarget(DestroyReason.Default, false);
             Wave++;
             SpawnWave(Mathf.Min(18, 6 + Wave + Wave / 3));
             zeroEnemyConfirmTimer = 0f;
         }
 
-        private void RecordEnemyScore(string reason)
+        private void RecordEnemyScore(DestroyReason reason)
         {
             EnemiesDefeated++;
             baseCombatScore += 25;
             if (string.IsNullOrWhiteSpace(reason)) return;
-            if (reason.Contains("反射"))
+            if (reason == DestroyReason.ReflectAttack)
             {
                 reflectAttackCount++;
                 reflectAttackBonus += 80;
             }
-            else if (reason.Contains("斥力"))
+            else if (reason == DestroyReason.RepulseAttack)
             {
                 repulseAttackCount++;
                 repulseAttackBonus += 45;
             }
-            else if (reason.Contains("双极") || reason.Contains("对撞"))
+            else if (reason == DestroyReason.BipolarCollision)
             {
                 collisionAttackCount++;
                 collisionAttackBonus += 50;
             }
-            else if (reason.Contains("环境连锁"))
+            else if (reason == DestroyReason.ChainReaction)
             {
                 environmentAttackCount++;
                 environmentAttackBonus += 60;
             }
-            else if (reason.Contains("奇点"))
+            else if (reason == DestroyReason.SingularityAnnihilation)
             {
                 ultimateAttackCount++;
                 ultimateAttackBonus += 35;
@@ -539,7 +539,7 @@ namespace GravityRepulsion
         private void FreezeRunAtEnd()
         {
             foreach (var projectile in targets.Where(t => t != null && t.IsAlive && t.kind == GravityTargetKind.Projectile).ToArray())
-                projectile.DestroyTarget(string.Empty, false);
+                projectile.DestroyTarget(DestroyReason.Default, false);
             foreach (var robot in targets.Where(t => t != null && t.IsAlive && t.kind == GravityTargetKind.Robot).ToArray())
             {
                 if (robot.TryGetComponent<RobotEnemy>(out var enemy)) enemy.enabled = false;

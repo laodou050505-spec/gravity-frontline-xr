@@ -96,7 +96,7 @@ namespace GravityRepulsion
 
         private void Awake()
         {
-            uiFont = Font.CreateDynamicFontFromOSFont(new[] { "PingFang SC", "Noto Sans CJK SC", "Arial Unicode MS", "Arial" }, 28);
+            uiFont = Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica" }, 28);
             EnsureResultCards();
             foreach (var label in GetComponentsInChildren<Text>(true)) label.font = uiFont;
             shieldBaseColor = shieldText != null ? shieldText.color : Color.white;
@@ -131,12 +131,12 @@ namespace GravityRepulsion
                 ApplyReadoutFeedback(game);
                 return;
             }
-            waveText.text = $"威胁波次  {game.Wave:00}";
-            scoreText.text = $"得分  {game.Score:00000}";
+            waveText.text = $"WAVE  {game.Wave:00}";
+            scoreText.text = $"SCORE  {game.Score:00000}";
             enemyText.text = $"{game.AliveEnemies.Count:00} HOSTILES";
             shieldText.text = $"WARD  {Mathf.CeilToInt(game.Shield):000}";
-            energyText.text = $"奇点能量  {Mathf.FloorToInt(game.UltimateCharge)}/{game.UltimateRequirement}";
-            repulseText.text = game.RepulseCooldown > 0f ? $"斥力冷却 {game.RepulseCooldown:0.0}s" : "斥力就绪  左手 X";
+            energyText.text = $"SINGULARITY  {Mathf.FloorToInt(game.UltimateCharge)}/{game.UltimateRequirement}";
+            repulseText.text = game.RepulseCooldown > 0f ? $"REPULSE COOLDOWN {game.RepulseCooldown:0.0}s" : "REPULSE READY  LEFT X";
             leftText.text = HandReadout("L", game.leftHand);
             rightText.text = HandReadout("R", game.rightHand);
             shieldFill.fillAmount = game.Shield / 100f;
@@ -145,27 +145,27 @@ namespace GravityRepulsion
             ApplyReadoutFeedback(game);
         }
 
-        public void SetStatus(string message)
+        public void SetStatus(HudStatusEvent ev, string displayText = "")
         {
-            if (visor != null && visor.Ready) { visor.Status(message); return; }
-            if (generated != null && generated.Ready) { generated.Status(message); return; }
+            if (visor != null && visor.Ready) { visor.Status(ev); return; }
+            if (generated != null && generated.Ready) { generated.Status(ev); return; }
             if (statusText == null) return;
             if (statusRoutine != null) StopCoroutine(statusRoutine);
-            statusText.color = StatusColor(message);
-            statusRoutine = StartCoroutine(ShowStatusBriefly(message));
+            statusText.color = StatusColor(ev);
+            statusRoutine = StartCoroutine(ShowStatusBriefly(displayText));
         }
 
         private static string HandReadout(string label, GravityHand hand)
         {
-            if (hand == null) return $"{label}  待机";
-            if (hand.Held != null) return $"{label}  抓取 · {ShortName(hand.Held.displayName)}";
-            if (hand.Candidate != null) return $"{label}  锁定 · {ShortName(hand.Candidate.displayName)}";
-            return $"{label}  待机 · 对准目标";
+            if (hand == null) return $"{label}  STANDBY";
+            if (hand.Held != null) return $"{label}  HOLDING · {ShortName(hand.Held.displayName)}";
+            if (hand.Candidate != null) return $"{label}  LOCKED · {ShortName(hand.Candidate.displayName)}";
+            return $"{label}  STANDBY · AIM AT TARGET";
         }
 
         private static string ShortName(string value)
         {
-            if (string.IsNullOrEmpty(value)) return "目标";
+            if (string.IsNullOrEmpty(value)) return "TARGET";
             return value.Length <= 8 ? value : value.Substring(0, 8) + "…";
         }
 
@@ -191,14 +191,14 @@ namespace GravityRepulsion
                 : repulseBaseColor;
         }
 
-        private static Color StatusColor(string message)
+        private static Color StatusColor(HudStatusEvent ev) => ev switch
         {
-            if (string.IsNullOrEmpty(message)) return Color.white;
-            if (message.Contains("受损") || message.Contains("冷却")) return new Color(1f, .34f, .4f, 1f);
-            if (message.Contains("锁定") || message.Contains("抓取")) return new Color(.72f, .62f, 1f, 1f);
-            if (message.Contains("击破") || message.Contains("完成") || message.Contains("恢复") || message.Contains("就绪") || message.Contains("释放")) return new Color(.38f, 1f, .76f, 1f);
-            return new Color(.82f, .92f, 1f, 1f);
-        }
+            HudStatusEvent.Danger  => new Color(1f, .34f, .4f, 1f),
+            HudStatusEvent.Locked  => new Color(.72f, .62f, 1f, 1f),
+            HudStatusEvent.Holding => new Color(.72f, .62f, 1f, 1f),
+            HudStatusEvent.Impact  => new Color(.38f, 1f, .76f, 1f),
+            _                      => new Color(.82f, .92f, 1f, 1f),
+        };
 
         public void ShowRunSummary(GravityRunSummary summary)
         {
@@ -209,21 +209,21 @@ namespace GravityRepulsion
             defeatPanel.SetActive(true);
             EnsureResultCards();
             resultLeftText.text =
-                $"<size=28><color=#FFD16A>本轮结算</color></size>\n\n" +
-                $"<size=32><color=#FFFFFF>总分  {summary.TotalScore:00000}</color></size>\n\n" +
-                $"通过关数  {summary.completedWaves:00}\n" +
-                $"击破目标  {summary.enemiesDefeated:00}\n\n" +
-                $"基础战果  +{summary.baseCombatScore}\n" +
-                $"波次守护  +{summary.waveScore}";
+                $"<size=28><color=#FFD16A>RUN COMPLETE</color></size>\n\n" +
+                $"<size=32><color=#FFFFFF>TOTAL SCORE  {summary.TotalScore:00000}</color></size>\n\n" +
+                $"WAVES CLEARED  {summary.completedWaves:00}\n" +
+                $"TARGETS DOWN  {summary.enemiesDefeated:00}\n\n" +
+                $"COMBAT SCORE  +{summary.baseCombatScore}\n" +
+                $"WAVE BONUS  +{summary.waveScore}";
             resultRightText.text =
-                $"<size=24><color=#78E8FF>额外奖励</color></size>\n\n" +
-                $"精准防御 ×{summary.precisionDefenseCount}   +{summary.precisionDefenseBonus}\n" +
-                $"反弹进攻 ×{summary.reflectAttackCount}   +{summary.reflectAttackBonus}\n" +
-                $"斥力击破 ×{summary.repulseAttackCount}   +{summary.repulseAttackBonus}\n" +
-                $"双极对撞 ×{summary.collisionAttackCount}   +{summary.collisionAttackBonus}\n" +
-                $"环境连锁 ×{summary.environmentAttackCount}   +{summary.environmentAttackBonus}\n" +
-                $"奇点湮灭 ×{summary.ultimateAttackCount}   +{summary.ultimateAttackBonus}";
-            defeatText.text = "右手 A 重新部署";
+                $"<size=24><color=#78E8FF>BONUS RECORD</color></size>\n\n" +
+                $"PRECISION ×{summary.precisionDefenseCount}   +{summary.precisionDefenseBonus}\n" +
+                $"REFLECTION ×{summary.reflectAttackCount}   +{summary.reflectAttackBonus}\n" +
+                $"REPULSION ×{summary.repulseAttackCount}   +{summary.repulseAttackBonus}\n" +
+                $"COLLISION ×{summary.collisionAttackCount}   +{summary.collisionAttackBonus}\n" +
+                $"CHAIN REACTION ×{summary.environmentAttackCount}   +{summary.environmentAttackBonus}\n" +
+                $"SINGULARITY ×{summary.ultimateAttackCount}   +{summary.ultimateAttackBonus}";
+            defeatText.text = "RIGHT A: REDEPLOY";
             if (generated != null && generated.Ready) generated.Results(summary, resultLeftCard, resultRightCard, resultLeftText, resultRightText);
             visor?.SetVisible(false);
             visorDamage?.HoldDeathState();
@@ -380,8 +380,8 @@ namespace GravityRepulsion
             if (!CameraHudConfigured) failure += "result_canvas_not_camera_hud;";
             if (resultLeftCard.anchoredPosition.x > -90f || resultRightCard.anchoredPosition.x < 90f)
                 failure += "result_cards_not_spatial_board_columns;";
-            if (ResultTextContent.Contains("失败") || ResultTextContent.Contains("失守")) failure += "negative_failure_copy_present;";
-            if (!ResultTextContent.Contains("总分") || !ResultTextContent.Contains("通过关数") || !ResultTextContent.Contains("精准防御") || !ResultTextContent.Contains("反弹进攻")) failure += "result_breakdown_incomplete;";
+            // EN: no failure text expected in English result panel
+            if (!ResultTextContent.Contains("TOTAL SCORE") || !ResultTextContent.Contains("WAVES CLEARED") || !ResultTextContent.Contains("PRECISION") || !ResultTextContent.Contains("REFLECTION")) failure += "result_breakdown_incomplete;";
             return failure.Length == 0;
         }
 
@@ -495,8 +495,8 @@ namespace GravityRepulsion
                 panelImage.color = Color.clear;
                 panelImage.raycastTarget = false;
             }
-            resultLeftCard = CreateResultCard("RESULT_LEFT_CARD_本轮结算", layout.Scale(new Vector2(-285f, 0f)), layout.ScaleSize(new Vector2(440f, 470f)), new Color(.025f, .045f, .09f, .92f), out resultLeftText);
-            resultRightCard = CreateResultCard("RESULT_RIGHT_CARD_额外奖励", layout.Scale(new Vector2(285f, 0f)), layout.ScaleSize(new Vector2(440f, 470f)), new Color(.035f, .035f, .085f, .92f), out resultRightText);
+            resultLeftCard = CreateResultCard("RESULT_LEFT_CARD_RUN_COMPLETE", layout.Scale(new Vector2(-285f, 0f)), layout.ScaleSize(new Vector2(440f, 470f)), new Color(.025f, .045f, .09f, .92f), out resultLeftText);
+            resultRightCard = CreateResultCard("RESULT_RIGHT_CARD_BONUS_RECORD", layout.Scale(new Vector2(285f, 0f)), layout.ScaleSize(new Vector2(440f, 470f)), new Color(.035f, .035f, .085f, .92f), out resultRightText);
             Place(defeatText, layout.Scale(new Vector2(0f, -288f)), layout.ScaleSize(new Vector2(760f, 42f)), TextAnchor.MiddleCenter, layout.ScaleFont(21));
             if (defeatText != null) defeatText.color = new Color(.86f, .93f, 1f, .95f);
             defeatPanel.transform.SetAsLastSibling();

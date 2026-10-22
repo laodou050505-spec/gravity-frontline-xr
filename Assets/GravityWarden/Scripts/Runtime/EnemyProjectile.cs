@@ -56,7 +56,7 @@ namespace GravityRepulsion
             if (!target.IsAlive || target.IsHeld) return;
             if (target.Body.linearVelocity.sqrMagnitude > .05f) FaceVelocity(target.Body.linearVelocity.normalized);
             life -= Time.deltaTime;
-            if (life <= 0f) target.DestroyTarget(string.Empty, false);
+            if (life <= 0f) target.DestroyTarget(DestroyReason.Default, false);
         }
 
         private void FixedUpdate()
@@ -87,7 +87,7 @@ namespace GravityRepulsion
         private void HitArchitecture()
         {
             if (!target.IsAlive || target.IsHeld) return;
-            target.DestroyTarget(string.Empty, false);
+            target.DestroyTarget(DestroyReason.Default, false);
         }
 
         private void FaceVelocity(Vector3 velocityDirection)
@@ -129,14 +129,14 @@ namespace GravityRepulsion
             {
                 if (game.TryBlockProjectile(this)) return;
                 game.DamagePlayer(playerDamage);
-                target.DestroyTarget("护盾命中", false);
+                target.DestroyTarget(DestroyReason.Default, false);
                 return;
             }
             var robot = other.GetComponentInParent<GravityTarget>();
             if (robot != null && robot != target && robot.kind == GravityTargetKind.Robot && target.ThrownUntil > Time.time)
             {
-                robot.Damage(2, "反射爆裂");
-                target.DestroyTarget(string.Empty, false);
+                robot.Damage(2, DestroyReason.ReflectAttack);
+                target.DestroyTarget(DestroyReason.Default, false);
             }
         }
     }

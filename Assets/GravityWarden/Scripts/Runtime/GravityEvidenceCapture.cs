@@ -121,7 +121,7 @@ namespace GravityRepulsion
             {
                 var desiredCenter = game.playerHead.position + game.playerHead.forward * 6f - game.playerHead.right * 2.15f + Vector3.up * .35f;
                 breakTarget.transform.position += desiredCenter - breakTarget.Center;
-                breakTarget.DestroyTarget("爆散证据", false);
+                breakTarget.DestroyTarget(DestroyReason.SmokeTest, false);
                 yield return new WaitForSeconds(.08f);
                 yield return Capture("P0_Death_CenterDissolve_01_Flash.png", "death_center_flash");
                 if (captureFailed) yield break;

@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Gravity Warden Studio
-  productName: "\u91CD\u529B\u6218\u7EBF"
+  productName: GRAVITY FRONTLINE
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.12156863, g: 0.12156863, b: 0.1254902, a: 1}
@@ -169,7 +169,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.gravitywarden.repulsion
+    Android: com.gravitywarden.repulsion.en
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -731,7 +731,7 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: "\u5F15\u529B\u65A5\u529B"
+  metroPackageName: GravityFrontline
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 

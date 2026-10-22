@@ -66,11 +66,17 @@ namespace GravityRepulsion
         }
         private static string State(GravityHand hand) => hand != null && hand.Held != null ? "Holding" : hand != null && hand.Candidate != null ? "Locked" : "Idle";
 
-        public void Status(string message)
+        public void Status(HudStatusEvent ev)
         {
             if (notice == null) return;
-            string name = message.Contains("受损") ? "Danger" : message.Contains("抓取") ? "Holding" : message.Contains("锁定") ? "Locked" : message.Contains("击破") || message.Contains("对撞") ? "Impact" : "Ready";
-            notice.texture = Texture(name); notice.gameObject.SetActive(true); noticeUntil = Time.unscaledTime + 1.65f;
+            string texName = ev switch {
+                HudStatusEvent.Danger  => "Danger",
+                HudStatusEvent.Holding => "Holding",
+                HudStatusEvent.Locked  => "Locked",
+                HudStatusEvent.Impact  => "Impact",
+                _                      => "Ready",
+            };
+            notice.texture = Texture(texName); notice.gameObject.SetActive(true); noticeUntil = Time.unscaledTime + 1.65f;
         }
 
         public void Results(GravityRunSummary s, RectTransform left, RectTransform right, Text legacyLeft, Text legacyRight)

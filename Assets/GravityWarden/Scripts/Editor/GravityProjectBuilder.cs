@@ -105,7 +105,7 @@ namespace GravityRepulsion.Editor
             EditorApplication.update -= EnsureGameplaySceneAfterStartup;
         }
 
-        [MenuItem("引力 斥力/定位 Scene 摆位视图")]
+        [MenuItem("GravityFrontline/Locate Scene Placement View")]
         public static void FrameSceneForHandoff()
         {
             if (EditorSceneManager.GetActiveScene().path != ScenePath)
@@ -122,7 +122,7 @@ namespace GravityRepulsion.Editor
             sceneView.Repaint();
         }
 
-        [MenuItem("引力 斥力/生成完整 PICO XR 游戏")]
+        [MenuItem("GravityFrontline/Generate Full PICO XR Scene")]
         public static void GenerateCompleteProject()
         {
             GravityExistingSceneUpgrader.UpgradeExistingScene();
@@ -130,25 +130,25 @@ namespace GravityRepulsion.Editor
 
         public static void BatchGenerate() => GenerateCompleteProject();
 
-        [MenuItem("引力 斥力/验证项目与 PICO 配置")]
+        [MenuItem("GravityFrontline/Validate Project & PICO Config")]
         public static void BatchValidate()
         {
             GravityExistingSceneUpgrader.ValidateExistingScene();
         }
 
-        [MenuItem("引力 斥力/构建 macOS 桌面测试版")]
+        [MenuItem("GravityFrontline/Build macOS Desktop Test")]
         public static void BatchBuildMac()
         {
             GravityExistingSceneUpgrader.BuildMac();
         }
 
-        [MenuItem("引力 斥力/构建 PICO Android APK")]
+        [MenuItem("GravityFrontline/Build PICO Android APK")]
         public static void BatchBuildAndroid()
         {
             GravityExistingSceneUpgrader.BuildAndroid();
         }
 
-        [MenuItem("引力 斥力/捕获 Scene 构图预览")]
+        [MenuItem("GravityFrontline/Capture Scene Composition Preview")]
         public static void BatchCapturePreview()
         {
             GravityExistingSceneUpgrader.CaptureGameView();
@@ -312,7 +312,7 @@ namespace GravityRepulsion.Editor
 
         private static GravityTarget CreateCrate(Transform parent, int index, Vector3 position)
         {
-            var root = TargetRoot($"Prop_Crate_{index + 1:00}_可替换", parent, position, new Vector3(.9f, .9f, .9f), GravityTargetKind.Prop, "金属木箱", 1, 0, true);
+            var root = TargetRoot($"Prop_Crate_{index + 1:00}_可替换", parent, position, new Vector3(.9f, .9f, .9f), GravityTargetKind.Prop, "Metal Crate", 1, 0, true);
             var visual = New("REPLACE_VISUAL_Crate_导入模型放这里", root.transform);
             AddPrimitive("CrateBody", PrimitiveType.Cube, visual.transform, Vector3.zero, new Vector3(.86f, .86f, .86f), mats["brassDark"], false);
             AddPrimitive("Band", PrimitiveType.Cube, visual.transform, Vector3.zero, new Vector3(.9f, .16f, .9f), mats["brass"], false);
@@ -322,7 +322,7 @@ namespace GravityRepulsion.Editor
 
         private static GravityTarget CreateBench(Transform parent, int index, Vector3 position)
         {
-            var root = TargetRoot($"Prop_Bench_{index + 1:00}_可替换", parent, position, new Vector3(1.9f, 1.05f, .7f), GravityTargetKind.Prop, "街道座椅", 1, 0, true);
+            var root = TargetRoot($"Prop_Bench_{index + 1:00}_可替换", parent, position, new Vector3(1.9f, 1.05f, .7f), GravityTargetKind.Prop, "Street Bench", 1, 0, true);
             var visual = New("REPLACE_VISUAL_Bench_导入模型放这里", root.transform);
             AddPrimitive("Seat", PrimitiveType.Cube, visual.transform, new Vector3(0f, -.12f, 0f), new Vector3(1.8f, .18f, .55f), mats["brassDark"], false);
             AddPrimitive("Back", PrimitiveType.Cube, visual.transform, new Vector3(0f, .35f, .24f), new Vector3(1.8f, .58f, .13f), mats["brass"], false);
@@ -332,7 +332,7 @@ namespace GravityRepulsion.Editor
 
         private static GravityTarget CreateBin(Transform parent, int index, Vector3 position)
         {
-            var root = TargetRoot($"Prop_Bin_{index + 1:00}_可替换", parent, position, new Vector3(.75f, 1.05f, .75f), GravityTargetKind.Prop, "街边垃圾桶", 1, 0, true);
+            var root = TargetRoot($"Prop_Bin_{index + 1:00}_可替换", parent, position, new Vector3(.75f, 1.05f, .75f), GravityTargetKind.Prop, "Street Bin", 1, 0, true);
             var visual = New("REPLACE_VISUAL_Bin_导入模型放这里", root.transform);
             AddPrimitive("BinBody", PrimitiveType.Cylinder, visual.transform, Vector3.zero, new Vector3(.48f, .52f, .48f), mats["brassDark"], false);
             AddPrimitive("Lid", PrimitiveType.Cylinder, visual.transform, new Vector3(0f, .52f, 0f), new Vector3(.55f, .08f, .55f), mats["brass"], false);
@@ -342,7 +342,7 @@ namespace GravityRepulsion.Editor
 
         private static GravityTarget CreateEnergyCanister(Transform parent, int index, Vector3 position)
         {
-            var root = TargetRoot($"Prop_EnergyCanister_{index + 1:00}_连锁爆炸", parent, position, new Vector3(.8f, 1.35f, .8f), GravityTargetKind.Prop, "能源罐", 1, 0, true);
+            var root = TargetRoot($"Prop_EnergyCanister_{index + 1:00}_连锁爆炸", parent, position, new Vector3(.8f, 1.35f, .8f), GravityTargetKind.Prop, "Energy Canister", 1, 0, true);
             var visual = New("REPLACE_VISUAL_EnergyCanister_导入模型放这里", root.transform);
             AddPrimitive("Canister", PrimitiveType.Cylinder, visual.transform, Vector3.zero, new Vector3(.48f, .68f, .48f), mats["threat"], false);
             AddPrimitive("Core", PrimitiveType.Cylinder, visual.transform, Vector3.zero, new Vector3(.53f, .13f, .53f), mats["warm"], false);
@@ -463,7 +463,7 @@ namespace GravityRepulsion.Editor
             reticle.text = "+";
             reticle.gameObject.SetActive(false);
             var help = Label("Help", canvasGo.transform, new Vector2(0f, -390f), new Vector2(1240f, 34f), 16, new Color(.55f, .66f, .75f), TextAnchor.MiddleCenter);
-            help.text = "PICO 扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位  |  桌面 Q/E · Space · F · R · C";
+            help.text = "PICO TRIGGER/GRIP GRAB · CLOSE HANDS COLLIDE · LEFT X REPULSE · RIGHT A SINGULARITY · LEFT Y RECENTER  |  DESKTOP Q/E · SPACE · F · R · C";
             help.gameObject.SetActive(false);
 
             hud.defeatPanel = New("DefeatPanel", canvasGo.transform);
@@ -517,9 +517,9 @@ namespace GravityRepulsion.Editor
         private static PrefabSet CreatePrefabs()
         {
             var projectile = SavePrefab(CreateProjectile(), Root + "/Prefabs/EnemyProjectile.prefab");
-            var scout = SavePrefab(CreateRobot("Robot_Scout_巡逻机", "巡逻机", 1, 14, mats["robot"], mats["cyan"], projectile, 1.08f, 2.7f), Root + "/Prefabs/Robot_Scout.prefab");
-            var engineer = SavePrefab(CreateRobot("Robot_Engineer_工程机", "工程机", 1, 14, mats["robotWarm"], mats["cyan"], projectile, .92f, 2.45f), Root + "/Prefabs/Robot_Engineer.prefab");
-            var guard = SavePrefab(CreateRobot("Robot_Guard_盾卫核心", "盾卫核心", 2, 22, mats["robotDark"], mats["threat"], projectile, .72f, 1.95f), Root + "/Prefabs/Robot_Guard.prefab");
+            var scout = SavePrefab(CreateRobot("Robot_Scout_巡逻机", "Scout", 1, 14, mats["robot"], mats["cyan"], projectile, 1.08f, 2.7f), Root + "/Prefabs/Robot_Scout.prefab");
+            var engineer = SavePrefab(CreateRobot("Robot_Engineer_工程机", "Engineer", 1, 14, mats["robotWarm"], mats["cyan"], projectile, .92f, 2.45f), Root + "/Prefabs/Robot_Engineer.prefab");
+            var guard = SavePrefab(CreateRobot("Robot_Guard_盾卫核心", "Shield Core", 2, 22, mats["robotDark"], mats["threat"], projectile, .72f, 1.95f), Root + "/Prefabs/Robot_Guard.prefab");
             var health = SavePrefab(CreateHealthPack(), Root + "/Prefabs/HealthPack.prefab");
             return new PrefabSet { projectile = projectile, scout = scout, engineer = engineer, guard = guard, health = health };
         }
@@ -573,7 +573,7 @@ namespace GravityRepulsion.Editor
             rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             var target = root.AddComponent<GravityTarget>();
             target.kind = GravityTargetKind.Projectile;
-            target.displayName = "危险能量弹";
+            target.displayName = "Danger Projectile";
             target.maxHealth = 1;
             target.canBlockOnce = false;
             var visual = New("REPLACE_VISUAL_Projectile", root.transform);
@@ -591,7 +591,7 @@ namespace GravityRepulsion.Editor
             body.useGravity = false;
             var target = root.AddComponent<GravityTarget>();
             target.kind = GravityTargetKind.Heal;
-            target.displayName = "防卫补给";
+            target.displayName = "Shield Supply";
             target.canBlockOnce = false;
             var visual = New("REPLACE_VISUAL_HealthPack", root.transform);
             AddPrimitive("Pack", PrimitiveType.Cube, visual.transform, Vector3.zero, Vector3.one * .7f, mats["heal"], false);
@@ -637,7 +637,7 @@ namespace GravityRepulsion.Editor
         private static void ConfigureProject()
         {
             PlayerSettings.companyName = "Gravity Warden Studio";
-            PlayerSettings.productName = "重力战线";
+            PlayerSettings.productName = "GRAVITY FRONTLINE";
             PlayerSettings.bundleVersion = "0.1.0";
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion");
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);

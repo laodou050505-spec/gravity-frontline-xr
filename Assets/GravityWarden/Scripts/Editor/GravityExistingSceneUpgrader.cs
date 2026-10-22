@@ -42,7 +42,7 @@ namespace GravityRepulsion.Editor
             public GameObject robot31;
         }
 
-        [MenuItem("引力 斥力/升级当前摆位玩法（非破坏）")]
+        [MenuItem("GravityFrontline/Upgrade Current Scene Layout (Non-Destructive)")]
         public static void UpgradeExistingScene()
         {
             EnsureFolders();
@@ -60,7 +60,7 @@ namespace GravityRepulsion.Editor
 
         public static void BatchUpgrade() => UpgradeExistingScene();
 
-        [MenuItem("引力 斥力/验证当前摆位与 PICO 配置（非破坏）")]
+        [MenuItem("GravityFrontline/Validate Current Layout & PICO Config (Non-Destructive)")]
         public static void ValidateExistingScene()
         {
             var errors = new List<string>();
@@ -172,7 +172,7 @@ namespace GravityRepulsion.Editor
 
         public static void BatchValidate() => ValidateExistingScene();
 
-        [MenuItem("引力 斥力/生成独立启动封面场景")]
+        [MenuItem("GravityFrontline/Generate Standalone Title Scene")]
         public static void CreateOrUpdateTitleScene()
         {
             EnsureFolders();
@@ -252,7 +252,7 @@ namespace GravityRepulsion.Editor
 
         public static void BatchCreateTitleScene() => CreateOrUpdateTitleScene();
 
-        [MenuItem("引力 斥力/修复战斗 HUD 为相机前固定面板")]
+        [MenuItem("GravityFrontline/Fix Combat HUD as Camera-Fixed Panel")]
         public static void MigrateCombatHudToCameraSpace()
         {
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
@@ -266,28 +266,28 @@ namespace GravityRepulsion.Editor
 
         public static void BatchMigrateCombatHudToCameraSpace() => MigrateCombatHudToCameraSpace();
 
-        [MenuItem("引力 斥力/构建当前摆位 macOS 测试版")]
+        [MenuItem("GravityFrontline/Build Current Layout macOS Test")]
         public static void BuildMac()
         {
             ValidateExistingScene();
             Directory.CreateDirectory("Builds/macOS");
-            Build(BuildTarget.StandaloneOSX, "Builds/macOS/重力战线.app", BuildOptions.Development);
+            Build(BuildTarget.StandaloneOSX, "Builds/macOS/GravityFrontline.app", BuildOptions.Development);
         }
 
         public static void BatchBuildMac() => BuildMac();
 
-        [MenuItem("引力 斥力/构建当前摆位 PICO APK")]
+        [MenuItem("GravityFrontline/Build Current Layout PICO APK")]
         public static void BuildAndroid()
         {
             ValidateExistingScene();
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
             Directory.CreateDirectory("Builds/PICO");
-            Build(BuildTarget.Android, "Builds/PICO/重力战线-PICO.apk", BuildOptions.None);
+            Build(BuildTarget.Android, "Builds/PICO/GravityFrontline-PICO.apk", BuildOptions.None);
         }
 
         public static void BatchBuildAndroid() => BuildAndroid();
 
-        [MenuItem("引力 斥力/捕获实际 Game 视图")]
+        [MenuItem("GravityFrontline/Capture Actual Game View")]
         public static void CaptureGameView()
         {
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
@@ -339,7 +339,7 @@ namespace GravityRepulsion.Editor
             }
         }
 
-        [MenuItem("引力 斥力/生成 26-31 多角度校准图")]
+        [MenuItem("GravityFrontline/Generate 26-31 Multi-Angle Calibration Images")]
         public static void CaptureModelOrientationSheet()
         {
             var previous = SceneManager.GetActiveScene().path;
@@ -527,7 +527,7 @@ namespace GravityRepulsion.Editor
             Debug.Log($"GRAVITY_INTERACTIVE_MODEL_AUDIT_PASS models={candidates.Length} output={outputFolder}");
         }
 
-        [MenuItem("引力 斥力/审计 29-31 真实拆分层级")]
+        [MenuItem("GravityFrontline/Audit 29-31 True Split Hierarchy")]
         public static void AuditRobotHierarchy()
         {
             var lines = new List<string>();
@@ -568,9 +568,9 @@ namespace GravityRepulsion.Editor
             var missile26 = CreateProjectilePrefab(26, "EnemyProjectile_26.prefab", new Color(1f, .18f, .12f), 0f);
             var missile28 = CreateProjectilePrefab(28, "EnemyProjectile_28.prefab", new Color(1f, .48f, .1f), 0f);
             var health = CreateHealthPrefab();
-            var scout = CreateRobotPrefab(29, "Robot_Scout.prefab", "巡逻机 29", 1, 16, 1.08f, 2.65f, missile26, missile28, 180f, 1);
-            var engineer = CreateRobotPrefab(30, "Robot_Engineer.prefab", "工程机 30", 1, 18, .92f, 2.35f, missile28, missile26, 180f, 1);
-            var guard = CreateRobotPrefab(31, "Robot_Guard.prefab", "盾卫核心 31", 2, 24, .72f, 1.9f, missile26, missile28, 180f, 2);
+            var scout = CreateRobotPrefab(29, "Robot_Scout.prefab", "Scout 29", 1, 16, 1.08f, 2.65f, missile26, missile28, 180f, 1);
+            var engineer = CreateRobotPrefab(30, "Robot_Engineer.prefab", "Engineer 30", 1, 18, .92f, 2.35f, missile28, missile26, 180f, 1);
+            var guard = CreateRobotPrefab(31, "Robot_Guard.prefab", "Shield Core 31", 2, 24, .72f, 1.9f, missile26, missile28, 180f, 2);
             return new GameplayPrefabs { missile26 = missile26, missile28 = missile28, health27 = health, robot29 = scout, robot30 = engineer, robot31 = guard };
         }
 
@@ -586,7 +586,7 @@ namespace GravityRepulsion.Editor
             body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             var target = root.AddComponent<GravityTarget>();
             target.kind = GravityTargetKind.Projectile;
-            target.displayName = "危险导弹 " + number;
+            target.displayName = "Danger Missile " + number;
             target.canBlockOnce = false;
             var visualRoot = new GameObject("VISUAL_真实导弹模型_" + number).transform;
             visualRoot.SetParent(root.transform, false);
@@ -628,7 +628,7 @@ namespace GravityRepulsion.Editor
             body.isKinematic = true;
             var target = root.AddComponent<GravityTarget>();
             target.kind = GravityTargetKind.Heal;
-            target.displayName = "防卫补给 27";
+            target.displayName = "Shield Supply 27";
             target.canBlockOnce = false;
             var visualRoot = new GameObject("VISUAL_真实血包模型_27").transform;
             visualRoot.SetParent(root.transform, false);
@@ -991,9 +991,9 @@ namespace GravityRepulsion.Editor
             var preview = GameObject.Find("SCENE_PREVIEW_ENEMIES_仅Scene查看");
             if (preview == null) preview = new GameObject("SCENE_PREVIEW_ENEMIES_仅Scene查看");
             for (var i = preview.transform.childCount - 1; i >= 0; i--) UnityEngine.Object.DestroyImmediate(preview.transform.GetChild(i).gameObject);
-            Preview(prefabs.robot29, preview.transform, new Vector3(-4.6f, 0f, 1.8f), "预览_真实巡逻机29");
-            Preview(prefabs.robot31, preview.transform, new Vector3(0f, 0f, -.3f), "预览_真实盾卫31");
-            Preview(prefabs.robot30, preview.transform, new Vector3(4.6f, 0f, 1.8f), "预览_真实工程机30");
+            Preview(prefabs.robot29, preview.transform, new Vector3(-4.6f, 0f, 1.8f), "Preview_Scout29");
+            Preview(prefabs.robot31, preview.transform, new Vector3(0f, 0f, -.3f), "Preview_ShieldCore31");
+            Preview(prefabs.robot30, preview.transform, new Vector3(4.6f, 0f, 1.8f), "Preview_Engineer30");
             preview.SetActive(true);
         }
 
@@ -1209,7 +1209,7 @@ namespace GravityRepulsion.Editor
             if (help != null)
             {
                 var helpText = help.GetComponent<Text>();
-                if (helpText != null) helpText.text = "扳机 / 握把 引力抓取 · 双手合拢 对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 重置视角";
+                if (helpText != null) helpText.text = "TRIGGER / GRIP GRAVITY GRAB · CLOSE HANDS COLLIDE · LEFT X REPULSE · RIGHT A SINGULARITY · LEFT Y RECENTER";
                 help.gameObject.SetActive(false);
             }
             var reticle = hud.transform.Find("Reticle");
@@ -1256,7 +1256,7 @@ namespace GravityRepulsion.Editor
 
         private static void ConfigureProjectAndPico()
         {
-            PlayerSettings.productName = "重力战线";
+            PlayerSettings.productName = "GRAVITY FRONTLINE";
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion");
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
