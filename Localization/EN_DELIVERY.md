@@ -10,8 +10,8 @@
 | 项目 | 值 |
 |---|---|
 | 文件路径 | `Builds/EN/GravityFrontline-EN-PICO.apk` |
-| 文件大小 | 94 MB (98,890,918 bytes) |
-| SHA-256 | `ee970234bb4161db0adf70954f43f1ff08f878e95b64079a9aad5e75b6d75838` |
+| 文件大小 | 94 MB (98,892,674 bytes) |
+| SHA-256 | `568876b441ad5183ab8dd02df0b9cdaa67fc1cb4615d3fbeae7522dc77b8ea99` |
 | 包名 | `com.gravitywarden.repulsion.en` |
 | 产品名 | `GRAVITY FRONTLINE` |
 | Unity 版本 | 6000.5.5f1 |
