@@ -96,7 +96,11 @@ namespace GravityRepulsion
 
         private void Awake()
         {
-            uiFont = Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica" }, 28);
+            // 优先加载嵌入字体（Arimo，Apache 2.0），确保 PICO 设备上与桌面一致
+            var arimoAsset = Resources.Load<Font>("GravityFonts/Arimo-Regular");
+            uiFont = arimoAsset != null
+                ? arimoAsset
+                : Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica" }, 28);
             EnsureResultCards();
             foreach (var label in GetComponentsInChildren<Text>(true)) label.font = uiFont;
             shieldBaseColor = shieldText != null ? shieldText.color : Color.white;
@@ -134,7 +138,7 @@ namespace GravityRepulsion
             waveText.text = $"WAVE  {game.Wave:00}";
             scoreText.text = $"SCORE  {game.Score:00000}";
             enemyText.text = $"{game.AliveEnemies.Count:00} HOSTILES";
-            shieldText.text = $"WARD  {Mathf.CeilToInt(game.Shield):000}";
+            shieldText.text = $"SHIELD  {Mathf.CeilToInt(game.Shield):000}";
             energyText.text = $"SINGULARITY  {Mathf.FloorToInt(game.UltimateCharge)}/{game.UltimateRequirement}";
             repulseText.text = game.RepulseCooldown > 0f ? $"REPULSE COOLDOWN {game.RepulseCooldown:0.0}s" : "REPULSE READY  [Press Left X]";
             leftText.text = HandReadout("L", game.leftHand);

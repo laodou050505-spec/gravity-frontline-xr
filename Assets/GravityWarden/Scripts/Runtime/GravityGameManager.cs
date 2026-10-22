@@ -258,7 +258,7 @@ namespace GravityRepulsion
             damageCooldown = 1.4f;
             Shield = Mathf.Max(0f, Shield - amount);
             hud?.Refresh(this);
-            hud?.SetStatus(HudStatusEvent.Danger, $"WARD DAMAGED  -{amount}");
+            hud?.SetStatus(HudStatusEvent.Danger, $"SHIELD DAMAGED  -{amount}");
             GravityFeedback.Shockwave(playerHead != null ? playerHead.position : Vector3.zero, new Color(1f, .08f, .2f), 1.4f);
             GravityAudio.Play(GravitySound.PlayerHurt, playerHead != null ? playerHead.position : Vector3.zero, .92f);
             if (Shield > 0f) return;
@@ -322,7 +322,7 @@ namespace GravityRepulsion
             rightHand?.Pulse(.48f, .11f);
             GravityFeedback.Shockwave(origin, new Color(.68f, .35f, 1f), .55f);
             GravityAudio.Play(GravitySound.Repulse, origin, 1f);
-            hud?.SetStatus(HudStatusEvent.Impact, hitCount > 0 ? $"REPULSE BURST  PUSHED {hitCount} TARGETS" : "REPULSE BURST  CLEAR");
+            hud?.SetStatus(HudStatusEvent.Impact, hitCount > 0 ? $"REPULSE BURST  PUSHED {hitCount} TARGETS" : "REPULSE BURST  NO TARGETS IN RANGE");
         }
 
         public void CollideHeld()
@@ -332,7 +332,7 @@ namespace GravityRepulsion
             var b = rightHand?.Held;
             if (a == null || b == null || !a.IsAlive || !b.IsAlive)
             {
-                hud?.SetStatus(HudStatusEvent.Ready, "LOCK TWO TARGETS  ONE PER HAND");
+                hud?.SetStatus(HudStatusEvent.Ready, "LOCK ONE TARGET WITH EACH HAND");
                 return;
             }
             lastCollisionTime = Time.time;
@@ -348,7 +348,7 @@ namespace GravityRepulsion
             rightHand.Pulse(.8f, .16f);
             a.DestroyTarget(DestroyReason.BipolarCollision, true);
             b.DestroyTarget(DestroyReason.BipolarCollision, true);
-            hud?.SetStatus(HudStatusEvent.Impact, "BIPOLAR COLLISION  ANNIHILATED");
+            hud?.SetStatus(HudStatusEvent.Impact, "POLAR COLLISION  ANNIHILATED");
         }
 
         public void ActivateUltimate()
@@ -356,7 +356,7 @@ namespace GravityRepulsion
             if (gameOver || ultimateActive) return;
             if (UltimateCharge < UltimateRequirement)
             {
-                hud?.SetStatus(HudStatusEvent.Ready, $"SINGULARITY INSUFFICIENT  {Mathf.FloorToInt(UltimateCharge)}/{UltimateRequirement}");
+                hud?.SetStatus(HudStatusEvent.Ready, $"SINGULARITY NOT READY  {Mathf.FloorToInt(UltimateCharge)}/{UltimateRequirement}");
                 return;
             }
             if (AliveEnemies.Count == 0)
@@ -478,7 +478,7 @@ namespace GravityRepulsion
                 if (spawned.TryGetComponent<Rigidbody>(out var body)) body.linearVelocity = Vector3.zero;
             }
             hud?.SetStatus(HudStatusEvent.Ready, Wave == 1
-                ? "AIM · [Pull Trigger] TO GRAB · [Release Grip] TO THROW"
+                ? "AIM · [Trigger/Grip] TO GRAB · RELEASE TO THROW"
                 : $"WAVE {Wave:00} INCOMING · LOCK TARGETS");
         }
 
@@ -499,7 +499,7 @@ namespace GravityRepulsion
                     if (supply.TryGetComponent<GravityTarget>(out var pack))
                         GravityArchitectureCollision.ResolvePenetration(pack);
                     supplied = true;
-                    hud?.SetStatus(HudStatusEvent.Ready, "SUPPLY DROP  GRAB TO RESTORE WARD");
+                    hud?.SetStatus(HudStatusEvent.Ready, "SUPPLY DROP  GRAB TO RESTORE SHIELD");
                 }
                 else hud?.SetStatus(HudStatusEvent.Impact, $"WAVE {Wave} CLEAR  SCORE {Score}");
                 intermissionTimer = supplied ? 5.5f : intermissionDuration;

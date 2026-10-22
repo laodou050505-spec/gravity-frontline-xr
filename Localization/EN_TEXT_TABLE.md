@@ -22,7 +22,7 @@
 | `{label}  锁定 · {ShortName(displayName)}` | `{label}  LOCKED · {ShortName(displayName)}` | GravityHud.cs:162 | 锁定候选状态 |
 | `{label}  待机 · 对准目标` | `{label}  STANDBY · AIM AT TARGET` | GravityHud.cs:163 | 无目标但可寻锁 |
 | `目标`（ShortName 回退） | `TARGET` | GravityHud.cs:168 | displayName 为空时回退 |
-| `护甲  {CeilToInt(game.Shield):000}` (原版 shieldText) | `WARD  {CeilToInt(game.Shield):000}` | GravityHud.cs:137 | 护盾值；术语统一用 WARD |
+| `护甲  {CeilToInt(game.Shield):000}` (原版 shieldText) | `SHIELD  {CeilToInt(game.Shield):000}` | GravityHud.cs:137 | 与烘焙图标签 SHIELD 统一 |
 
 ---
 
@@ -52,13 +52,13 @@
 | 原文（逐字提取） | 英文版实际值 | 来源行 |
 |---|---|---|
 | `精准防御  +60` | `PRECISION DEFENSE  +60` | GravityGameManager.cs:239 |
-| `护盾受损  -{amount}` | `WARD DAMAGED  -{amount}` | GravityGameManager.cs:251 |
-| `斥力冷却 {RepulseCooldown:0.0}s` | `REPULSE COOLDOWN {RepulseCooldown:0.0}s` | GravityGameManager.cs:286 |
-| `斥力爆发  击退 {hitCount} 个目标` | `REPULSE BURST  PUSHED {hitCount} TARGETS` | GravityGameManager.cs:315 |
-| `斥力爆发  空域净空` | `REPULSE BURST  CLEAR` | GravityGameManager.cs:315 |
-| `需要双手各锁定一个目标` | `LOCK TWO TARGETS  ONE PER HAND` | GravityGameManager.cs:325 |
-| `双极对撞  完美分解` | `BIPOLAR COLLISION  ANNIHILATED` | GravityGameManager.cs:341 |
-| `奇点能量不足 {UltimateCharge}/{UltimateRequirement}` | `SINGULARITY INSUFFICIENT  {UltimateCharge}/{UltimateRequirement}` | GravityGameManager.cs:349 |
+| `护盾受损  -{amount}` | `SHIELD DAMAGED  -{amount}` | GravityGameManager.cs:261 |
+| `斥力冷却 {RepulseCooldown:0.0}s` | `REPULSE COOLDOWN {RepulseCooldown:0.0}s` | GravityGameManager.cs:296 |
+| `斥力爆发  击退 {hitCount} 个目标` | `REPULSE BURST  PUSHED {hitCount} TARGETS` | GravityGameManager.cs:325 |
+| `斥力爆发  空域净空` | `REPULSE BURST  NO TARGETS IN RANGE` | GravityGameManager.cs:325 |
+| `需要双手各锁定一个目标` | `LOCK ONE TARGET WITH EACH HAND` | GravityGameManager.cs:335 |
+| `双极对撞  完美分解` | `POLAR COLLISION  ANNIHILATED` | GravityGameManager.cs:351 |
+| `奇点能量不足 {UltimateCharge}/{UltimateRequirement}` | `SINGULARITY NOT READY  {UltimateCharge}/{UltimateRequirement}` | GravityGameManager.cs:359 |
 | `当前没有可收束的敌人` | `NO TARGETS IN SINGULARITY RANGE` | GravityGameManager.cs:354 |
 | `战场起点与追踪原点已重新校准` | `COMBAT ORIGIN RECALIBRATED` | GravityGameManager.cs:371 |
 | `地爆天星：引力锚定` | `SINGULARITY: GRAVITY LOCK` | GravityGameManager.cs:383 |
@@ -66,9 +66,9 @@
 | `地爆天星：奇点压缩` | `SINGULARITY: COMPRESSION` | GravityGameManager.cs:398 |
 | `地爆天星：湮灭爆发` | `SINGULARITY: ANNIHILATION BURST` | GravityGameManager.cs:403 |
 | `奇点坍缩  大道净空` | `SINGULARITY COLLAPSE  AREA CLEAR` | GravityGameManager.cs:437 |
-| `对准敌人 · 扳机抓取 · 松开投掷` | `AIM · [Pull Trigger] TO GRAB · [Release Grip] TO THROW` | GravityGameManager.cs:471 |
-| `第 {Wave:00} 波侵入者抵达 · 锁定目标` | `WAVE {Wave:00} INCOMING · LOCK TARGETS` | GravityGameManager.cs:472 |
-| `防卫补给已投放  吸取即可恢复` | `SUPPLY DROP  GRAB TO RESTORE WARD` | GravityGameManager.cs:492 |
+| `对准敌人 · 扳机抓取 · 松开投掷` | `AIM · [Trigger/Grip] TO GRAB · RELEASE TO THROW` | GravityGameManager.cs:481 |
+| `第 {Wave:00} 波侵入者抵达 · 锁定目标` | `WAVE {Wave:00} INCOMING · LOCK TARGETS` | GravityGameManager.cs:482 |
+| `防卫补给已投放  吸取即可恢复` | `SUPPLY DROP  GRAB TO RESTORE SHIELD` | GravityGameManager.cs:502 |
 | `第 {Wave} 波守护完成  总分 {Score}` | `WAVE {Wave} CLEAR  SCORE {Score}` | GravityGameManager.cs:494 |
 
 ### 3a. 击杀原因消息（原版 OnTargetDestroyed 显示 reason 字符串 → 英文版 switch 枚举）
@@ -92,9 +92,9 @@
 
 | 原文（逐字提取） | 英文版实际值 | 来源行 |
 |---|---|---|
-| `已抓取  {target.displayName} · 松开投掷` | `HOLDING  {target.displayName} · [Release Grip] TO THROW` | GravityHand.cs:120 |
+| `已抓取  {target.displayName} · 松开投掷` | `HOLDING  {target.displayName} · RELEASE TO THROW` | GravityHand.cs:120 |
 | `已释放  {target.displayName}` | `RELEASED  {target.displayName}` | GravityHand.cs:133 |
-| `目标锁定  {candidate.displayName} · 扳机抓取` | `LOCKED  {candidate.displayName} · [Pull Trigger] TO GRAB` | GravityHand.cs:318 |
+| `目标锁定  {candidate.displayName} · 扳机抓取` | `LOCKED  {candidate.displayName} · [Trigger/Grip] TO GRAB` | GravityHand.cs:318 |
 
 ---
 
@@ -147,8 +147,8 @@
 | 原文（逐字提取） | 英文版实际值 | 位置 |
 |---|---|---|
 | `重力战线` | `GRAVITY FRONTLINE` | ProjectSettings.asset / GravityExistingSceneUpgrader.cs:1259 |
-| `扳机 / 握把 引力抓取 · 双手合拢 对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 重置视角` | `[Pull Trigger] / [Hold Grip] TO PULL · CLAP HANDS FOR COLLISION · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER` | GravityExistingSceneUpgrader.cs:1212 |
-| `PICO 扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位  |  桌面 Q/E · Space · F · R · C` | `[Trigger]/[Grip] PULL · CLAP COLLISION · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER  |  Desktop Q/E · Space · F · R · C` | GravityProjectBuilder.cs:466 |
+| `扳机 / 握把 引力抓取 · 双手合拢 对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 重置视角` | `[Trigger/Grip] TO GRAB · RELEASE TO THROW · CLAP HANDS TO COLLIDE · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER` | GravityExistingSceneUpgrader.cs:1212 |
+| `PICO 扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位  |  桌面 Q/E · Space · F · R · C` | `[Trigger/Grip] TO GRAB · RELEASE TO THROW · CLAP HANDS TO COLLIDE · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER  |  Desktop: Q/E · Space · F · R · C` | GravityProjectBuilder.cs:466 |
 
 ---
 

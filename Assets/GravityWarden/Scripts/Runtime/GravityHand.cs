@@ -117,7 +117,7 @@ namespace GravityRepulsion
             if (!target.RequestGrab(this)) return;
             Held = target;
             Pulse(.32f, .08f);
-            FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Holding, $"HOLDING  {target.displayName} · [Release Grip] TO THROW");
+            FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Holding, $"HOLDING  {target.displayName} · RELEASE TO THROW");
         }
 
         public void ReleaseHeld(float throwSpeed = 9.5f)
@@ -315,7 +315,7 @@ namespace GravityRepulsion
                 GravityFeedback.TargetPulse(candidate.Center, candidate.kind == GravityTargetKind.Heal
                     ? new Color(.2f, 1f, .55f)
                     : new Color(.55f, .35f, 1f), 1.25f);
-                FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Locked, $"LOCKED  {candidate.displayName} · [Pull Trigger] TO GRAB");
+                FindFirstObjectByType<GravityGameManager>()?.SetStatus(HudStatusEvent.Locked, $"LOCKED  {candidate.displayName} · [Trigger/Grip] TO GRAB");
             }
             lastCandidate = candidate;
             var color = Held != null ? HeldColor : candidate != null ? TargetColor : IdleColor;

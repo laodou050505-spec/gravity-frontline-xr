@@ -313,7 +313,11 @@ namespace GravityRepulsion
             text.fontSize = 48;
             text.characterSize = .042f;
             text.color = new Color(1f, .9f, .55f, 1f);
-            var font = Font.CreateDynamicFontFromOSFont(new[] { "PingFang SC", "Noto Sans CJK SC", "Arial Unicode MS", "Arial" }, 64);
+            // 英文版去除 PingFang/中文字体回退，使用嵌入的 Arimo 字体
+            var arimoEvidence = Resources.Load<Font>("GravityFonts/Arimo-Regular");
+            var font = arimoEvidence != null
+                ? arimoEvidence
+                : Font.CreateDynamicFontFromOSFont(new[] { "Arial", "Helvetica" }, 64);
             text.font = font;
             text.GetComponent<MeshRenderer>().sharedMaterial = font.material;
             return label;

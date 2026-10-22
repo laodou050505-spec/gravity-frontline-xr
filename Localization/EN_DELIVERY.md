@@ -10,8 +10,8 @@
 | 项目 | 值 |
 |---|---|
 | 文件路径 | `Builds/EN/GravityFrontline-EN-PICO.apk` |
-| 文件大小 | 94 MB (98,892,674 bytes) |
-| SHA-256 | `568876b441ad5183ab8dd02df0b9cdaa67fc1cb4615d3fbeae7522dc77b8ea99` |
+| 文件大小 | 94 MB (99,078,780 bytes) |
+| SHA-256 | `2a684cfde7ea28fe7d40b8e1157b657910a46d4187625300d99aba460d8072e4` |
 | 包名 | `com.gravitywarden.repulsion.en` |
 | 产品名 | `GRAVITY FRONTLINE` |
 | Unity 版本 | 6000.5.5f1 |
@@ -98,6 +98,18 @@
 
 ---
 
+## 模拟器安装记录
+
+| 项目 | 值 |
+|---|---|
+| 目标设备 | `emulator-5554` |
+| 安装日期 | 2026-10-22 14:03 |
+| 安装命令 | `adb -s emulator-5554 install GravityFrontline-EN-PICO.apk` |
+| 安装结果 | Success |
+| pm list 验证 | `package:com.gravitywarden.repulsion` + `package:com.gravitywarden.repulsion.en` 同时存在 |
+
+---
+
 ## 未验证边界
 
 - **PICO XR 多视图渲染**：APK 通过 IL2CPP+Multiview 构建，但未在设备上运行测试
@@ -111,7 +123,7 @@
 
 | 原文 | 英文版选择 | 不确定原因 |
 |---|---|---|
-| 护盾 → WARD vs SHIELD | WARD（统一） | 原版 HUD 标签用"护甲"/"护盾"不一致；选 WARD 与 HUD 标签对齐 |
+| 护盾 → WARD vs SHIELD | SHIELD（统一） | 烘焙 HUD 标签（VisorLabels/HudBottomRight）本身写 SHIELD，动态文字已统一改为 SHIELD |
 | 地爆天星（ultimate 技能名） | SINGULARITY（统一） | 直译为"Ground Explosion Star"过于字面；选用与技能充能条一致的 SINGULARITY |
 | 波次守护 | WAVE BONUS | "守护" 有"defend/guard"义，但结算语境下 BONUS 更符合奖励分类 |
 | 奇点湮灭 | SINGULARITY ANNIHILATION | 直译保留，符合技能名称传统 |
