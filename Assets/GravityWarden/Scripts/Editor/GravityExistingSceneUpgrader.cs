@@ -282,7 +282,7 @@ namespace GravityRepulsion.Editor
             ValidateExistingScene();
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
             Directory.CreateDirectory("Builds/PICO");
-            Build(BuildTarget.Android, "Builds/PICO/GravityFrontline-PICO.apk", BuildOptions.None);
+            Build(BuildTarget.Android, "Builds/EN/GravityFrontline-EN-PICO.apk", BuildOptions.None);
         }
 
         public static void BatchBuildAndroid() => BuildAndroid();
@@ -1209,7 +1209,7 @@ namespace GravityRepulsion.Editor
             if (help != null)
             {
                 var helpText = help.GetComponent<Text>();
-                if (helpText != null) helpText.text = "TRIGGER / GRIP GRAVITY GRAB · CLOSE HANDS COLLIDE · LEFT X REPULSE · RIGHT A SINGULARITY · LEFT Y RECENTER";
+                if (helpText != null) helpText.text = "[Pull Trigger] / [Hold Grip] TO PULL · CLAP HANDS TO COLLIDE · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER";
                 help.gameObject.SetActive(false);
             }
             var reticle = hud.transform.Find("Reticle");

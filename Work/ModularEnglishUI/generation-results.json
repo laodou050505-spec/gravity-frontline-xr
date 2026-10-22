@@ -1,0 +1,34 @@
+[
+  {
+    "asset": "TitleAtlas",
+    "task_id": "1e35bd4a-cc94-45f7-a766-af446456ecf4",
+    "status": "success",
+    "credits_consumed": 5.0,
+    "model": "banana",
+    "record": "Assets/GravityWarden/Art/Tripo/ModularEnglish/TitleAtlas/tripo_task_1e35bd4a-cc94-45f7-a766-af446456ecf4.json"
+  },
+  {
+    "asset": "HudAtlas",
+    "task_id": "16c240d3-ad8d-4a98-bae6-125206e6a739",
+    "status": "success",
+    "credits_consumed": 5.0,
+    "model": "banana",
+    "record": "Assets/GravityWarden/Art/Tripo/ModularEnglish/HudAtlas/tripo_task_16c240d3-ad8d-4a98-bae6-125206e6a739.json"
+  },
+  {
+    "asset": "StatusAtlas",
+    "task_id": "bd6b0d06-2b07-4bcf-9646-46cf90913bcd",
+    "status": "success",
+    "credits_consumed": 5.0,
+    "model": "banana",
+    "record": "Assets/GravityWarden/Art/Tripo/ModularEnglish/StatusAtlas/tripo_task_bd6b0d06-2b07-4bcf-9646-46cf90913bcd.json"
+  },
+  {
+    "asset": "ResultAtlas",
+    "task_id": "e62ef039-5f34-4b06-be58-9cc965d59598",
+    "status": "success",
+    "credits_consumed": 5.0,
+    "model": "banana",
+    "record": "Assets/GravityWarden/Art/Tripo/ModularEnglish/ResultAtlas/tripo_task_e62ef039-5f34-4b06-be58-9cc965d59598.json"
+  }
+]

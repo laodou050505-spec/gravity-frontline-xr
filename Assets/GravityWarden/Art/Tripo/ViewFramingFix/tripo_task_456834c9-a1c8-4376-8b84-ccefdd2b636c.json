@@ -1,0 +1,19 @@
+{
+  "task_id": "456834c9-a1c8-4376-8b84-ccefdd2b636c",
+  "status": "success",
+  "type": "image_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Adapt this exact atmospheric clocktower street background to a SQUARE 1:1 VR single-eye menu view by OUTPAINTING vertically and carefully reframing. Keep the same wet cobblestone European boulevard, blue hour fog, warm streetlamps and restrained floating stones with cyan trails. Preserve the entire clocktower from its pointed roof to street level, positioned in the right third, with clear margin above and right. Keep camera level and natural human street perspective, slightly more elevated eye level, NOT zoomed in. Keep ALL the original scene width and visual story. Add convincing blue sky above and wet pavement below to make a seamless square scene. The left 48 percent should stay naturally shadowed, quiet and open for a separate title and buttons; rich environment on right. Natural photography-like perspective and lighting, coherent building proportions, subtle fog, NO giant foreground enlarged objects. Do not crop the clocktower or make it loom out of frame. No text, no title, no UI, no buttons, no logos, no watermark, no collage borders. This is an adaptation of the supplied scene, not a different setting.",
+    "model_version": "banana_pro"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/456834c9-a1c8-4376-8b84-ccefdd2b636c/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvNDU2ODM0YzktYTFjOC00Mzc2LThiODQtY2NlZmRkMmI2MzZjL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5NDA0NzB9fX1dfQ__&Signature=iDDs9eQnUcJ0MaiUGrW53SonyuCCK9uaFUc4DSct~ltF3E2WBuz8NcXaimFHTermUETSM1b3OuEoRMKxe77yuHzUj2uwzbMZpnOrixlIcQYjNp1kwCI3xAxdx8ReHpHKRvNIFSdVHlVDsj5uX6BBeNHWAYkhx-OjsQAe2cpZ49CXMdh3a6CPyhbZm7L49hVL~Dxel4N~mMYy8pkIU1c4Fb1FR1j57TNeYWPbqZWA15vv726w8ai34QDv4eEECdM4In0QE42egzkFZ821rlnKin8Ma8KbzFzJzUvRm5CQRppqcvJxfF-mGoWRznReuld8vXYblgtoc6gFUuLA4Hw3lA__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T07:53:52.238789Z",
+  "completed_at": "2026-09-08T07:54:27.571286Z",
+  "credits_consumed": 15.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/ViewFramingFix/01_generated_image_url.png"
+  ]
+}

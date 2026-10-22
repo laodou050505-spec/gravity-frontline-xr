@@ -1,0 +1,19 @@
+{
+  "task_id": "bd6b0d06-2b07-4bcf-9646-46cf90913bcd",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Production game UI sprite atlas on perfectly uniform solid #020711 background. Landscape 16:9 texture split into exact 3 columns and 2 rows of equal cells. Each cell contains ONLY a large uppercase word centered inside a fine sci-fi bracket. Consistent bold wide military sans serif letterforms, clearly readable. Cell top left reads IDLE in cyan-white, top middle LOCKED in bright cyan, top right HOLDING in violet-white. Cell bottom left reads READY in mint green, bottom middle IMPACT in amber, bottom right DANGER in coral red. Large empty margins around each cell, separate individual reusable sprites. No other marks or text, no gradients in background, no Chinese, no numbers.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/bd6b0d06-2b07-4bcf-9646-46cf90913bcd/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvYmQ2YjBkMDYtMmIwNy00YmNmLTk2NDYtNDZjZjkwOTEzYmNkL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzQxOTd9fX1dfQ__&Signature=suMD7gAt2z9w8ImYYvP~yHlNgvfVKYf5QURwfDLtCqfXj5DDgU7IIvD3c3II2HgIQfS2RiyqhxUUhs~TcrkibLoqBovXJbMocIeappKTpW~bieauuKY96mYBN~rfhwF9ExwjbSeX3IU-e9Eh--Ub0-ncks2HTSqa6w3jTvxCIeApUyRNaEDEPtfj8KtzmL5px-MBd5jD4g1mOrnv9Jzc5WD67u1VHlZOQniZwuF2mrTPe74UBZM3jy33~BwKkoio73fQwgup34XoN6rP~rDXaOn0x2huSH4T6XDJcDkx4RjNgyeVDYyntHvHjdswCeV0uyxthB19f2fVisnYbe0~XQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T06:09:40.236405Z",
+  "completed_at": "2026-09-08T06:09:56.246478Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/ModularEnglish/StatusAtlas/01_generated_image_url.png"
+  ]
+}

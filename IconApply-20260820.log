@@ -1,0 +1,500 @@
+Unity Editor version:    6000.5.5f1 (d16e074b49fd)
+Branch:                  6000.5/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.3.1 (Build 25D2128)
+Darwin version:          25.3.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        24576 MB
+Date:                    2026-08-20T11:25:12Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ld" at "2026-08-20T11:25:12.066948Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-nographics
+-quit
+-projectPath
+/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力
+-executeMethod
+ApplyPicoIcon.Run
+-logFile
+/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/IconApply-20260820.log
+Successfully changed project path to: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力
+/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [8552739072]  Target information:
+
+Player connection [8552739072]  * "[IP] 10.10.11.248 [Port] 55504 [Flags] 2 [Guid] 260129144 [EditorId] 260129144 [Version] 1048832 [Id] OSXEditor(0,LDdeMacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8552739072]  * "[IP] 198.18.0.1 [Port] 55504 [Flags] 2 [Guid] 260129144 [EditorId] 260129144 [Version] 1048832 [Id] OSXEditor(0,LDdeMacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8552739072] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8552739072] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-92950" after 0.1 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.18.1'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-ld"
+[Licensing::IpcConnector] LicenseClient-ld channel disconnected successfully.
+[Licensing::IpcConnector] Channel LicenseClient-ld-6000.5.5 doesn't exist
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Helpers/UnityLicensingClient.app/Contents/MacOS/Unity.Licensing.Client
+[Licensing::Module] Successfully launched the LicensingClient (PId: 92955)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ld-6000.5.5" at "2026-08-20T11:25:12.529018Z"
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              e58c95d575de40a28e8db3f7967cbf42
+  Correlation Id:          18722ff4fdd2d40e91c96344f6b860b0
+  External correlation Id: 8372985937014011598
+  Machine Id:              z8Qg7FEjq0dJUslL7Ny/GAJZf2I=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-ld-6000.5.5" (connect: 0.25s, validation: 0.01s, handshake: 0.21s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ld-6000.5.5-notifications" at "2026-08-20T11:25:12.749161Z"
+[Licensing::Module] Connected to LicensingClient (PId: 92955, launch time: 0.00, total connection time: 0.47s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: ewogICJzdWJzR3JvdXAiIDogInVuaXR5IGVkaXRvciIsCiAgIm5hbWVzcGFjZSIgOiAidW5pdHlfZWRpdG9yIiwKICAidHlwZSIgOiAiRURJVE9SIiwKICAidGFnIiA6ICJVbml0eVBlcnNvbmFsXXXX
+  Product: Unity Personal Version
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.69s
+[Licensing::Module] Licensing is initialized (took 0.53s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.5.5f1 (d16e074b49fd)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = '/Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56950
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.5f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.5f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.5f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Registered in 0.001587 seconds.
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.175 seconds
+Domain Reload Profiling: 401ms
+	BeginReloadAssembly (46ms)
+		CreateAndSetChildDomain (8ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (26ms)
+	LoadAllAssembliesAndSetupDomain (142ms)
+		LoadAssemblies (38ms)
+		AnalyzeDomain (106ms)
+			TypeCache.Refresh (106ms)
+				TypeCache.ScanAssembly (97ms)
+	FinalizeReload (176ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (40ms)
+			ProcessInitializeOnLoadAttributes (44ms)
+			ProcessInitializeOnLoadMethodAttributes (51ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 46 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.xr.management@4.5.4 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.xr.management@e3a3882b360a)
+    com.unity.xr.interaction.toolkit@3.5.1 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.xr.interaction.toolkit@63ca3b7ce776)
+    com.unity.xr.core-utils@2.6.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.xr.core-utils@a8b900321199)
+    com.unity.inputsystem@1.19.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83)
+    com.unity.xr.legacyinputhelpers@3.0.1 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.xr.legacyinputhelpers@3f62d634f63b)
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.1 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.multiplayer.center@b860850997d0)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.xr)
+    com.unity.ugui@2.5.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.ugui@f2d87ebaaa32)
+    com.unity.textmeshpro@5.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.textmeshpro@53f43edfd2e0)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.mathematics@1.4.0 (location: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Library/PackageCache/com.unity.mathematics@981956d94fb6)
+  Local packages:
+    com.bytedance.pico.xr@file:/Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR (location: /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR)
+[Subsystems] Looking for new subsystems at path /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR
+[Subsystems] Novel subsystem found at /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Runtime/UnitySubsystemsManifest.json
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets
+[Subsystems] Discovering subsystems at path /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR
+[Subsystems] No descriptors matched for  examples in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Runtime/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Runtime/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Runtime/UnitySubsystemsManifest.json
+[Subsystems] 1 'meshings' descriptors matched in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Runtime/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  examples in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Spatial/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Spatial/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  displays in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Spatial/UnitySubsystemsManifest.json.
+[Subsystems] 1 'meshings' descriptors matched in /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Spatial/UnitySubsystemsManifest.json
+[Package Manager] Done registering packages in 0.00 seconds
+The GUID inside 'Packages/com.bytedance.pico.xr/Runtime/CompositionLayers.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-69646747b856179049fbac569e92ef6a
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 14.0380ms
+Starting: /Applications/Unity/Hub/Editor/6000.5.5f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 1s847ms
+[512/515    1s] Csc Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(69,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(71,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(72,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(81,67): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(81,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(122,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(131,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(132,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(140,91): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(140,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(173,174): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(173,122): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(284,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(294,35): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(297,32): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(391,110): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(391,34): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(546,117): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(546,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(726,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(732,85): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(735,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(755,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(755,25): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(786,117): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(786,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(960,99): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(960,23): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1130,79): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1130,35): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1175,35): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1721,29): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1722,34): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1723,125): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1723,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1728,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+[513/515    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+[514/515    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+*** Tundra build success (1.83 seconds), 3 items updated, 515 evaluated
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(69,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(71,26): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(72,31): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(81,67): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(81,17): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(122,17): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(131,23): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(132,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(140,91): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(140,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(173,174): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(173,122): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(284,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(294,35): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(297,32): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(391,110): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(391,34): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(546,117): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(546,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(726,27): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(732,85): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(735,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(755,77): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(755,25): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(786,117): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(786,36): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(960,99): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(960,23): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1130,79): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1130,35): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1175,35): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1721,29): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1722,34): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1723,125): warning CS0618: 'FindObjectsSortMode' is obsolete: 'FindObjectsSortMode has been deprecated. Use the FindObjectsByType overloads that do not take a FindObjectsSortMode parameter.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1723,39): warning CS0618: 'Object.FindObjectsByType<T>(FindObjectsInactive, FindObjectsSortMode)' is obsolete: 'FindObjectsByType with FindObjectsSortMode parameter has been deprecated. Use FindObjectsByType<T>() or FindObjectsByType<T>(FindObjectsInactive) instead. InstanceID will be replaced in the future with EntityId and previous sort order cannot be maintained.'
+Assets/GravityWarden/Scripts/Editor/GravityExistingSceneUpgrader.cs(1728,30): warning CS0618: 'Object.FindFirstObjectByType<T>()' is obsolete: 'FindFirstObjectByType has been deprecated because it relies on instance ID ordering. Use FindAnyObjectByType instead, which does not depend on ordering.'
+AssetDatabase: script compilation time: 2.114037s
+The GUID inside 'Packages/com.bytedance.pico.xr/Runtime/CompositionLayers.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+Begin MonoManager ReloadAssembly
+Total cache size 268097917
+Total cache size after purge 268097917, took 00:00:00.0916472
+The GUID inside 'Packages/com.bytedance.pico.xr/Runtime/CompositionLayers.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+Importing 'GUID: 0000000000000000b000000000000000 - Path: ProjectSettings/EditorBuildSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 0000000000000000b000000000000000' -> (Import Result ID: '386e2d53f1e61b925a1f349ce15e2887') in 0.005 seconds [static dependencies only]. Details - ImportResultOutputID=4647dd083cfc32cebcd7526e8846440c DependenciesID=40256c8c8349af6cdcd0e90a3e386ed4 StaticDependenciesID=0eaafea63704502d46b05eb0d6d921cd 
+Importing 'GUID: b2707b43ae2634943add5436798c57be - Path: Assets/Editor' with importer (DefaultImporter)
+Imported 'GUID: b2707b43ae2634943add5436798c57be' -> (Import Result ID: '13a362ca153783fef5588a1e6f0efb89') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=df22b1bc280ff61303b0af6f0afdcead DependenciesID=c2e6e9b0b7cba655060b630b3d6f5f99 StaticDependenciesID=77dfcac3217b81192402944aa4838353 
+Importing 'GUID: 0a27a67e96d624120943b7c258768c88 - Path: Assets/AppIcon' with importer (DefaultImporter)
+Imported 'GUID: 0a27a67e96d624120943b7c258768c88' -> (Import Result ID: '7c600575fd6836b40a4b8b8a01a1f808') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=93ce9c6cc1f0f05761ba8407ab64bbfa DependenciesID=b5ba2d711aa2d1bcf1265f73108e7ff6 StaticDependenciesID=17f790c3024f3eef9e224bf5e48590f2 
+Native extension for Android target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+PXRLog [Build Check]RegisterBuildPlayerHandler,Already Do not show: False
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+ByteDance.PICO.XR.Editor.PXR_SDKBuildCheck:.cctor () (at /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Editor/PXR_SDKBuildCheck.cs:31)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.ReadOnlySpan`1<intptr>) (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorAssemblies.cs:155)
+
+(Filename: /Users/ld/Library/PICO/UnitySDK/6.0.0/PICO-Unity-SDK/XR/Editor/PXR_SDKBuildCheck.cs Line: 31)
+
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.224 seconds
+Domain Reload Profiling: 469ms
+	BeginReloadAssembly (84ms)
+		DisableScriptedObjects (9ms)
+		CreateAndSetChildDomain (17ms)
+	RebuildCommonClasses (4ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (16ms)
+	LoadAllAssembliesAndSetupDomain (133ms)
+		LoadAssemblies (88ms)
+		AnalyzeDomain (38ms)
+			TypeCache.Refresh (26ms)
+				TypeCache.ScanAssembly (21ms)
+			BuildScriptInfoCaches (11ms)
+	FinalizeReload (224ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (4ms)
+			BeforeProcessingInitializeOnLoad (40ms)
+			ProcessInitializeOnLoadAttributes (54ms)
+			ProcessInitializeOnLoadMethodAttributes (52ms)
+		AwakeInstancesAfterBackupRestoration (6ms)
+The GUID inside 'Packages/com.bytedance.pico.xr/Runtime/CompositionLayers.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Packages/com.bytedance.pico.xr/Runtime/CompositionLayers.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+Importing 'GUID: 9a96831b4f5274e7c825493fca48cc9b - Path: Assets/GravityWarden/Scenes/GravityTitle.unity' with importer (DefaultImporter)
+Imported 'GUID: 9a96831b4f5274e7c825493fca48cc9b' -> (Import Result ID: '564955382a0b2c1a8542eb4c59537628') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=54e01628239bbfb1b919c26aecdb0ca6 DependenciesID=c0c11b9f5998954b56b88bfb1d417986 StaticDependenciesID=9a8732704fb9ccaf428f9141e6a4f4c5 
+Importing 'GUID: cdcddf7d1dc6d43a79c396bf157c8e8c - Path: Assets/GravityWarden/Scenes/GravityBoulevard.unity' with importer (DefaultImporter)
+Imported 'GUID: cdcddf7d1dc6d43a79c396bf157c8e8c' -> (Import Result ID: 'b1af459e49587c8d46455beb75737714') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=3379e332686ac48df2e3cf25e3b2fe46 DependenciesID=b7832da1100b1d75c034757bea5a13e6 StaticDependenciesID=26eaf44ef0e9a677a909ab3d29f77438 
+Importing 'GUID: 4c6ebd2b0d5064b29bf97508e41b89c4 - Path: Assets/AppIcon/AppIcon.png' with importer (TextureImporter)
+Imported 'GUID: 4c6ebd2b0d5064b29bf97508e41b89c4' -> (Import Result ID: '26c1235fbc73e3bd76c440e72c0f9ce5') in 0.023 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=42267421149e44881b817be0ed81af20 DependenciesID=19615f4f121f50f926e9cb816a8df874 StaticDependenciesID=fd3a2fe8a675f0d228e56aedf71b5f09 
+Starting new worker id: 0 with log in /Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Logs/AssetImportWorkerHW0.log
+Preloading 3 native plugins for Editor in 4.81 ms.
+
+Asset Pipeline Refresh (id=17c9a1b1d16074c788e4b92903d1273c): Total: 2.978 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=6 (actual=6, local cache=0, cache server=0)
+		Asset DB Process Time: managed=1 ms, native=517 ms
+		Asset DB Callback time: managed=66 ms, native=12 ms
+		Scripting: domain reloads=1, domain reload time=253 ms, compile time=2115 ms, other=10 ms
+		Project Asset Count: scripts=797, non-scripts=793
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 5.929ms
+	ApplyChangesToAssetFolders: 0.176ms
+	Scan: 165.876ms
+	Collect global state as custom dependencies: 0.218ms
+	OnSourceAssetsModified: 0.457ms
+	CategorizeScriptCompilationAssets: 16.076ms
+	ProcessAssetsWithTransientArtifactChanges: 15.656ms
+	CategorizeAssets: 10.957ms
+	CompileScripts: 2115.087ms
+	ImportOutOfDateAssets: 271.551ms (231.898ms without children)
+		ImportManagerImport: 33.868ms (1.486ms without children)
+		UnloadImportedAssets: 0.143ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.158ms
+		ImportSchedulerStart: 5.471ms
+	PostProcessAllAssets: 65.984ms
+		XRBuildSystem.XRAssetImported 0.175ms
+		MonoPostProcessAllAssets: 65.537ms
+			AssetPostprocessor.OnPostprocessAllAssets 37.696ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 8.281ms
+			AssetCallbacks.OnPostprocessAllAssets 3.697ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 3.372ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.144ms
+			AssetChangedListener.OnPostprocessAllAssets 0.965ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.821ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.603ms
+			SyncVS.PostprocessSyncProject 0.471ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.436ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.364ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.292ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.177ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.156ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.143ms
+			AssetEvents.OnPostprocessAllAssets 0.136ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.129ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.123ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.121ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.100ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.078ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.069ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.058ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.055ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.050ms
+	PostAssetChangesProfiler: 7.817ms
+	UnloadStreamsBegin: 0.892ms
+	PersistCurrentRevisions: 0.073ms
+	GenerateScriptTypeHashes: 1.503ms
+	GenerateScriptTypeSerializationHashes: 2.736ms
+	Untracked: 299.500ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 0.175ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-引力 斥力
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 2133 unused Assets / (0.7 MB). Loaded Objects now: 2795.
+Memory consumption went from 152.3 MB to 151.6 MB.
+Total: 4.581792 ms (FindLiveObjects: 0.118250 ms CreateObjectMapping: 0.253917 ms MarkObjects: 3.704666 ms  DeleteObjects: 0.504417 ms)
+
+AcceleratorClientConnectionCallback - disconnected - :0
+Importing 'GUID: 00000000000000004000000000000000 - Path: ProjectSettings/ProjectSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000004000000000000000' -> (Import Result ID: '988663b1dd8b6e3a20232b0b7e912848') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=276a810dac73e1f29404d5e5f692e214 DependenciesID=61f2885f344f260b3d4d6c881ee338a3 StaticDependenciesID=5e730fafe2211badb3d9379cb2c00822 
+Asset Pipeline Refresh (id=a55f15bcd769d4dd6827b8fa5ddb2fa8): Total: 0.018 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+PICO_ICON_APPLIED
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+ApplyPicoIcon:Run () (at Assets/Editor/ApplyPicoIcon.cs:3)
+
+(Filename: Assets/Editor/ApplyPicoIcon.cs Line: 3)
+
+Thread 0x1791e7000 may have been prematurely finalized
+Batchmode quit successfully invoked - shutting down!
+Curl error 42: Callback aborted
+Killing ADB server in 0.022666 seconds.
+Thread 0x1792b3000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-ld-6000.5.5-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-ld-6000.5.5 channel disconnected successfully.
+Thread 0x16eeaf000 may have been prematurely finalized
+AcceleratorClientConnectionCallback - disconnected - :0
+Thread 0x170bef000 may have been prematurely finalized
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Cleanup mono
+CodeReloadManager destroyed
+debugger-agent: Unable to listen on 43
+Exiting batchmode successfully now!
+[Package Manager] Server process was shutdown
+正在关闭 MSBuild 服务器...
+正在关闭 VB/C# 编译器服务器...
+成功关闭 MSBuild 服务器。
+成功关闭 VB/C# 编译器服务器。

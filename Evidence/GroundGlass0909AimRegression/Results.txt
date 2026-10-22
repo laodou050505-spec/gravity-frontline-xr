@@ -1,0 +1,46 @@
+GRAVITY_AIM_CASE_PASS title_ready title=True ready=True
+SCREENSHOT 00_Title.png 1600x1000
+GRAVITY_AIM_CASE_PASS game_started game=True camera=True
+GRAVITY_AIM_CASE_PASS aim_components visor=True left=True right=True
+SCREENSHOT 01_CombatBaseline.png 1600x1000
+GRAVITY_AIM_CASE_PASS empty_trigger_selects_right hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS aim_left centre=(805.813,496.803) actual=(581.480,496.629) hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS aim_left_projection expectedPx=(581.498,496.676) actualPx=(581.480,496.629) errorPx=0.051 point=(987.359, 999.808, 1043.705)
+SCREENSHOT 02_AimLeft.png 1600x1000
+GRAVITY_AIM_CASE_PASS aim_right centre=(805.813,496.803) actual=(1030.611,496.629) hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS aim_right_projection expectedPx=(1030.601,496.676) actualPx=(1030.611,496.629) errorPx=0.049 point=(1013.341, 999.808, 1043.705)
+SCREENSHOT 03_AimRight.png 1600x1000
+GRAVITY_AIM_CASE_PASS aim_up centre=(805.813,496.803) actual=(805.953,668.924) hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS aim_up_projection expectedPx=(805.947,668.911) actualPx=(805.953,668.924) errorPx=0.014 point=(1000.350, 1009.942, 1044.464)
+SCREENSHOT 04_AimUp.png 1600x1000
+GRAVITY_AIM_CASE_PASS aim_down centre=(805.813,496.803) actual=(805.953,324.507) hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS aim_down_projection expectedPx=(805.947,324.544) actualPx=(805.953,324.507) errorPx=0.037 point=(1000.350, 989.674, 1044.458)
+SCREENSHOT 05_AimDown.png 1600x1000
+GRAVITY_AIM_CASE_PASS real_target_lock query=EVIDENCE_ONLY_RightTarget expected=EVIDENCE_ONLY_RightTarget hand=Right locked=True visible=True candidate=EVIDENCE_ONLY_RightTarget
+GRAVITY_AIM_CASE_PASS target_centre_projection expectedPx=(958.633,515.100) actualPx=(958.670,515.114) errorPx=0.040 point=(1001.050, 1000.100, 1005.000)
+SCREENSHOT 06_RealTargetLock.png 1600x1000
+GRAVITY_AIM_CASE_PASS off_target_no_lock targetAngle=34.528 query=none hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS off_target_projection expectedPx=(469.680,496.511) actualPx=(469.686,496.512) errorPx=0.006 point=(981.797, 999.808, 1041.629)
+SCREENSHOT 07_OffTarget.png 1600x1000
+GRAVITY_AIM_CASE_PASS wall_blocks_target wallHit=True hitDistance=2.224 targetDistance=4.450 hand=Right locked=False visible=True candidate=none
+GRAVITY_AIM_CASE_PASS wall_hit_projection expectedPx=(993.603,489.397) actualPx=(993.594,489.420) errorPx=0.025 point=(1000.718, 999.961, 1002.803)
+SCREENSHOT 08_WallBlocksTarget.png 1600x1000
+GRAVITY_AIM_CASE_PASS wall_removed_restores_lock hand=Right locked=True visible=True candidate=EVIDENCE_ONLY_RightTarget
+GRAVITY_AIM_CASE_PASS inactive_hover_does_not_steal leftCandidate=EVIDENCE_ONLY_LeftTarget hand=Right locked=False visible=True candidate=none
+SCREENSHOT 09_InactiveHover.png 1600x1000
+GRAVITY_AIM_CASE_PASS left_motion_selects_left hand=Left locked=True visible=True candidate=EVIDENCE_ONLY_LeftTarget leftAim=8.887 rightAim=4.712 leftGrab=-Infinity rightGrab=7.752
+GRAVITY_AIM_CASE_PASS left_target_projection expectedPx=(641.367,515.100) actualPx=(641.330,515.114) errorPx=0.040 point=(998.950, 1000.100, 1005.000)
+SCREENSHOT 10_LeftHandSelected.png 1600x1000
+GRAVITY_AIM_CASE_PASS idle_hand_selection_stable frames=8 visibleFrames=8 stableHandFrames=8 maxJitterPx=0.000 maxProjectionErrorPx=0.040 observed=endOfFrame forcedRefresh=false hand=Left locked=True visible=True candidate=EVIDENCE_ONLY_LeftTarget leftAim=8.887 rightAim=4.712 leftGrab=-Infinity rightGrab=7.752
+GRAVITY_AIM_CASE_PASS right_motion_selects_right hand=Right locked=False visible=True candidate=none leftAim=8.887 rightAim=9.041 leftGrab=-Infinity rightGrab=7.752
+SCREENSHOT 11_RightHandSelected.png 1600x1000
+GRAVITY_AIM_CASE_PASS left_grab_selects_left held=EVIDENCE_ONLY_LeftTarget hand=Left locked=True visible=True candidate=EVIDENCE_ONLY_LeftTarget leftAim=8.887 rightAim=9.041 leftGrab=9.041 rightGrab=7.752
+SCREENSHOT 12_LeftGrabSelected.png 1600x1000
+GRAVITY_AIM_CASE_PASS right_empty_trigger_switches hand=Right locked=False visible=True candidate=none leftAim=8.887 rightAim=9.041 leftGrab=9.041 rightGrab=9.105
+GRAVITY_AIM_CASE_PASS configure_twice_reuses_elements before=148 after=148 layers=1 reticles=1 dots=1 duplicateChildren=
+GRAVITY_AIM_CASE_PASS overlay_material_validation valid=True reason= sortingOrder=32000
+SCREENSHOT 13_TopmostOcclusion.png 1600x1000
+GRAVITY_AIM_CASE_PASS foreground_occlusion_overlay foregroundDistance=.55 sortingOrder=32000 reticleVisible=True reason=
+GRAVITY_AIM_CASE_PASS behind_eye_hidden hand=Right locked=False visible=False candidate=none
+GRAVITY_AIM_CASE_PASS offscreen_hidden hand=Right locked=False visible=False candidate=none
+GRAVITY_AIM_EVIDENCE_PASS passed=31 failed=0 output=/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Evidence/GroundGlass0909AimRegression

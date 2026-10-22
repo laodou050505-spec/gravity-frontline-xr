@@ -463,7 +463,7 @@ namespace GravityRepulsion.Editor
             reticle.text = "+";
             reticle.gameObject.SetActive(false);
             var help = Label("Help", canvasGo.transform, new Vector2(0f, -390f), new Vector2(1240f, 34f), 16, new Color(.55f, .66f, .75f), TextAnchor.MiddleCenter);
-            help.text = "PICO TRIGGER/GRIP GRAB · CLOSE HANDS COLLIDE · LEFT X REPULSE · RIGHT A SINGULARITY · LEFT Y RECENTER  |  DESKTOP Q/E · SPACE · F · R · C";
+            help.text = "[Pull Trigger] / [Hold Grip] TO PULL · CLAP HANDS TO COLLIDE · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER  |  Desktop: Q/E · Space · F · R · C";
             help.gameObject.SetActive(false);
 
             hud.defeatPanel = New("DefeatPanel", canvasGo.transform);

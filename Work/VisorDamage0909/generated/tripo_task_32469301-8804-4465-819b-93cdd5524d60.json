@@ -1,0 +1,19 @@
+{
+  "task_id": "32469301-8804-4465-819b-93cdd5524d60",
+  "status": "success",
+  "type": "image_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Create a realistic broken helmet visor glass damage overlay texture for a first-person VR game, based on the fine angular fractures in the reference. Perfectly flat 2D orthographic square. PURE BLACK background RGB 0,0,0, isolated thin silver white and pale ice cyan cracks only, for transparency keying. Two asymmetric small impact points near edges: x=14%, y=74% and x=88%, y=20%. Small dense delicate spiderweb starbursts with branching angular hairline cracks reaching outer edges. A few longer fine fractures along top and bottom margins form a sparse irregular polygon network along the perimeter. Keep CENTRAL 48% WIDE AND 44% HIGH RECTANGLE almost completely EMPTY PURE BLACK for aiming. All cracks in ONE INTACT GLASS SHEET; no missing holes, opaque white impact disks, floating shards, glass chunks, colored plates, background photo, frame, letters, logos, UI, controls or watermark. Thin clear highlights with subtle double reflection along fracture edges. Most of image pure black with generous negative space. Detailed visible fine fractures, never thick ropes. Single full texture artwork, no comparison grid.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260909/32469301-8804-4465-819b-93cdd5524d60/generated_image.png"
+  },
+  "created_at": "2026-09-09T10:55:14.703194Z",
+  "completed_at": "2026-09-09T10:55:34.281946Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Work/VisorDamage0909/generated/01_generated_image_url.png"
+  ]
+}

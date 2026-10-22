@@ -1,0 +1,46 @@
+{
+  "source": "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Work/VisorFault0910/generated/01_generated_image_url.png",
+  "output": "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Resources/GravityUI/VisorCentralCracks.png",
+  "size": [
+    2048,
+    1280
+  ],
+  "alpha_over_0_1_coverage_percent": 0.47786712646484375,
+  "center_clear_diameter_percent": 7,
+  "placements": [
+    {
+      "crop": [
+        0,
+        448,
+        430,
+        768
+      ],
+      "impact": [
+        226,
+        630
+      ],
+      "destination": [
+        0.4,
+        0.59
+      ],
+      "width": 0.22
+    },
+    {
+      "crop": [
+        930,
+        0,
+        1344,
+        320
+      ],
+      "impact": [
+        1158,
+        165
+      ],
+      "destination": [
+        0.61,
+        0.36
+      ],
+      "width": 0.22
+    }
+  ]
+}

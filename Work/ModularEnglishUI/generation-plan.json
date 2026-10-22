@@ -1,0 +1,42 @@
+[
+  {
+    "name": "TitleAtlas",
+    "model": "banana",
+    "aspect_ratio": "16:9",
+    "size": "1344x768",
+    "prompt": "A flat production game UI sprite sheet on perfectly solid near-black #020711 background. Sci-fi helmet interface, cyan light, brushed pale platinum lettering with restrained violet edge light, sharp cut-corner geometry, elegant cinematic quality. Landscape 16:9 image, divided into TWO equal horizontal rows with large empty gutters. TOP HALF: one centered monumental custom typographic game title reading exactly GRAVITY FRONTLINE in two lines, GRAVITY above FRONTLINE, both equally wide. No other title text. BOTTOM HALF: exactly TWO independent wide buttons side by side, LEFT reads START GAME and has a small play triangle, RIGHT reads EXIT GAME and has a small power symbol. Buttons must have clear substantial pale white text and thin cyan borders. Keep all items within their own quarter or half, substantial clear black margins, no overlap. This is separate reusable UI asset blocks, not an assembled screenshot. No extra words, no Chinese, no watermark. No perspective.",
+    "status": "success",
+    "task_id": "1e35bd4a-cc94-45f7-a766-af446456ecf4",
+    "credits_consumed": 5.0
+  },
+  {
+    "name": "HudAtlas",
+    "model": "banana",
+    "aspect_ratio": "1:1",
+    "size": "1024x1024",
+    "prompt": "Production flat game UI texture atlas, perfectly square image divided into exact 2 by 2 equal tiles, each tile is an independent sci-fi HUD instrument panel on pure near-black #020711 background, generous empty gutter at x=50% and y=50%. Restrained cyan and violet military helmet HUD, polished thin cut-corner border, high legibility bold uppercase pale lettering, no tiny decorative text. Each panel fills its own tile with 6% margin. TOP LEFT panel: heading THREAT SCAN at top; two rows WAVE and HOSTILES placed at left around 42% and 65% of this tile height, right half of those rows completely blank for runtime numbers. TOP RIGHT panel: heading COMBAT RECORD at top; two rows SCORE and ENERGY at same row heights, right half completely blank. BOTTOM LEFT panel: heading LEFT GAUNTLET at top; label REPULSE at 42% height left, right blank; lower two lines of fixed controller instructions exactly TRIGGER / GRIP: GRAB and X: REPULSE   Y: RECENTER. BOTTOM RIGHT panel: heading RIGHT GAUNTLET at top; label SHIELD at 42% height left, right blank; lower two lines exactly TRIGGER / GRIP: GRAB and A: SINGULARITY. Headings and labels LARGE. No numerical values. No text besides these exact specified English phrases. No meters or data placeholders, no scenery, no mockup, no perspective, no extra panels.",
+    "status": "success",
+    "task_id": "16c240d3-ad8d-4a98-bae6-125206e6a739",
+    "credits_consumed": 5.0
+  },
+  {
+    "name": "StatusAtlas",
+    "model": "banana",
+    "aspect_ratio": "16:9",
+    "size": "1344x768",
+    "prompt": "Production game UI sprite atlas on perfectly uniform solid #020711 background. Landscape 16:9 texture split into exact 3 columns and 2 rows of equal cells. Each cell contains ONLY a large uppercase word centered inside a fine sci-fi bracket. Consistent bold wide military sans serif letterforms, clearly readable. Cell top left reads IDLE in cyan-white, top middle LOCKED in bright cyan, top right HOLDING in violet-white. Cell bottom left reads READY in mint green, bottom middle IMPACT in amber, bottom right DANGER in coral red. Large empty margins around each cell, separate individual reusable sprites. No other marks or text, no gradients in background, no Chinese, no numbers.",
+    "status": "success",
+    "task_id": "bd6b0d06-2b07-4bcf-9646-46cf90913bcd",
+    "credits_consumed": 5.0
+  },
+  {
+    "name": "ResultAtlas",
+    "model": "banana",
+    "aspect_ratio": "16:9",
+    "size": "1344x768",
+    "prompt": "Production sci-fi game results UI asset sheet, landscape 16:9 image split exactly into two square panels left and right with generous black gutter. Near-black #020711 background, precise cyan-violet cut-corner holographic instrumentation frames and large pale English lettering. LEFT panel heading RUN COMPLETE at top; below six evenly spaced rows at 30,42,54,66,78,90 percent of panel height, labels on LEFT HALF only, RIGHT HALF always entirely EMPTY for runtime values. Exact labels: TOTAL SCORE, WAVES CLEARED, TARGETS DOWN, COMBAT SCORE, WAVE BONUS, A: REDEPLOY. RIGHT panel heading BONUS RECORD at top; six matching evenly spaced row labels on LEFT HALF only: PRECISION, REFLECTION, REPULSION, COLLISION, CHAIN REACTION, SINGULARITY. NO actual values, numbers or placeholder marks anywhere. Large legible uppercase English typography, no Chinese. Flat orthographic UI artwork, no screen mockup, no additional labels or illustrations.",
+    "status": "success",
+    "task_id": "e62ef039-5f34-4b06-be58-9cc965d59598",
+    "credits_consumed": 5.0
+  }
+]

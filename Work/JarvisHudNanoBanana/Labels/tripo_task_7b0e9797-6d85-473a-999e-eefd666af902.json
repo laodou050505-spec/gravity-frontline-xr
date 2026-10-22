@@ -1,0 +1,19 @@
+{
+  "task_id": "7b0e9797-6d85-473a-999e-eefd666af902",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "A professional game HUD typography sprite atlas. Pure solid black background. One vertical column of exactly EIGHT separate lines of large crisp ice cyan condensed futuristic sans serif text, horizontally centered. Place each line at the exact center of its own equally tall band. No frames, no icons, no illustrations, no extra text, no numbers. The eight lines from top to bottom read exactly: THREAT SCAN; WAVE; HOSTILES; COMBAT RECORD; SHIELD; SINGULARITY; REPULSE; GRAVITY FRONTLINE. Each line is isolated with ample black space above and below. Cyan-white lettering with extremely subtle cyan emission, sharp clean industrial sci-fi tactical visor type, highly legible, consistent weight. Flat front-facing 2D UI texture, no perspective.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260909/7b0e9797-6d85-473a-999e-eefd666af902/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDkvN2IwZTk3OTctNmQ4NS00NzNhLTk5OWUtZWVmZDY2NmFmOTAyL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODkwMjgxMTN9fX1dfQ__&Signature=WtFFQ7SOABuVPtKQexG8qOHgYweFDSP-xPpN3AHajXrdWYT4Ld5WfmqIOemXWIyTZgSusUMvpgcstoEO39W-5HvKp2e5lCOdng30GqlUFsDilQYoOg8ZQbqMPZsaO4H9MvlSDUstyfWQw0V1S1xojLazGSaD0nDtvF-DcyO9E9DPS0z7bv8DAYhMsZU4NptHrd3GddOFk7BLyL4VSsZdGrUj~1Uli5AYjElGJbjQSYfncBqcZV7XCKw8H5Oo6DVoHLXFeFVyEJ1dMHkG-rTbnXNcAD3WWN8pcWLLcTQRjEz5012v7VsSMPjJy6SEcihV6YugZTe1Y8s8jhBEY1Hcmw__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-09T08:14:55.024631Z",
+  "completed_at": "2026-09-09T08:15:10.295249Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Work/JarvisHudNanoBanana/Labels/01_generated_image_url.png"
+  ]
+}

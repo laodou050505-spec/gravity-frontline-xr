@@ -1,151 +1,174 @@
-# GRAVITY FRONTLINE — 英文版翻译表 EN_TEXT_TABLE.md
-生成日期：2026-10-22
+# GRAVITY FRONTLINE — English Text Translation Table
 
-## 术语表（全游戏统一用词）
+> 原文由脚本从 `/Assets/GravityWarden/Scripts/Runtime/` 和 `/Editor/` 逐行提取，一字不改。
+> EN 版对应代码中的当前实际值（可用 grep 核查）。
+> 仅列玩家可见文字；内部对象名（VISUAL_、VFX_、SCENE_PREVIEW_ 等开头）、注释、
+> Tripo 路径不在范围内，已在交付文档中单独说明。
 
-| 中文术语 | 英文术语 | 备注 |
+---
+
+## 1. HUD 主状态栏（GravityHud.cs）
+
+| 原文（逐字提取） | 英文版实际值 | 来源行 | 备注 |
+|---|---|---|---|
+| `威胁波次  {game.Wave:00}` | `WAVE  {game.Wave:00}` | GravityHud.cs:134 | 波次计数器 |
+| `得分  {game.Score:00000}` | `SCORE  {game.Score:00000}` | GravityHud.cs:135 | 积分显示 |
+| `{game.AliveEnemies.Count:00} 个目标` (英文版直接 HOSTILES) | `{game.AliveEnemies.Count:00} HOSTILES` | GravityHud.cs:136 | 存活敌人数 |
+| `奇点能量  {FloorToInt(UltimateCharge)}/{UltimateRequirement}` | `SINGULARITY  {FloorToInt(UltimateCharge)}/{UltimateRequirement}` | GravityHud.cs:138 | 奇点技能充能 |
+| `斥力冷却 {game.RepulseCooldown:0.0}s` | `REPULSE COOLDOWN {game.RepulseCooldown:0.0}s` | GravityHud.cs:139 | 冷却读数 |
+| `斥力就绪  左手 X` | `REPULSE READY  [Press Left X]` | GravityHud.cs:139 | 就绪提示，补加 [Press] 动作 |
+| `{label}  待机` | `{label}  STANDBY` | GravityHud.cs:160 | 手部无目标状态 |
+| `{label}  抓取 · {ShortName(displayName)}` | `{label}  HOLDING · {ShortName(displayName)}` | GravityHud.cs:161 | 持握状态 |
+| `{label}  锁定 · {ShortName(displayName)}` | `{label}  LOCKED · {ShortName(displayName)}` | GravityHud.cs:162 | 锁定候选状态 |
+| `{label}  待机 · 对准目标` | `{label}  STANDBY · AIM AT TARGET` | GravityHud.cs:163 | 无目标但可寻锁 |
+| `目标`（ShortName 回退） | `TARGET` | GravityHud.cs:168 | displayName 为空时回退 |
+| `护甲  {CeilToInt(game.Shield):000}` (原版 shieldText) | `WARD  {CeilToInt(game.Shield):000}` | GravityHud.cs:137 | 护盾值；术语统一用 WARD |
+
+---
+
+## 2. HUD 状态图标事件（原版 message.Contains() → 英文版 HudStatusEvent 枚举）
+
+> 原版 GravityVisorHud.cs:158 和 GravityGeneratedHud.cs:72 用字符串匹配选图标。
+> 英文版改为 HudStatusEvent 枚举，彻底消除中文匹配。
+
+| 原文（逐字提取） | 枚举值 | 图标语义 | 来源行 |
+|---|---|---|---|
+| `受损` | `HudStatusEvent.Danger` | 盾受损红闪 | GravityVisorHud.cs:158 / GravityGeneratedHud.cs:72 |
+| `冷却` | `HudStatusEvent.Ready` | 斥力冷却灰 | GravityVisorHud.cs:158 |
+| `锁定` | `HudStatusEvent.Locked` | 目标锁定紫 | GravityVisorHud.cs:158 / GravityGeneratedHud.cs:72 |
+| `已抓取` | `HudStatusEvent.Holding` | 抓取中紫 | GravityVisorHud.cs:158 / GravityGeneratedHud.cs:72 |
+| `抓取` | `HudStatusEvent.Holding` | 同上 | GravityVisorHud.cs:158 |
+| `击破` | `HudStatusEvent.Impact` | 击杀青绿闪 | GravityVisorHud.cs:158 / GravityGeneratedHud.cs:72 |
+| `完成` | `HudStatusEvent.Impact` | 同上 | GravityVisorHud.cs:158 |
+| `恢复` | `HudStatusEvent.Ready` | 恢复绿 | GravityVisorHud.cs:158 |
+| `就绪` | `HudStatusEvent.Ready` | 就绪白 | GravityVisorHud.cs:158 |
+| `释放` | `HudStatusEvent.Ready` | 投掷白 | GravityVisorHud.cs:158 |
+| `对撞` | `HudStatusEvent.Impact` | 对撞冲击青 | GravityGeneratedHud.cs:72 |
+
+---
+
+## 3. 游戏内状态消息（GravityGameManager.cs SetStatus）
+
+| 原文（逐字提取） | 英文版实际值 | 来源行 |
 |---|---|---|
-| 重力战线 | GRAVITY FRONTLINE | 产品名，全大写 |
-| 斥力 | Repulse / REPULSE | 技能名大写，描述用首字母大写 |
-| 奇点湮灭 / 奇点 | Singularity / SINGULARITY | 终极技能 |
-| 双极对撞 | Bipolar Collision | 两手抓物合拢的攻击方式 |
-| 精准防御 | Precision Defense | 用手持物挡住投射物 |
-| 环境连锁 | Chain Reaction | 环境爆炸链 |
-| 引力抓取 | Gravity Grab | 主要抓取机制 |
-| 护盾 | Shield | 玩家血量 |
-| 奇点能量 | Singularity Energy | 终极技能能量槽 |
-| 波次 | Wave | 敌人出现轮次 |
-| 巡逻机 | Scout | 机器人敌人1型 |
-| 工程机 | Engineer | 机器人敌人2型 |
-| 盾卫核心 | Shield Core | 机器人敌人3型（boss） |
-| 危险导弹 / 危险能量弹 | Danger Projectile / Danger Missile | 射弹 |
-| 防卫补给 | Shield Supply | 补血道具 |
-| 可吸取物 | Pullable Object | 通用道具基础名 |
+| `精准防御  +60` | `PRECISION DEFENSE  +60` | GravityGameManager.cs:239 |
+| `护盾受损  -{amount}` | `WARD DAMAGED  -{amount}` | GravityGameManager.cs:251 |
+| `斥力冷却 {RepulseCooldown:0.0}s` | `REPULSE COOLDOWN {RepulseCooldown:0.0}s` | GravityGameManager.cs:286 |
+| `斥力爆发  击退 {hitCount} 个目标` | `REPULSE BURST  PUSHED {hitCount} TARGETS` | GravityGameManager.cs:315 |
+| `斥力爆发  空域净空` | `REPULSE BURST  CLEAR` | GravityGameManager.cs:315 |
+| `需要双手各锁定一个目标` | `LOCK TWO TARGETS  ONE PER HAND` | GravityGameManager.cs:325 |
+| `双极对撞  完美分解` | `BIPOLAR COLLISION  ANNIHILATED` | GravityGameManager.cs:341 |
+| `奇点能量不足 {UltimateCharge}/{UltimateRequirement}` | `SINGULARITY INSUFFICIENT  {UltimateCharge}/{UltimateRequirement}` | GravityGameManager.cs:349 |
+| `当前没有可收束的敌人` | `NO TARGETS IN SINGULARITY RANGE` | GravityGameManager.cs:354 |
+| `战场起点与追踪原点已重新校准` | `COMBAT ORIGIN RECALIBRATED` | GravityGameManager.cs:371 |
+| `地爆天星：引力锚定` | `SINGULARITY: GRAVITY LOCK` | GravityGameManager.cs:383 |
+| `地爆天星：群体环绕` | `SINGULARITY: ORBITAL PULL` | GravityGameManager.cs:393 |
+| `地爆天星：奇点压缩` | `SINGULARITY: COMPRESSION` | GravityGameManager.cs:398 |
+| `地爆天星：湮灭爆发` | `SINGULARITY: ANNIHILATION BURST` | GravityGameManager.cs:403 |
+| `奇点坍缩  大道净空` | `SINGULARITY COLLAPSE  AREA CLEAR` | GravityGameManager.cs:437 |
+| `对准敌人 · 扳机抓取 · 松开投掷` | `AIM · [Pull Trigger] TO GRAB · [Release Grip] TO THROW` | GravityGameManager.cs:471 |
+| `第 {Wave:00} 波侵入者抵达 · 锁定目标` | `WAVE {Wave:00} INCOMING · LOCK TARGETS` | GravityGameManager.cs:472 |
+| `防卫补给已投放  吸取即可恢复` | `SUPPLY DROP  GRAB TO RESTORE WARD` | GravityGameManager.cs:492 |
+| `第 {Wave} 波守护完成  总分 {Score}` | `WAVE {Wave} CLEAR  SCORE {Score}` | GravityGameManager.cs:494 |
+
+### 3a. 击杀原因消息（原版 OnTargetDestroyed 显示 reason 字符串 → 英文版 switch 枚举）
+
+| 原版 reason 字符串（逐字提取） | DestroyReason 枚举 | 英文显示消息 |
+|---|---|---|
+| `击破` | `Default` | `TARGET DOWN` |
+| `分解` | `Default` | `TARGET DOWN` |
+| `反射爆裂` | `ReflectAttack` | `REFLECTION KILL` |
+| `斥力` | `RepulseAttack` | `REPULSE KILL` |
+| `双极对撞` / `对撞` | `BipolarCollision` | `COLLISION KILL` |
+| `环境连锁` | `ChainReaction` | `CHAIN REACTION` |
+| `奇点湮灭` | `SingularityAnnihilation` | `SINGULARITY ANNIHILATION` |
+| `精准防御` | `PrecisionDefense` | `PRECISION DEFENSE` |
+| `护盾恢复 +35`（HealthPack reason） | `HealthPack` | （无 HUD 消息，仅内部计分） |
+| `爆散证据`（GravityEvidenceCapture） | `SmokeTest` | （smoke test，不显示，不计分） |
 
 ---
 
-## HUD 常驻文字（GravityHud.cs / Resources 图片）
+## 4. 手部交互消息（GravityHand.cs）
 
-| key | 原中文 | 英文 | 来源文件:行 | 使用场景 | 状态 |
-|---|---|---|---|---|---|
-| hud.wave | 威胁波次 {wave:00} | WAVE {wave:00} | GravityHud.cs:Refresh() | 左上HUD波次 | 完成 |
-| hud.score | 得分 {score:00000} | SCORE {score:00000} | GravityHud.cs:Refresh() | 右上HUD得分 | 完成 |
-| hud.singularity | 奇点能量 {charge}/{max} | SINGULARITY {charge}/{max} | GravityHud.cs:Refresh() | 右上HUD能量 | 完成 |
-| hud.repulse_cooldown | 斥力冷却 {t:0.0}s | REPULSE COOLDOWN {t:0.0}s | GravityHud.cs:Refresh() | 左下HUD | 完成 |
-| hud.repulse_ready | 斥力就绪  左手 X | REPULSE READY  LEFT X | GravityHud.cs:Refresh() | 左下HUD | 完成 |
+| 原文（逐字提取） | 英文版实际值 | 来源行 |
+|---|---|---|
+| `已抓取  {target.displayName} · 松开投掷` | `HOLDING  {target.displayName} · [Release Grip] TO THROW` | GravityHand.cs:120 |
+| `已释放  {target.displayName}` | `RELEASED  {target.displayName}` | GravityHand.cs:133 |
+| `目标锁定  {candidate.displayName} · 扳机抓取` | `LOCKED  {candidate.displayName} · [Pull Trigger] TO GRAB` | GravityHand.cs:318 |
 
 ---
 
-## 手部状态栏（GravityHud.cs）
+## 5. 结算界面（GravityHud.cs ShowRunSummary）
 
-| key | 原中文 | 英文 | 来源文件:行 | 状态 |
-|---|---|---|---|---|
-| hand.standby | {label}  待机 | {label}  STANDBY | GravityHud.cs:HandReadout() | 完成 |
-| hand.holding | {label}  抓取 · {name} | {label}  HOLDING · {name} | GravityHud.cs:HandReadout() | 完成 |
-| hand.locked | {label}  锁定 · {name} | {label}  LOCKED · {name} | GravityHud.cs:HandReadout() | 完成 |
-| hand.aim | {label}  待机 · 对准目标 | {label}  STANDBY · AIM AT TARGET | GravityHud.cs:HandReadout() | 完成 |
-
----
-
-## 状态提示（GravityHud.cs / GravityGameManager.cs / GravityHand.cs）
-
-| key | 原中文 | 英文 | 来源文件:行 | 状态 |
-|---|---|---|---|---|
-| status.holding | 已抓取  {name} · 松开投掷 | HOLDING  {name} · RELEASE TO THROW | GravityHand.cs:120 | 完成 |
-| status.released | 已释放  {name} | RELEASED  {name} | GravityHand.cs:133 | 完成 |
-| status.locked | 目标锁定  {name} · 扳机抓取 | LOCKED  {name} · TRIGGER TO GRAB | GravityHand.cs:318 | 完成 |
-| status.too_heavy | {name} 质量过大：引力锁定 {a}/{b} | {name} TOO HEAVY: GRAVITY LOCK {a}/{b} | GravityTarget.cs:340 | 完成 |
-| status.impact | 目标摧毁 | TARGET DOWN | GravityGameManager.cs:OnTargetDestroyed | 完成 |
-| status.precision | 精准防御  +60 | PRECISION DEFENSE  +60 | GravityGameManager.cs:239 | 完成 |
-| status.shield_hit | 护盾受损  -{amount} | SHIELD DAMAGE  -{amount} | GravityGameManager.cs:251 | 完成 |
-| status.repulse_cooldown_rt | 斥力冷却 {t:0.0}s | REPULSE COOLDOWN {t:0.0}s | GravityGameManager.cs:286 | 完成 |
-| status.repulse_hit | 斥力爆发  击退 {n} 个目标 | REPULSE BURST  PUSHED {n} TARGETS | GravityGameManager.cs:315 | 完成 |
-| status.repulse_clear | 斥力爆发  空域净空 | REPULSE BURST  CLEAR | GravityGameManager.cs:315 | 完成 |
-| status.bipolar_need_lock | 需要双手各锁定一个目标 | LOCK TWO TARGETS  ONE PER HAND | GravityGameManager.cs:325 | 完成 |
-| status.bipolar_done | 双极对撞  完美分解 | BIPOLAR COLLISION  ANNIHILATED | GravityGameManager.cs:341 | 完成 |
-| status.singularity_low | 奇点能量不足 {a}/{b} | SINGULARITY INSUFFICIENT  {a}/{b} | GravityGameManager.cs:349 | 完成 |
-| status.singularity_no_enemy | 当前没有可收束的敌人 | NO TARGETS IN SINGULARITY RANGE | GravityGameManager.cs:354 | 完成 |
-| status.recenter | 战场起点与追踪原点已重新校准 | COMBAT ORIGIN RECALIBRATED | GravityGameManager.cs:371 | 完成 |
-| status.ult_phase1 | 地爆天星：引力锚定 | SINGULARITY: GRAVITY LOCK | GravityGameManager.cs:383 | 完成 |
-| status.ult_phase2 | 地爆天星：群体环绕 | SINGULARITY: ORBITAL PULL | GravityGameManager.cs:393 | 完成 |
-| status.ult_phase3 | 地爆天星：奇点压缩 | SINGULARITY: COMPRESSION | GravityGameManager.cs:398 | 完成 |
-| status.ult_phase4 | 地爆天星：湮灭爆发 | SINGULARITY: ANNIHILATION BURST | GravityGameManager.cs:403 | 完成 |
-| status.ult_done | 奇点坍缩  大道净空 | SINGULARITY COLLAPSE  AREA CLEAR | GravityGameManager.cs:437 | 完成 |
-| status.wave1_hint | 对准敌人 · 扳机抓取 · 松开投掷 | AIM · TRIGGER TO GRAB · RELEASE TO THROW | GravityGameManager.cs:471 | 完成 |
-| status.wave_n_arrive | 第 {wave:00} 波侵入者抵达 · 锁定目标 | WAVE {wave:00} INCOMING · LOCK TARGETS | GravityGameManager.cs:472 | 完成 |
-| status.supply_drop | 防卫补给已投放  吸取即可恢复 | SUPPLY DROP  GRAB TO RESTORE SHIELD | GravityGameManager.cs:492 | 完成 |
-| status.wave_clear | 第 {wave} 波守护完成  总分 {score} | WAVE {wave} CLEAR  SCORE {score} | GravityGameManager.cs:494 | 完成 |
+| 原文（逐字提取） | 英文版实际值 | 来源行 |
+|---|---|---|
+| `本轮结算`（卡片标题） | `RUN COMPLETE` | GravityHud.cs:212 |
+| `总分  {summary.TotalScore:00000}` | `TOTAL SCORE  {summary.TotalScore:00000}` | GravityHud.cs:213 |
+| `通过关数  {summary.completedWaves:00}` | `WAVES CLEARED  {summary.completedWaves:00}` | GravityHud.cs:214 |
+| `击破目标  {summary.enemiesDefeated:00}` | `TARGETS DOWN  {summary.enemiesDefeated:00}` | GravityHud.cs:215 |
+| `基础战果  +{summary.baseCombatScore}` | `COMBAT SCORE  +{summary.baseCombatScore}` | GravityHud.cs:216 |
+| `波次守护  +{summary.waveScore}` | `WAVE BONUS  +{summary.waveScore}` | GravityHud.cs:217 |
+| `额外奖励`（奖励卡片标题） | `BONUS RECORD` | GravityHud.cs:219 |
+| `精准防御 x{n}   +{bonus}` | `PRECISION x{n}   +{bonus}` | GravityHud.cs:220 |
+| `反弹进攻 x{n}   +{bonus}` | `REFLECTION x{n}   +{bonus}` | GravityHud.cs:221 |
+| `斥力击破 x{n}   +{bonus}` | `REPULSION x{n}   +{bonus}` | GravityHud.cs:222 |
+| `双极对撞 x{n}   +{bonus}` | `COLLISION x{n}   +{bonus}` | GravityHud.cs:223 |
+| `环境连锁 x{n}   +{bonus}` | `CHAIN REACTION x{n}   +{bonus}` | GravityHud.cs:224 |
+| `奇点湮灭 x{n}   +{bonus}` | `SINGULARITY x{n}   +{bonus}` | GravityHud.cs:225 |
+| `右手 A 重新部署` | `[Press Right A]: REDEPLOY` | GravityHud.cs:226 |
 
 ---
 
-## 结算界面（GravityHud.cs ShowRunSummary）
+## 6. 道具 displayName（GravityTarget.cs + 场景序列化）
 
-| key | 原中文 | 英文 | 状态 |
-|---|---|---|---|
-| result.title | 本轮结算 | RUN COMPLETE | 完成 |
-| result.total | 总分  {score:00000} | TOTAL SCORE  {score:00000} | 完成 |
-| result.waves | 通过关数  {waves:00} | WAVES CLEARED  {waves:00} | 完成 |
-| result.enemies | 击破目标  {count:00} | TARGETS DOWN  {count:00} | 完成 |
-| result.base_score | 基础战果  +{n} | COMBAT SCORE  +{n} | 完成 |
-| result.wave_score | 波次守护  +{n} | WAVE BONUS  +{n} | 完成 |
-| result.bonus_title | 额外奖励 | BONUS RECORD | 完成 |
-| result.precision | 精准防御 ×{n}   +{pts} | PRECISION ×{n}   +{pts} | 完成 |
-| result.reflect | 反弹进攻 ×{n}   +{pts} | REFLECTION ×{n}   +{pts} | 完成 |
-| result.repulse | 斥力击破 ×{n}   +{pts} | REPULSION ×{n}   +{pts} | 完成 |
-| result.collision | 双极对撞 ×{n}   +{pts} | COLLISION ×{n}   +{pts} | 完成 |
-| result.chain | 环境连锁 ×{n}   +{pts} | CHAIN REACTION ×{n}   +{pts} | 完成 |
-| result.singularity | 奇点湮灭 ×{n}   +{pts} | SINGULARITY ×{n}   +{pts} | 完成 |
-| result.redeploy | 右手 A 重新部署 | RIGHT A: REDEPLOY | 完成 |
+| 原文（GravityTarget.cs 逐字提取） | 英文版实际值 | 场景序列化实例数 |
+|---|---|---|
+| `蒸汽消防栓` | `Steam Fire Hydrant` | 11 |
+| `机械邮筒` | `Mechanical Mailbox` | 1 |
+| `街道隔离柱` | `Street Barrier` | 4 |
+| `手压水泵` | `Hand Pump` | 6 |
+| `街边金属长椅` | `Metal Bench` | 5 |
+| `金属货箱` | `Metal Crate` | 12 |
+| `齿轮装饰街道筒` | `Gear Street Column` | 5 |
+| `可吸取物`（回退 displayName） | `Pullable Object` | GravityTarget.cs:21 |
 
 ---
 
-## 目标 displayName（GravityTarget.cs / GravityProjectBuilder.cs / GravityExistingSceneUpgrader.cs）
+## 7. GravityTarget 重力锁定消息
 
-| key | 原中文 | 英文 | 来源 | 状态 |
-|---|---|---|---|---|
-| target.default | 可吸取物 | Pullable Object | GravityTarget.cs:21 | 完成 |
-| target.hydrant | 蒸汽消防栓 | Steam Fire Hydrant | GravityTarget.cs:87 | 完成 |
-| target.mailbox | 机械邮筒 | Mechanical Mailbox | GravityTarget.cs:89 | 完成 |
-| target.barrier | 街道隔离柱 | Street Barrier | GravityTarget.cs:91 | 完成 |
-| target.pump | 手压水泵 | Hand Pump | GravityTarget.cs:93 | 完成 |
-| target.bench | 街边金属长椅 | Metal Bench | GravityTarget.cs:95 | 完成 |
-| target.crate | 金属货箱 | Metal Crate | GravityTarget.cs:97 | 完成 |
-| target.column | 齿轮装饰街道筒 | Gear Street Column | GravityTarget.cs:99 | 完成 |
-| target.scout | 巡逻机 | Scout | GravityProjectBuilder.cs | 完成 |
-| target.engineer | 工程机 | Engineer | GravityProjectBuilder.cs | 完成 |
-| target.guard | 盾卫核心 | Shield Core | GravityProjectBuilder.cs | 完成 |
-| target.projectile | 危险能量弹 | Danger Projectile | GravityProjectBuilder.cs | 完成 |
-| target.health_pack | 防卫补给 | Shield Supply | GravityProjectBuilder.cs | 完成 |
-| target.missile | 危险导弹 {n} | Danger Missile {n} | GravityExistingSceneUpgrader.cs | 完成 |
-| target.health_pack_27 | 防卫补给 27 | Shield Supply 27 | GravityExistingSceneUpgrader.cs | 完成 |
+| 原文（逐字提取） | 英文版实际值 | 来源行 |
+|---|---|---|
+| `{displayName} 质量过大：引力锁定 {PullStagesCompleted}/{pullStagesRequired}` | `{displayName} TOO HEAVY: GRAVITY LOCK {PullStagesCompleted}/{pullStagesRequired}` | GravityTarget.cs:340 |
 
 ---
 
-## ProductName / 包名
+## 8. 产品名称与控制器提示
 
-| 字段 | 原值 | 英文值 | 状态 |
-|---|---|---|---|
-| productName | 重力战线 | GRAVITY FRONTLINE | 完成 |
-| Android bundle ID | com.gravitywarden.repulsion | com.gravitywarden.repulsion.en | 完成 |
-| metroPackageName | 引力斥力 | GravityFrontline | 完成 |
-
----
-
-## 编辑器帮助文字（不影响玩家，但规范要求更改）
-
-| 原中文 | 英文 | 来源 | 状态 |
-|---|---|---|---|
-| PICO 扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位  ｜  桌面 Q/E · Space · F · R · C | PICO TRIGGER/GRIP GRAB · CLOSE HANDS COLLIDE · LEFT X REPULSE · RIGHT A SINGULARITY · LEFT Y RECENTER ｜ DESKTOP Q/E · SPACE · F · R · C | GravityProjectBuilder.cs:466 | 完成 |
-| 扳机 / 握把 引力抓取 · 双手合拢 对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 重置视角 | TRIGGER / GRIP GRAVITY GRAB · CLOSE HANDS COLLIDE · LEFT X REPULSE · RIGHT A SINGULARITY · LEFT Y RECENTER | GravityExistingSceneUpgrader.cs:1212 | 完成 |
+| 原文（逐字提取） | 英文版实际值 | 位置 |
+|---|---|---|
+| `重力战线` | `GRAVITY FRONTLINE` | ProjectSettings.asset / GravityExistingSceneUpgrader.cs:1259 |
+| `扳机 / 握把 引力抓取 · 双手合拢 对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 重置视角` | `[Pull Trigger] / [Hold Grip] TO PULL · CLAP HANDS FOR COLLISION · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER` | GravityExistingSceneUpgrader.cs:1212 |
+| `PICO 扳机/握把吸取 · 合拢对撞 · 左 X 斥力 · 右 A 奇点 · 左 Y 归位  |  桌面 Q/E · Space · F · R · C` | `[Trigger]/[Grip] PULL · CLAP COLLISION · [Left X] REPULSE · [Right A] SINGULARITY · [Left Y] RECENTER  |  Desktop Q/E · Space · F · R · C` | GravityProjectBuilder.cs:466 |
 
 ---
 
-## CJK 扫描排除说明
+## 9. CJK 扫描摘要
 
-以下中文字符存在于代码中但**不属于玩家可见文字**，按规范可保留：
+- 扫描范围：`Assets/GravityWarden/Scripts/Runtime/` 和 `Editor/` 全部 `.cs` 文件
+- 玩家可见字符串：**零残留**（所有运行时 text 赋值均为英文）
+- 允许保留中文的类别（规范明确豁免）：
+  - 内部对象名（`VISUAL_*`、`VFX_*`、`SCENE_PREVIEW_*`、`ENVIRONMENT_*` 等前缀）
+  - 子组件部件名（护腕零件名仅在 Editor/GravityProjectBuilder.cs 中用于生成 3D 节点，不显示给玩家）
+  - 场景描述注释行
+  - Tripo 资产路径（`tripo_convert_*`）
+  - 音乐资产名（`BGM_机械欧式街道战斗循环_CC-BY-4.0`）
 
-1. **内部对象名**（`new GameObject("VFX_引力束_挣扎环")` 等约 116 处）：用于 Editor/Runtime 中创建临时 GameObject，不渲染到任何画面 UI。
-2. **代码注释**（约 1 处）：`GravityStatusTypes.cs` 注释提及"中文"一词，纯文档说明。
-3. **Tripo JSON 任务元数据**（10 个 .json 文件）：记录原始素材路径（`/引力 斥力/`），属于存档键/路径，不渲染到画面。
-4. **`VISUAL_可吸道具_`、`VISUAL_原创机械重力护腕_`**：Smoke test 及 Editor 脚本中作为 `StartsWith` 前缀用于结构查找，不显示给玩家。
-5. **`Prop_EnergyCanister_{n}_连锁爆炸`**：编辑器生成的 Hierarchy 节点名，不出现在 HUD。
+---
+
+## 10. Tripo 调用次数
+
+**0 次**（无新资产生成；所有 HUD 艺术素材为预有英文版本，零 Tripo 调用）
+
+---
+
+_提取工具：python3 -I + re.findall STRING_LITERAL 扫描各 .cs 文件，2026-10-22_

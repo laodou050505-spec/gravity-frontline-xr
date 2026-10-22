@@ -1,0 +1,44 @@
+[
+  {
+    "asset": "BackgroundNatural",
+    "provider": "Tripo",
+    "model": "banana_pro",
+    "task_id": "4fe48909-1ace-4aa4-b723-21a65bce3aa2",
+    "status": "success",
+    "credits_consumed": 15.0,
+    "files": [
+      "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitlePremiumFix/BackgroundNatural/01_generated_image_url.png"
+    ],
+    "output": {
+      "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/4fe48909-1ace-4aa4-b723-21a65bce3aa2/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvNGZlNDg5MDktMWFjZS00YWE0LWI3MjMtMjFhNjViY2UzYWEyL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzcxNDJ9fX1dfQ__&Signature=SgKkLLOpurADgC8vec0TMa1So1QRMCXzWu2agQHTWLdw93FczAAXf-TF5G6G1HGlkdE6bzuVCLYp~bDkZ9KxOzN9wY1IlM~98k3UYz5~ia1DhWEZHpx1Zw-PuecuVAXovPhEGehDVoM1hGY5Htf-BUbfoEOJ6~wRXC8wTqSt2uGxyjiR4LQ8bN4arGSmvzG2d4vQWAXvhzum-erMPxSx7YtYcUbS011xbTvaN2ilWeaD7tOtC8QUqb5op7PgWWsGyioHpaTmDc6pa9GGyuIm50fWExCXD1mp1pfnpzl3S4e0coOsrW1nLDDZjpL5ZIXma8i8NZirzTAh9g5a7smL1Q__&Key-Pair-Id=K1676C64NMVM2J"
+    }
+  },
+  {
+    "asset": "TitlePremium",
+    "provider": "Tripo",
+    "model": "banana_pro",
+    "task_id": "c788fd7a-1e1b-4ad6-bd09-124815ede61f",
+    "status": "success",
+    "credits_consumed": 15.0,
+    "files": [
+      "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitlePremiumFix/TitlePremium/01_generated_image_url.png"
+    ],
+    "output": {
+      "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/c788fd7a-1e1b-4ad6-bd09-124815ede61f/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvYzc4OGZkN2EtMWUxYi00YWQ2LWJkMDktMTI0ODE1ZWRlNjFmL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzY1ODV9fX1dfQ__&Signature=TGy13NiOPq99uQiUOGjFxtnfoPWBaJncgiXAbA7fJPNZOcfTGgN4O-abR8hYGGtmFzxA5nVEZMtXBrMjZGQVm18XhwkjHUppi-ZoTdUrCO-jpeMABtnRdoT4CSGn01ucfwgE7QymSUxrklk2gQAPnAz5OPDHmQIc6oIahOfhSfLb7sTEprrHqTC9d1VROLzm4VTVkSdMjJSjDA0iBHYT0Km7-21YmTokYsLYC1RMvTEql3f-n675Va6UFlxCtyd1OfzA2mKFp69xzGJkaZqQc5lGbYeJjWNoWwzunggIkbCMqFXdixy8bDHGNHSDk-o4MNBU2P6hagvpdxjkYA~HqQ__&Key-Pair-Id=K1676C64NMVM2J"
+    }
+  },
+  {
+    "asset": "ButtonsPremium",
+    "provider": "Tripo",
+    "model": "banana_pro",
+    "task_id": "e74fee2d-cbd4-47c4-b173-58416f9eca2c",
+    "status": "success",
+    "credits_consumed": 15.0,
+    "files": [
+      "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/TitlePremiumFix/ButtonsPremium/01_generated_image_url.png"
+    ],
+    "output": {
+      "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/e74fee2d-cbd4-47c4-b173-58416f9eca2c/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvZTc0ZmVlMmQtY2JkNC00N2M0LWIxNzMtNTg0MTZmOWVjYTJjL2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzY2MzB9fX1dfQ__&Signature=M9jszct8ok-H0sxdt~zrSsE3VS7rmZR7n7zru9ew3iRNq~AqjlK4uBxKOYDYnPlYdn5nZnnyxkLZq5j7oogDTO7lJj6rBQpeT0SOBPWlEqvzks44cwoNjrlYobZoZ5oNpkKpb734RccC6IctFOOyZSYtviIOPdIuAlzNMNrgaWT39ZhY-7ll2BAvPO9wWGnoL3LmRw95VDbK2jaWFEfAFQmUUvqCJF9~dZuFxn1xABIxjPhUuBgKVoFiutVv3L-xao0oBkyroKSaiJir15kO5dUAB3x0O0xDSVPiaA3M8Rakv~VF8aZG7FnEsgkaj0jGXd8kQcw8y9kir27sGZNBnQ__&Key-Pair-Id=K1676C64NMVM2J"
+    }
+  }
+]

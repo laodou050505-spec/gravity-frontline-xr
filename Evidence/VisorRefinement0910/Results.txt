@@ -1,0 +1,69 @@
+GRAVITY_DAMAGE_CASE_PASS title_ready title=True
+SCREENSHOT 00_Title.png 1600x1000 bytes=2378811
+GRAVITY_DAMAGE_CASE_PASS game_started game=True
+GRAVITY_DAMAGE_CASE_PASS damage_component_ready camera=True component=True ready=True
+GRAVITY_DAMAGE_CASE_PASS full_health_clear shield=100.000 targetDamage=0.000 visibleDamage=0.000 hitPulse=0.000 critical=0.000 dim=0.000 fault=0.000 centreCracks=0.000 edgeStrength=0.250 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS generated_crack_texture_loaded texture=VisorGlassCracks size=1024x1024
+GRAVITY_DAMAGE_CASE_PASS independent_generated_central_texture texture=VisorCentralCracks size=2048x1280
+GRAVITY_DAMAGE_CASE_PASS separate_fault_and_central_materials fault=True center=True
+GRAVITY_DAMAGE_CASE_PASS topmost_overlay_material shader=GravityWarden/UI/VisorDamage renderQueue=4990
+GRAVITY_DAMAGE_CASE_PASS original_glass_uses_separate_texture_and_layer texture=VisorGlassCracks shader=GravityWarden/UI/VisorDamage
+GRAVITY_DAMAGE_CASE_PASS original_glass_layout_normal_projection size=(1600.00, 1000.00) reference=(1600.00, 1000.00) position=(0.00, 0.00) uv=(x:0.00, y:0.00, width:1.00, height:1.00)
+GRAVITY_DAMAGE_CASE_PASS central_texture_square_pixels_normal_projection worldSize=2.224x1.390 texture=2048x1280 uv=(x:0.00, y:0.00, width:1.00, height:1.00) pixelAspect=1.000 profile=Desktop_1600x1000
+GRAVITY_DAMAGE_CASE_PASS fault_covers_viewport eyes=1 coveredCorners=4 size=(1696.01, 1060.01) margin=6%
+GRAVITY_DAMAGE_CASE_PASS damage_layer_composite_order fault=0 original=1 central=2
+GRAVITY_DAMAGE_CASE_PASS readouts_above_all_damage_layers damageRoot=0 readoutRoot=19
+GRAVITY_DAMAGE_CASE_PASS fault_covers_wide_projection eyes=1 coveredCorners=4 size=(1722.31, 1043.82) margin=6% fov=110 aspect=1.65
+GRAVITY_DAMAGE_CASE_PASS original_glass_layout_wide_projection size=(1600.00, 1000.00) reference=(1600.00, 1000.00) position=(0.00, 0.00) uv=(x:0.00, y:0.00, width:1.00, height:1.00)
+GRAVITY_DAMAGE_CASE_PASS central_texture_square_pixels_wide_projection worldSize=4.873x3.046 texture=2048x1280 uv=(x:0.00, y:0.00, width:1.00, height:1.00) pixelAspect=1.000 profile=Desktop_1600x1000
+GRAVITY_DAMAGE_CASE_PASS shader_health100_clear_aim_core coreBrightness=1.000 nominal=1.000 centralAdditionalPixels=0/65536 coreCrackPixels=0
+GRAVITY_DAMAGE_CASE_PASS full_health_no_tint brightness=1.000
+SCREENSHOT 01_Health100.png 1600x1000 bytes=2383607
+GRAVITY_DAMAGE_CASE_PASS real_hit_immediate_feedback shield=92.000 targetDamage=0.080 visibleDamage=0.000 hitPulse=0.617 critical=0.000 dim=0.000 fault=0.000 centreCracks=0.000 edgeStrength=0.250 deathHeld=False visible=True
+SCREENSHOT 01a_HitPulse92.png 1600x1000 bytes=2351727
+GRAVITY_DAMAGE_CASE_PASS light_hit_glass_softened_health92 renderedRelativeStrength=0.246 actualPixelSum=9.776 originalPixelSum=39.793 strength=0.264 shield=92.000 targetDamage=0.080 visibleDamage=0.080 hitPulse=0.000 critical=0.000 dim=0.123 fault=0.000 centreCracks=0.000 edgeStrength=0.264 deathHeld=False visible=True
+SCREENSHOT 01b_Health92.png 1600x1000 bytes=2369045
+GRAVITY_DAMAGE_CASE_PASS light_hit_glass_softened_health84 renderedRelativeStrength=0.300 actualPixelSum=198.832 originalPixelSum=663.242 strength=0.301 shield=84.000 targetDamage=0.160 visibleDamage=0.160 hitPulse=0.000 critical=0.000 dim=0.207 fault=0.000 centreCracks=0.000 edgeStrength=0.301 deathHeld=False visible=True
+SCREENSHOT 01c_Health84.png 1600x1000 bytes=2408452
+SCREENSHOT 02a_HitPulse75.png 1600x1000 bytes=2437039
+GRAVITY_DAMAGE_CASE_PASS health75_pulse_settled shield=75.000 targetDamage=0.250 visibleDamage=0.250 hitPulse=0.000 critical=0.000 dim=0.290 fault=0.021 centreCracks=0.025 edgeStrength=0.367 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS light_hit_glass_softened_health75 renderedRelativeStrength=0.367 actualPixelSum=746.409 originalPixelSum=2034.680 strength=0.367 shield=75.000 targetDamage=0.250 visibleDamage=0.250 hitPulse=0.000 critical=0.000 dim=0.290 fault=0.021 centreCracks=0.025 edgeStrength=0.367 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS light_hit_glass_builds_gradually renderedBrightness92=9.776 84=198.832 75=746.409 strengths=0.264/0.301/0.367
+GRAVITY_DAMAGE_CASE_PASS shader_health75_clear_aim_core coreBrightness=0.710 nominal=0.710 centralAdditionalPixels=0/65536 coreCrackPixels=0
+GRAVITY_DAMAGE_CASE_PASS health75_screen_darkens brightness=0.710 shield=75.000 targetDamage=0.250 visibleDamage=0.250 hitPulse=0.000 critical=0.000 dim=0.290 fault=0.021 centreCracks=0.025 edgeStrength=0.367 deathHeld=False visible=True
+SCREENSHOT 02_Health75.png 1600x1000 bytes=2458172
+GRAVITY_DAMAGE_CASE_PASS scene_health75_visible_darkening medianDisplayBrightnessRatio=0.841 maximum=0.910 scenePixels=229247 colorSpace=Linear
+GRAVITY_DAMAGE_CASE_PASS health45_stronger shield=45.000 targetDamage=0.550 visibleDamage=0.550 hitPulse=0.000 critical=0.000 dim=0.524 fault=0.427 centreCracks=0.474 edgeStrength=0.681 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS shader_health45_clear_aim_core coreBrightness=0.473 nominal=0.476 centralAdditionalPixels=1315/65536 coreCrackPixels=0
+GRAVITY_DAMAGE_CASE_PASS health45_screen_darker brightness=0.473 shield=45.000 targetDamage=0.550 visibleDamage=0.550 hitPulse=0.000 critical=0.000 dim=0.524 fault=0.427 centreCracks=0.474 edgeStrength=0.681 deathHeld=False visible=True
+SCREENSHOT 03_Health45.png 1600x1000 bytes=2483638
+GRAVITY_DAMAGE_CASE_PASS scene_health45_visible_darkening medianDisplayBrightnessRatio=0.678 maximum=0.810 scenePixels=230449 colorSpace=Linear
+GRAVITY_DAMAGE_CASE_PASS health15_critical shield=15.000 targetDamage=0.850 visibleDamage=0.850 hitPulse=0.000 critical=0.571 dim=0.726 fault=0.912 centreCracks=0.820 edgeStrength=0.954 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS shader_health15_clear_aim_core coreBrightness=0.272 nominal=0.274 centralAdditionalPixels=1634/65536 coreCrackPixels=0
+GRAVITY_DAMAGE_CASE_PASS health15_dark_but_readable brightness=0.272 shield=15.000 targetDamage=0.850 visibleDamage=0.850 hitPulse=0.000 critical=0.571 dim=0.726 fault=0.912 centreCracks=0.820 edgeStrength=0.954 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS central_cracks_sparse centralAdditionalPixelRatio=0.025 opacity=0.820
+SCREENSHOT 04_Health15.png 1600x1000 bytes=2441937
+GRAVITY_DAMAGE_CASE_PASS scene_health15_visible_darkening medianDisplayBrightnessRatio=0.496 maximum=0.680 scenePixels=230763 colorSpace=Linear
+GRAVITY_DAMAGE_CASE_PASS mechanical_fault_animates_local_rows_only changedFraction=0.027 meanChange=0.001 aimCoreChange=0.000 severity=0.912
+SCREENSHOT 04b_Health15Foreground.png 1600x1000 bytes=860025
+GRAVITY_DAMAGE_CASE_PASS health_pack_prefab prefab=True
+GRAVITY_DAMAGE_CASE_PASS real_health_pack_1 shield=50.000 targetDamage=0.500 visibleDamage=0.850 hitPulse=0.000 critical=0.571 dim=0.726 fault=0.912 centreCracks=0.820 edgeStrength=0.954 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS real_health_pack_2 shield=85.000 targetDamage=0.150 visibleDamage=0.500 hitPulse=0.000 critical=0.000 dim=0.488 fault=0.338 centreCracks=0.382 edgeStrength=0.625 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS healing_reduces_damage shield=85.000 targetDamage=0.150 visibleDamage=0.150 hitPulse=0.000 critical=0.000 dim=0.198 fault=0.000 centreCracks=0.000 edgeStrength=0.296 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS shader_healed85_clear_aim_core coreBrightness=0.804 nominal=0.802 centralAdditionalPixels=0/65536 coreCrackPixels=0
+GRAVITY_DAMAGE_CASE_PASS healing_restores_screen_brightness brightness=0.804 shield=85.000 targetDamage=0.150 visibleDamage=0.150 hitPulse=0.000 critical=0.000 dim=0.198 fault=0.000 centreCracks=0.000 edgeStrength=0.296 deathHeld=False visible=True
+SCREENSHOT 05_Healed85.png 1600x1000 bytes=2402801
+GRAVITY_DAMAGE_CASE_PASS scene_healed85_visible_darkening medianDisplayBrightnessRatio=0.895 maximum=0.960 scenePixels=227899 colorSpace=Linear
+GRAVITY_DAMAGE_CASE_PASS real_defeat_keeps_broken_visor shield=0.000 targetDamage=1.000 visibleDamage=1.000 hitPulse=1.000 critical=1.000 dim=0.820 fault=1.000 centreCracks=0.820 edgeStrength=1.000 deathHeld=True visible=True resultVisible=True
+GRAVITY_DAMAGE_CASE_PASS summary_text_above_broken_visor panelSibling=20 glassBranch=VISOR_DAMAGE_CANVAS:0 visibleTexts=14
+SCREENSHOT 06_RunSummary.png 1600x1000 bytes=2022777
+GRAVITY_DAMAGE_CASE_PASS death_visual_and_fault_time_hold parameterMaxDelta=0.000000 faultTime=23.455 shield=0.000 targetDamage=1.000 visibleDamage=1.000 hitPulse=1.000 critical=1.000 dim=0.820 fault=1.000 centreCracks=0.820 edgeStrength=1.000 deathHeld=True visible=True
+SCREENSHOT 06b_RunSummary_Held.png 1600x1000 bytes=2022759
+GRAVITY_DAMAGE_CASE_PASS real_redeploy_entry_exists GravityGameManager.RestartGame
+GRAVITY_DAMAGE_CASE_PASS real_redeploy_loaded_fresh_combat game=True damage=True
+GRAVITY_DAMAGE_CASE_PASS real_redeploy_clears_all_damage shield=100.000 targetDamage=0.000 visibleDamage=0.000 hitPulse=0.000 critical=0.000 dim=0.000 fault=0.000 centreCracks=0.000 edgeStrength=0.250 deathHeld=False visible=True
+GRAVITY_DAMAGE_CASE_PASS shader_redeployed100_clear_aim_core coreBrightness=1.000 nominal=1.000 centralAdditionalPixels=0/65536 coreCrackPixels=0
+GRAVITY_DAMAGE_CASE_PASS redeployed_shader_is_clear brightness=1.000 addedCracks=0.000
+GRAVITY_DAMAGE_CASE_PASS central_texture_square_pixels_redeployed_projection worldSize=2.224x1.390 texture=2048x1280 uv=(x:0.00, y:0.00, width:1.00, height:1.00) pixelAspect=1.000 profile=Desktop_1600x1000
+SCREENSHOT 07_Redeployed100.png 1600x1000 bytes=2380012
+GRAVITY_DAMAGE_EVIDENCE_PASS passed=54 failed=0 output=/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Evidence/VisorRefinement0910

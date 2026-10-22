@@ -1,0 +1,25 @@
+GRAVITY_DAMAGE_CASE_PASS title_ready title=True
+SCREENSHOT 00_Title.png 1600x1000 bytes=2012287
+GRAVITY_DAMAGE_CASE_PASS game_started game=True
+GRAVITY_DAMAGE_CASE_PASS damage_component_ready camera=True component=True ready=True
+GRAVITY_DAMAGE_CASE_PASS full_health_clear shield=100.000 targetDamage=0.000 visibleDamage=0.000 hitPulse=0.000 critical=0.000 visible=True
+GRAVITY_DAMAGE_CASE_PASS generated_crack_texture_loaded texture=VisorGlassCracks size=1024x1024
+GRAVITY_DAMAGE_CASE_PASS topmost_overlay_material shader=GravityWarden/UI/VisorDamage renderQueue=4990
+SCREENSHOT 01_Health100.png 1600x1000 bytes=2002756
+GRAVITY_DAMAGE_CASE_PASS real_hit_immediate_feedback shield=75.000 targetDamage=0.250 visibleDamage=0.000 hitPulse=1.000 critical=0.000 visible=True
+SCREENSHOT 02a_HitPulse75.png 1600x1000 bytes=2045385
+GRAVITY_DAMAGE_CASE_PASS health75_pulse_settled shield=75.000 targetDamage=0.250 visibleDamage=0.250 hitPulse=0.000 critical=0.000 visible=True
+SCREENSHOT 02_Health75.png 1600x1000 bytes=2078563
+GRAVITY_DAMAGE_CASE_PASS health45_stronger shield=45.000 targetDamage=0.550 visibleDamage=0.550 hitPulse=0.000 critical=0.000 visible=True
+SCREENSHOT 03_Health45.png 1600x1000 bytes=2123944
+GRAVITY_DAMAGE_CASE_PASS health15_critical shield=15.000 targetDamage=0.850 visibleDamage=0.850 hitPulse=0.000 critical=0.571 visible=True
+SCREENSHOT 04_Health15.png 1600x1000 bytes=2141952
+SCREENSHOT 04b_Health15Foreground.png 1600x1000 bytes=316006
+GRAVITY_DAMAGE_CASE_PASS health_pack_prefab prefab=True
+GRAVITY_DAMAGE_CASE_PASS real_health_pack_1 shield=50.000 targetDamage=0.500 visibleDamage=0.850 hitPulse=0.000 critical=0.571 visible=True
+GRAVITY_DAMAGE_CASE_PASS real_health_pack_2 shield=85.000 targetDamage=0.150 visibleDamage=0.719 hitPulse=0.000 critical=0.197 visible=True
+GRAVITY_DAMAGE_CASE_PASS healing_reduces_damage shield=85.000 targetDamage=0.150 visibleDamage=0.150 hitPulse=0.000 critical=0.000 visible=True
+SCREENSHOT 05_Healed85.png 1600x1000 bytes=2035833
+GRAVITY_DAMAGE_CASE_PASS real_defeat_hides_damage shield=0.000 targetDamage=1.000 visibleDamage=0.363 hitPulse=0.810 critical=0.000 visible=False resultVisible=True
+SCREENSHOT 06_RunSummary.png 1600x1000 bytes=1891174
+GRAVITY_DAMAGE_EVIDENCE_PASS passed=15 failed=0 output=/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Evidence/VisorDamage0909Pico

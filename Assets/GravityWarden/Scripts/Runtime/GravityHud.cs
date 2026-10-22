@@ -136,7 +136,7 @@ namespace GravityRepulsion
             enemyText.text = $"{game.AliveEnemies.Count:00} HOSTILES";
             shieldText.text = $"WARD  {Mathf.CeilToInt(game.Shield):000}";
             energyText.text = $"SINGULARITY  {Mathf.FloorToInt(game.UltimateCharge)}/{game.UltimateRequirement}";
-            repulseText.text = game.RepulseCooldown > 0f ? $"REPULSE COOLDOWN {game.RepulseCooldown:0.0}s" : "REPULSE READY  LEFT X";
+            repulseText.text = game.RepulseCooldown > 0f ? $"REPULSE COOLDOWN {game.RepulseCooldown:0.0}s" : "REPULSE READY  [Press Left X]";
             leftText.text = HandReadout("L", game.leftHand);
             rightText.text = HandReadout("R", game.rightHand);
             shieldFill.fillAmount = game.Shield / 100f;
@@ -223,7 +223,7 @@ namespace GravityRepulsion
                 $"COLLISION ×{summary.collisionAttackCount}   +{summary.collisionAttackBonus}\n" +
                 $"CHAIN REACTION ×{summary.environmentAttackCount}   +{summary.environmentAttackBonus}\n" +
                 $"SINGULARITY ×{summary.ultimateAttackCount}   +{summary.ultimateAttackBonus}";
-            defeatText.text = "RIGHT A: REDEPLOY";
+            defeatText.text = "[Press Right A]: REDEPLOY";
             if (generated != null && generated.Ready) generated.Results(summary, resultLeftCard, resultRightCard, resultLeftText, resultRightText);
             visor?.SetVisible(false);
             visorDamage?.HoldDeathState();

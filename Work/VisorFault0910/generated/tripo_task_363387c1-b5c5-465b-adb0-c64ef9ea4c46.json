@@ -1,0 +1,19 @@
+{
+  "task_id": "363387c1-b5c5-465b-adb0-c64ef9ea4c46",
+  "type": "image_to_image",
+  "status": "success",
+  "progress": 100,
+  "input": {
+    "prompt": "Generate a new isolated transparent visor crack overlay asset in exactly the same realistic fine double-edge white glass-fracture style as the reference. Landscape composition on perfectly uniform pure black background. Remove all border cracks and both large corner spiderweb impacts from the reference. Instead show ONLY TWO SMALL SPARSE NATURAL FRACTURE CLUSTERS in the interior: one tiny irregular impact at 35 percent image width and 60 percent image height, and one fine branched crack at 65 percent image width and 38 percent image height. Each cluster is a few slender jagged rays, small secondary forks and only a very small subtle broken concentric arc near its impact; no dense opaque impact crater, no repeated geometric radial lines. Clusters taper naturally to nothing and stay within the inner 60 percent of the screen. Keep the exact center aiming area, a circle diameter 9 percent of image width, completely unmarked black. No connecting line across exact center. Crack pixels occupy only 1 to 3 percent of the entire canvas. The outer 15 percent margins are empty black. These are actual glass stress cracks with tiny frosty specular double edges, not lightning, not circuit traces, not graphic straight zigzags. Absolutely no dust, fog, glow, glass panels, grey tinted glass background, scene, UI, text, symbols, border or watermark. Black canvas with only two sparse white fracture patterns. Match the reference fine glass detail and keep ample untouched negative space.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260910/363387c1-b5c5-465b-adb0-c64ef9ea4c46/generated_image.png"
+  },
+  "created_at": "2026-09-10T04:13:10.015683Z",
+  "completed_at": "2026-09-10T04:13:19.654288Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Work/VisorFault0910/generated/01_generated_image_url.png"
+  ]
+}

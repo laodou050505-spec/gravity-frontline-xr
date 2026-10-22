@@ -1,0 +1,19 @@
+{
+  "task_id": "1e35bd4a-cc94-45f7-a766-af446456ecf4",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "A flat production game UI sprite sheet on perfectly solid near-black #020711 background. Sci-fi helmet interface, cyan light, brushed pale platinum lettering with restrained violet edge light, sharp cut-corner geometry, elegant cinematic quality. Landscape 16:9 image, divided into TWO equal horizontal rows with large empty gutters. TOP HALF: one centered monumental custom typographic game title reading exactly GRAVITY FRONTLINE in two lines, GRAVITY above FRONTLINE, both equally wide. No other title text. BOTTOM HALF: exactly TWO independent wide buttons side by side, LEFT reads START GAME and has a small play triangle, RIGHT reads EXIT GAME and has a small power symbol. Buttons must have clear substantial pale white text and thin cyan borders. Keep all items within their own quarter or half, substantial clear black margins, no overlap. This is separate reusable UI asset blocks, not an assembled screenshot. No extra words, no Chinese, no watermark. No perspective.",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260908/1e35bd4a-cc94-45f7-a766-af446456ecf4/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDgvMWUzNWJkNGEtY2M5NC00NWY3LWE3NjYtYWY0NDY0NTZlY2Y0L2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODg5MzQxNTJ9fX1dfQ__&Signature=Zc9G-NrWkMIC5ucAtKctkHXuNx~COmIxMv8~9v4rzi6K2Hd9GReJJQZyT-tYoAQKawK1MhBJA3bGJCvfi-o7-en3v0XloyZm5yghk2Md~fdyP~cZ3QeK0ZAdiXh6TzIZckHSQsLBboHEgzxqzOvsaEN0XLihqdnnADwb8ODf66rIQgRZcvYEktEpfT-b4LHNfi7rPepy79hcKyV5bTj32lMiqr2Mgocqtz-rPedaaVTNfxnmWGrm6yvsP20iIUhbWECOMh4~WhmgZxgyav7h0tovDF6y5kXgttQruOcpC7hVer12JTE9I4Do75fEaBHR0hOjWkYfaLtvDYOy-DrTGA__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-08T06:08:53.764905Z",
+  "completed_at": "2026-09-08T06:09:09.551054Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Assets/GravityWarden/Art/Tripo/ModularEnglish/TitleAtlas/01_generated_image_url.png"
+  ]
+}

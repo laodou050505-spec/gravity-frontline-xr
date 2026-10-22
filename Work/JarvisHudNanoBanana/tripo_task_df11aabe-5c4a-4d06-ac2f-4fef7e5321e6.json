@@ -1,0 +1,19 @@
+{
+  "task_id": "df11aabe-5c4a-4d06-ac2f-4fef7e5321e6",
+  "status": "success",
+  "type": "text_to_image",
+  "progress": 100,
+  "input": {
+    "prompt": "Futuristic spatial combat visor HUD overlay asset sheet for a gravity manipulation game, original JARVIS-inspired aesthetic: cyan and electric violet holographic arcs, angular corner brackets, concentric targeting reticle, segmented scan rings, thin technical lines, tiny abstract unreadable diagnostic glyphs, transparent-looking dark navy negative space, no characters, no face, no helmet, no logos, no large text, clean high contrast game UI graphic, symmetrical composition, crisp vector-like edges, suitable as a screen overlay texture",
+    "model_version": "banana"
+  },
+  "output": {
+    "generated_image_url": "https://tripo-data.rg1.data.tripo3d.com/tcli_c6fae067c9334bd9af3d07029c0e7b00/20260909/df11aabe-5c4a-4d06-ac2f-4fef7e5321e6/generated_image.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly90cmlwby1kYXRhLnJnMS5kYXRhLnRyaXBvM2QuY29tL3RjbGlfYzZmYWUwNjdjOTMzNGJkOWFmM2QwNzAyOWMwZTdiMDAvMjAyNjA5MDkvZGYxMWFhYmUtNWM0YS00ZDA2LWFjMmYtNGZlZjdlNTMyMWU2L2dlbmVyYXRlZF9pbWFnZS5wbmciLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3ODkwMjQyNTl9fX1dfQ__&Signature=Gm3JgwnAhERCRlnO4SxzbMc9Nw~DAQZvL3lA~R~znMyqCyGLfSGn8wOOPYRok6VaEMVU3c9ngG2nApjGBiPdBKc7OYRck3wvAxLobrmFdx3CqLd6vYIq81k5KrnliQCx4HTsk36YuhZXF1RBjxAnLE4AWE5SH~32TtWOPg226Rx5hVuglWW5yCHhbNeZPwS35wDTXRhifCkrEafLwSe7OwkrHBGZUOSFXgiRQLKxk39v2QChRnqqzDpN-m-1JrgCr1LQii5SWXAhbRcK2S7iDY-gqakG9ONjqfPljBRXWVnIrRjcdWg4feDV7EURuRKuQUSNrQ0dCzyxo~qkCA5YlQ__&Key-Pair-Id=K1676C64NMVM2J"
+  },
+  "created_at": "2026-09-09T07:10:43.385020Z",
+  "completed_at": "2026-09-09T07:10:59.324306Z",
+  "credits_consumed": 5.0,
+  "downloaded_files": [
+    "/Users/ld/Documents/Codex/2026-08-13/y-2/outputs/引力 斥力/Work/JarvisHudNanoBanana/01_generated_image_url.png"
+  ]
+}

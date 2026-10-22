@@ -185,7 +185,17 @@ namespace GravityRepulsion
             {
                 GravityFeedback.Burst(target.transform.position, new Color(.72f, .38f, 1f), 14, .75f);
             }
-            hud?.SetStatus(HudStatusEvent.Impact, $"TARGET DOWN");
+            var killMsg = reason switch
+            {
+                DestroyReason.ReflectAttack           => "REFLECTION KILL",
+                DestroyReason.RepulseAttack           => "REPULSE KILL",
+                DestroyReason.BipolarCollision        => "COLLISION KILL",
+                DestroyReason.ChainReaction           => "CHAIN REACTION",
+                DestroyReason.SingularityAnnihilation => "SINGULARITY ANNIHILATION",
+                DestroyReason.PrecisionDefense        => "PRECISION DEFENSE",
+                _                                     => "TARGET DOWN",
+            };
+            hud?.SetStatus(HudStatusEvent.Impact, killMsg);
         }
 
         public void SetStatus(HudStatusEvent ev, string displayText = "") => hud?.SetStatus(ev, displayText);
@@ -248,7 +258,7 @@ namespace GravityRepulsion
             damageCooldown = 1.4f;
             Shield = Mathf.Max(0f, Shield - amount);
             hud?.Refresh(this);
-            hud?.SetStatus(HudStatusEvent.Danger, $"SHIELD DAMAGE  -{amount}");
+            hud?.SetStatus(HudStatusEvent.Danger, $"WARD DAMAGED  -{amount}");
             GravityFeedback.Shockwave(playerHead != null ? playerHead.position : Vector3.zero, new Color(1f, .08f, .2f), 1.4f);
             GravityAudio.Play(GravitySound.PlayerHurt, playerHead != null ? playerHead.position : Vector3.zero, .92f);
             if (Shield > 0f) return;
@@ -468,7 +478,7 @@ namespace GravityRepulsion
                 if (spawned.TryGetComponent<Rigidbody>(out var body)) body.linearVelocity = Vector3.zero;
             }
             hud?.SetStatus(HudStatusEvent.Ready, Wave == 1
-                ? "AIM · TRIGGER TO GRAB · RELEASE TO THROW"
+                ? "AIM · [Pull Trigger] TO GRAB · [Release Grip] TO THROW"
                 : $"WAVE {Wave:00} INCOMING · LOCK TARGETS");
         }
 
@@ -489,7 +499,7 @@ namespace GravityRepulsion
                     if (supply.TryGetComponent<GravityTarget>(out var pack))
                         GravityArchitectureCollision.ResolvePenetration(pack);
                     supplied = true;
-                    hud?.SetStatus(HudStatusEvent.Ready, "SUPPLY DROP  GRAB TO RESTORE SHIELD");
+                    hud?.SetStatus(HudStatusEvent.Ready, "SUPPLY DROP  GRAB TO RESTORE WARD");
                 }
                 else hud?.SetStatus(HudStatusEvent.Impact, $"WAVE {Wave} CLEAR  SCORE {Score}");
                 intermissionTimer = supplied ? 5.5f : intermissionDuration;
@@ -508,7 +518,6 @@ namespace GravityRepulsion
         {
             EnemiesDefeated++;
             baseCombatScore += 25;
-            if (string.IsNullOrWhiteSpace(reason)) return;
             if (reason == DestroyReason.ReflectAttack)
             {
                 reflectAttackCount++;
