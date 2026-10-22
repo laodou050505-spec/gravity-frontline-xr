@@ -1262,7 +1262,7 @@ namespace GravityRepulsion.Editor
         private static void ConfigureProjectAndPico()
         {
             PlayerSettings.productName = "GRAVITY FRONTLINE";
-            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion");
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion.en"); // 英文版独立包名，不可改回原版
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel29;

@@ -639,7 +639,7 @@ namespace GravityRepulsion.Editor
             PlayerSettings.companyName = "Gravity Warden Studio";
             PlayerSettings.productName = "GRAVITY FRONTLINE";
             PlayerSettings.bundleVersion = "0.1.0";
-            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion");
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, "com.gravitywarden.repulsion.en"); // 英文版独立包名，不可改回原版
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel29;
