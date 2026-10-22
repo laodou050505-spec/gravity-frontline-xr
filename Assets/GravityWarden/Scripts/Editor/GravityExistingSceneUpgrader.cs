@@ -52,7 +52,12 @@ namespace GravityRepulsion.Editor
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             UpgradeScene(scene, prefabs);
             EditorSceneManager.SaveScene(scene, ScenePath);
-            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
+            // 保持构建场景顺序：标题场景必须第一，不可仅设单个场景（红线修复）
+            EditorBuildSettings.scenes = new[]
+            {
+                new EditorBuildSettingsScene(TitleScenePath, true),
+                new EditorBuildSettingsScene(ScenePath, true),
+            };
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             Debug.Log("GRAVITY_EXISTING_SCENE_UPGRADE_PASS preservedLayout=true models=26,27,28,29,30,31");
@@ -1320,10 +1325,15 @@ namespace GravityRepulsion.Editor
             if (!xr.AssignedSettings.activeLoaders.Any(l => l != null && l.GetType().FullName == LoaderType))
                 XRPackageMetadataStore.AssignLoader(xr.AssignedSettings, LoaderType, BuildTargetGroup.Android);
             var pxr = PXR_Settings.GetSettings() ?? throw new InvalidOperationException("PXR Settings missing");
-            pxr.appMode = PXR_Settings.AppMode.XR;
-            pxr.stereoRenderingModeAndroid = PXR_Settings.StereoRenderingModeAndroid.Multiview;
-            pxr.optimizeBufferDiscards = true;
-            EditorUtility.SetDirty(pxr);
+            // 仅修改渲染模式；手势追踪等输入字段属红线，不得覆盖
+            bool pxrChanged = false;
+            if (pxr.appMode != PXR_Settings.AppMode.XR)
+            { pxr.appMode = PXR_Settings.AppMode.XR; pxrChanged = true; }
+            if (pxr.stereoRenderingModeAndroid != PXR_Settings.StereoRenderingModeAndroid.Multiview)
+            { pxr.stereoRenderingModeAndroid = PXR_Settings.StereoRenderingModeAndroid.Multiview; pxrChanged = true; }
+            if (!pxr.optimizeBufferDiscards)
+            { pxr.optimizeBufferDiscards = true; pxrChanged = true; }
+            if (pxrChanged) EditorUtility.SetDirty(pxr);
         }
 
         private static void ValidatePrefab(string path, GravityTargetKind kind, List<string> errors, int sourceAsset)
