@@ -1192,7 +1192,10 @@ namespace GravityRepulsion.Editor
             if (hand.handGlow == null) errors.Add($"{side} controller energy core missing");
             if (hand.GetComponentsInChildren<Transform>(true).Any(t => t.name == "ControllerPlaceholder")) errors.Add($"{side} controller placeholder remains");
             var visual = hand.transform.Cast<Transform>().FirstOrDefault(t => t.name.StartsWith("VISUAL_原创机械重力护腕_", StringComparison.Ordinal));
-            if (visual == null || visual.GetComponentsInChildren<Renderer>(true).Length < 10) errors.Add($"{side} original mechanical controller visual incomplete");
+            // v3 手柄已在 Blender 合并为单网格（多材质槽），渲染器数量减少；改为“渲染器 ≥10 或总三角面 ≥2000”，仍可拦截占位方块
+            var visualRenderers = visual == null ? new Renderer[0] : visual.GetComponentsInChildren<Renderer>(true);
+            var visualTriangles = visual == null ? 0 : visual.GetComponentsInChildren<MeshFilter>(true).Where(f => f.sharedMesh != null).Sum(f => f.sharedMesh.triangles.Length / 3);
+            if (visual == null || (visualRenderers.Length < 10 && visualTriangles < 2000)) errors.Add($"{side} original mechanical controller visual incomplete");
         }
 
         private static void TuneLighting()
