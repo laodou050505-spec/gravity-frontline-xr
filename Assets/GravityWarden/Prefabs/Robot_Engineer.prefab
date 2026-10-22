@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityRepulsion.GravityTarget
   kind: 0
-  displayName: "\u5DE5\u7A0B\u673A 30"
+  displayName: Engineer 30
   maxHealth: 1
   ultimateCharge: 18
   canBlockOnce: 1

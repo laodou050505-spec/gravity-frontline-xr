@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityRepulsion.GravityTarget
   kind: 2
-  displayName: "\u5371\u9669\u5BFC\u5F39 26"
+  displayName: Danger Missile 26
   maxHealth: 1
   ultimateCharge: 0
   canBlockOnce: 0

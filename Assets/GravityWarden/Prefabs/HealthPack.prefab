@@ -4935,7 +4935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityRepulsion.GravityTarget
   kind: 3
-  displayName: "\u9632\u536B\u8865\u7ED9 27"
+  displayName: Shield Supply 27
   maxHealth: 1
   ultimateCharge: 0
   canBlockOnce: 0

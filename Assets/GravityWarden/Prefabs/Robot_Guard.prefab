@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravityRepulsion.GravityTarget
   kind: 0
-  displayName: "\u76FE\u536B\u6838\u5FC3 31"
+  displayName: Shield Core 31
   maxHealth: 2
   ultimateCharge: 24
   canBlockOnce: 1
