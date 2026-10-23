@@ -13,7 +13,7 @@ namespace GravityRepulsion.Editor
             string scenePath = "Assets/GravityWarden/Scenes/GravityBoulevard.unity";
             var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
             
-            string outDir = "/tmp/gravity_p2/screenshots";
+            string outDir = "/tmp/gq/unity";
             Directory.CreateDirectory(outDir);
 
             // Find left and right hand GameObjects
@@ -43,14 +43,14 @@ namespace GravityRepulsion.Editor
             // === RIGHT HAND CLOSE-UP ===
             var rb = GetObjectBounds(visualRight);
             var rCenter = rb.center;
-            cam.transform.position = rCenter + new Vector3(0.05f, 0.02f, -0.3f);
+            cam.transform.position = rCenter + new Vector3(0.26f, 0.09f, 0.10f);
             cam.transform.LookAt(rCenter);
             RenderAndSave(cam, rt, $"{outDir}/hand_right.png", width, height);
 
             // === LEFT HAND CLOSE-UP ===
             var lb = GetObjectBounds(visualLeft);
             var lCenter = lb.center;
-            cam.transform.position = lCenter + new Vector3(-0.05f, 0.02f, -0.3f);
+            cam.transform.position = lCenter + new Vector3(-0.26f, 0.09f, 0.10f);
             cam.transform.LookAt(lCenter);
             RenderAndSave(cam, rt, $"{outDir}/hand_left.png", width, height);
 

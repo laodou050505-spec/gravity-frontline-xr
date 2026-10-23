@@ -1105,6 +1105,11 @@ namespace GravityRepulsion.Editor
             var core       = GauntletMaterial($"M_Gauntlet_Core_{suffix}",       coreColor,                  coreColor * 3.5f,             .40f, .90f);
             var glow       = GauntletMaterial($"M_Gauntlet_Glow_{suffix}",       coreColor * .6f,            coreColor * 2.0f,             .30f, .85f);
             var btnWarm    = GauntletMaterial($"M_Gauntlet_BtnWarm_{suffix}",    new Color(1f,.5f,.12f),     new Color(1f,.18f,.015f)*2f,  .35f, .82f);
+            // P2 四边面模型的机身带 Tripo 贴图：用贴图材质，不按部件名换纯色
+            var bodyTex    = GauntletMaterial($"M_Gauntlet_BodyTex_{suffix}",    Color.white,                Color.black,                  .35f, .45f);
+            bodyTex.mainTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/GravityWarden/Art/GravityGauntlet_Albedo.png");
+            bodyTex.DisableKeyword("_EMISSION");
+            EditorUtility.SetDirty(bodyTex);
 
             foreach (var r in root.GetComponentsInChildren<Renderer>(true))
             {
@@ -1115,7 +1120,8 @@ namespace GravityRepulsion.Editor
                 {
                     var sn = mats[si]?.name ?? "";
                     Material assign;
-                    if      (rn.Contains("Core")      || sn.Contains("Core")   ||
+                    if      (rn.StartsWith("GravityGauntlet_Body", StringComparison.Ordinal))         assign = bodyTex;
+                    else if (rn.Contains("Core")      || sn.Contains("Core")   ||
                              rn.Contains("EmitterRing")|| rn.Contains("BtnPrimary"))                  assign = core;
                     else if (sn.Contains("Glow")      || rn.Contains("GlowStrip"))                   assign = glow;
                     else if (sn.Contains("Warm")      || rn.Contains("BtnSecondary"))                assign = btnWarm;
