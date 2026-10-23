@@ -18,3 +18,10 @@
 *.pfx
 *.key
 .utmp/
+
+# Tripo 生成源文件（GLB）不入库
+Assets/GravityWarden/Art/Tripo/
+Assets/GravityWarden/Art/Tripo.meta
+
+# Unity 崩溃日志
+mono_crash.*.json

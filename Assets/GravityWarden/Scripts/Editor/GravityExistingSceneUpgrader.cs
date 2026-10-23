@@ -1051,8 +1051,10 @@ namespace GravityRepulsion.Editor
             }
 
             var sideName = rightHand ? "右_青" : "左_紫";
-            // 加载 Blender 脚本导出的引力拳套 FBX（左右复用同一模型，左手镜像 X 轴）
-            const string fbxPath = "Assets/GravityWarden/Art/GravityGauntlet_R.fbx";
+            // 左手用独立镜像 FBX（正缩放），避免负 X 缩放导致法线翻转
+            var fbxPath = rightHand
+                ? "Assets/GravityWarden/Art/GravityGauntlet_R.fbx"
+                : "Assets/GravityWarden/Art/GravityGauntlet_L.fbx";
             AssetDatabase.ImportAsset(fbxPath, ImportAssetOptions.ForceSynchronousImport);
             var fbxPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(fbxPath);
             if (fbxPrefab == null) throw new InvalidOperationException($"无法加载引力拳套 FBX：{fbxPath}");
@@ -1060,8 +1062,8 @@ namespace GravityRepulsion.Editor
             var visual = (GameObject)UnityEngine.Object.Instantiate(fbxPrefab, hand.transform, false);
             visual.name = "VISUAL_原创机械重力护腕_" + sideName;
             visual.transform.localPosition = new Vector3(0f, -.015f, .015f);
-            // 右手正常缩放；左手 X 轴镜像实现左右对称
-            visual.transform.localScale = rightHand ? Vector3.one * .68f : new Vector3(-.68f, .68f, .68f);
+            // 左右手均使用正缩放（法线方向由各自 FBX 几何决定）
+            visual.transform.localScale = Vector3.one * .68f;
 
             var coreColor = rightHand ? new Color(.12f, .76f, 1f) : new Color(.68f, .2f, 1f);
             SetupGauntletMaterials(visual.transform, rightHand, coreColor);
