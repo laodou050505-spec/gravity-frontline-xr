@@ -1062,6 +1062,8 @@ namespace GravityRepulsion.Editor
             var visual = (GameObject)UnityEngine.Object.Instantiate(fbxPrefab, hand.transform, false);
             visual.name = "VISUAL_原创机械重力护腕_" + sideName;
             visual.transform.localPosition = new Vector3(0f, -.015f, .015f);
+            // FBX 枪口沿局部 -Z，绕 Y 转 180° 让枪口指向手柄前方（+Z，即射线方向）
+            visual.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
             // 左右手均使用正缩放（法线方向由各自 FBX 几何决定）
             visual.transform.localScale = Vector3.one * .68f;
 
@@ -1072,6 +1074,8 @@ namespace GravityRepulsion.Editor
             var rayOriginT = FindDeepChild(visual.transform, "GravityRayOrigin");
             if (rayOriginT == null) throw new InvalidOperationException("FBX 中未找到 GravityRayOrigin 节点，请重新运行 make_gauntlet.py");
             rayOriginT.name = "GravityRayOrigin_能量发射口";
+            // FBX 空节点带 Blender 轴向（forward 朝上），射线方向必须与手柄前方（+Z）一致，否则引力射线打向天空
+            rayOriginT.rotation = hand.transform.rotation;
 
             // 找到能量核心 Renderer 作为手部发光（UpdateFeedback 会修改其颜色）
             var coreTrans = FindDeepChild(visual.transform, "GravityGauntlet_Core");
